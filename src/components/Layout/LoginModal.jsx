@@ -22,6 +22,7 @@ const LoginModal = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    number: "",
     password: "",
     confirmPassword: "",
   });
@@ -39,12 +40,12 @@ const LoginModal = () => {
 
     const data = new FormData();
 
-    data.append("email", formData.email);
+    data.append("number", formData.number);
     data.append("password", formData.password);
     if (mode === "signup") data.append("name", formData.name);
 
     if (mode === "forgot") {
-      dispatch(forgotPassword({ email: formData.email })).then(() => {
+      dispatch(forgotPassword({ number: formData.number })).then(() => {
         dispatch(toggleAuthPopup());
         setMode("signin");
       });
@@ -69,7 +70,7 @@ const LoginModal = () => {
     }
 
     if (authUser) {
-      setFormData({ name: "", email: "", number:"", password: "", confirmPassword: "" });
+      setFormData({ name: "", email: "", number: "", password: "", confirmPassword: "" });
     }
   };
 
@@ -90,10 +91,10 @@ const LoginModal = () => {
               {mode === "reset"
                 ? "Reset Password"
                 : mode === "signup"
-                ? "Create Account"
-                : mode === "forgot"
-                ? "Forgot Password"
-                : "Welcome Back"}
+                  ? "Create Account"
+                  : mode === "forgot"
+                    ? "Forgot Password"
+                    : "Welcome Back"}
             </h2>
             <button
               onClick={() => dispatch(toggleAuthPopup())}
@@ -108,20 +109,41 @@ const LoginModal = () => {
             {mode === "signup" && (
               <>
 
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={formData.name}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                    }}
+                    className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                    required
+                  />
+                </div>
+
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                    }}
+                    className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                    required
+                  />
+                </div>
+
+
+              </>
+            )}
+
+            {/* Number - ALWAYS VISISBLE EXCEPT FOR RESET MODE */}
+            {mode !== "reset" && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  value={formData.name}
-                  onChange={(e) => {
-                    setFormData({ ...formData, name: e.target.value });
-                  }}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
-                  required
-                />
-              </div>
-               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
@@ -129,24 +151,6 @@ const LoginModal = () => {
                   value={formData.number}
                   onChange={(e) => {
                     setFormData({ ...formData, number: e.target.value });
-                  }}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
-                  required
-                />
-              </div>
-              </>
-            )}
-
-            {/* EMAIL - ALWAYS VISISBLE EXCEPT FOR RESET MODE */}
-            {mode !== "reset" && (
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={formData.email}
-                  onChange={(e) => {
-                    setFormData({ ...formData, email: e.target.value });
                   }}
                   className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
                   required
@@ -208,11 +212,10 @@ const LoginModal = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full py-3 gradient-primary flex justify-center items-center gap-2 text-primary-foreground rounded-lg font-semibold animate-smooth ${
-                isLoading
+              className={`w-full py-3 gradient-primary flex justify-center items-center gap-2 text-primary-foreground rounded-lg font-semibold animate-smooth ${isLoading
                   ? "opacity-70 cursor-not-allowed"
                   : "hover:glow-on-hover"
-              }`}
+                }`}
             >
               {isLoading ? (
                 <>
@@ -221,10 +224,10 @@ const LoginModal = () => {
                     {mode === "reset"
                       ? "Reseting password..."
                       : mode === "signup"
-                      ? "Signing up..."
-                      : mode === "forgot"
-                      ? "Requesting for email..."
-                      : "Signing in..."}{" "}
+                        ? "Signing up..."
+                        : mode === "forgot"
+                          ? "Requesting for Whatsapp number..."
+                          : "Signing in..."}{" "}
                   </span>
                 </>
               ) : mode === "reset" ? (
@@ -232,7 +235,7 @@ const LoginModal = () => {
               ) : mode === "signup" ? (
                 "Create Account"
               ) : mode === "forgot" ? (
-                "Send Reset Email"
+                "Send Reset Whatsapp number"
               ) : (
                 "Sign In"
               )}
