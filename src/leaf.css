@@ -1,0 +1,24 @@
+/* Leaf.css */
+.left-leaf {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px; /* Adjust the width of the leaf */
+  height: 100vh; /* Adjust the height of the leaf to cover the full viewport */
+  background-image: url('path/to/left_leaf_image.png'); /* Replace with the path to your left leaf image */
+  background-repeat: no-repeat;
+  background-position: left top;
+  z-index: -1; /* Place the leaf behind the website content */
+}
+
+.right-leaf {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px; /* Adjust the width of the leaf */
+  height: 100vh; /* Adjust the height of the leaf to cover the full viewport */
+  background-image: url('path/to/right_leaf_image.png'); /* Replace with the path to your right leaf image */
+  background-repeat: no-repeat;
+  background-position: right top;
+  z-index: -1; /* Place the leaf behind the website content */
+}
