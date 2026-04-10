@@ -54,12 +54,13 @@ const HeroSlider = () => {
   const slide = slides[currentSlide];
 
   return (
-    <div className="relative h-[70vh] overflow-hidden rounded-2xl mt-[80px]">
+    <div className="relative h-[250px] sm:h-[350px] md:h-[70vh] overflow-hidden rounded-2xl mt-[80px]">
       {/* Single Active Slide */}
       <div className="relative h-full">
-        <div className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
-          style={{ backgroundImage: `url(${slide.image})` }}
-        />
+   <div 
+  className="absolute inset-0 bg-cover bg-[center_top] md:bg-center scale-105 transition-all duration-1000"
+  style={{ backgroundImage: `url(${slide.image})` }}
+/>
         <div className="absolute inset-0"  />
         <div className="relative h-full flex items-center justify-center text-center px-6">
           <div className="max-w-3xl animate-fade-in-up">
