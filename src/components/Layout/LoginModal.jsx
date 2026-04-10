@@ -42,7 +42,10 @@ const LoginModal = () => {
 
     data.append("number", formData.number);
     data.append("password", formData.password);
-    if (mode === "signup") data.append("name", formData.name);
+    if (mode === "signup") {
+      data.append("name", formData.name)
+      data.append("email", formData.email);
+    }
 
     if (mode === "forgot") {
       dispatch(forgotPassword({ number: formData.number })).then(() => {
