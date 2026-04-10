@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[url('/public/about/bg.png')] bg-cover bg-center relative mt-16 z-10">
+    <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative mt-16 z-10">
       
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/40"></div>
@@ -26,14 +26,13 @@ export default function AboutPage() {
               <div className="relative w-full h-48 flex items-center justify-center">
                 {/* 3D Logo Background */}
                 <img
-                  // src="/public/about/jas.png"
-                  src="/public/img/logo/logo3.png"
+                  src="/img/logo/logo3.png"
                   className="absolute w-40 h-40 object-contain opacity-90 lg:right-64 lg:mr-5 lg:mb-10 right-48 md:right-24 md:top-14 sm:right-16"
                 />
 
                 {/* Person Image on top */}
                 <img
-                  src="/public/about/jas2.png"
+                  src="/about/jas2.png"
                   className="relative w-33 h-35 object-cover z-50 md:top-14 lg:top-0"
                 />
               </div>
@@ -51,7 +50,7 @@ export default function AboutPage() {
 
               {/* Herbs Image */}
               <img
-                src="/public/privacpolicy/cb.png"
+                src="/privacpolicy/cb.png"
                 className="rounded-xl object-cover right-20 relative top-48"
               />
             </div>

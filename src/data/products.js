@@ -12,7 +12,7 @@ export const categories = [
   {
     id: "3",
     name: "Sugar Management",
-    image: "/public/cat/sugar.png",
+    image: "/cat/sugar.png",
   },
   {
     id: "4",
@@ -22,17 +22,17 @@ export const categories = [
   {
     id: "5",
     name: "Shilajit",
-    image: "/public/cat/shilajit.png",
+    image: "/cat/shilajit.png",
   },
   {
     id: "6",
     name: "Piliya",
-    image: "/public/cat/piliya.png",
+    image: "/cat/piliya.png",
   },
   {
     id: "7",
     name: "Stone",
-    image: "/public/cat/stone.png",
+    image: "/cat/stone.png",
   },
   {
     id: "8",
@@ -42,7 +42,7 @@ export const categories = [
    {
     id: "9",
     name: "Oils",
-    image: "/public/cat/oli.png",
+    image: "/cat/oli.png",
   },
  
 ];

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function PrivacyPolicy() {
     return (
-        <div className="min-h-screen bg-[url('/public/about/bg.png')] bg-cover bg-center relative ">
+        <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative ">
 
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/50"></div>
@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
                 {/* Header with Icon */}
                 <div className="flex flex-col items-center mb-10">
                     <div className="relative mb-4">
-                        <img src="/public/privacpolicy/lock.png" className="w-38 h-38 relative top-56 z-10 right-96" />
+                        <img src="/privacpolicy/lock.png" className="w-38 h-38 relative top-56 z-10 right-96" />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-yellow-300 tracking-wide">
                         Privacy Policy
@@ -37,17 +37,17 @@ export default function PrivacyPolicy() {
                             {
                                 title: "Information We Collect",
                                 desc: "Details on what data we gather and how we use it.",
-                                icon: "/public/privacpolicy/fol.png",
+                                icon: "/privacpolicy/fol.png",
                             },
                             {
                                 title: "How We Use Your Information",
                                 desc: "Explanation of the purposes for collecting your data.",
-                                icon: "/public/privacpolicy/seting.png",
+                                icon: "/privacpolicy/seting.png",
                             },
                             {
                                 title: "Data Sharing & Disclosure",
                                 desc: "How we handle and protect your information securely.",
-                                icon: "/public/privacpolicy/smw.png",
+                                icon: "/privacpolicy/smw.png",
                             },
                         ].map((item, i) => (
                             <div
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
                 </div>
             </div>
             <img
-                src="/public/privacpolicy/cb.png"
+                src="/privacpolicy/cb.png"
                 className="rounded-xl object-cover right-20 relative top-10  z-10"
             />
         </div>
