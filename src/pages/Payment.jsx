@@ -15,13 +15,7 @@ const Payment = () => {
   if (!authUser) return navigateTo("/products");
 
   const [stripePromise, setStripePromise] = useState(null);
-  // useEffect(() => {
-  //   loadStripe(
-  //     "pk_test_51PVw62JBUE6JIzh6vJeSuOTQzvct7mWyfRlDBzRvyeTtm4t6N4KFUb0EEQLWawlElLW2SdBd8Rr0TM9dLy7JvJDQ00ZG68Ysju"
-  //   )
-  //     .then((stripe) => setStripePromise(stripe))
-  //     .catch((err) => console.log(err));
-  // }, []);
+ 
 
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
@@ -93,7 +87,7 @@ const Payment = () => {
       description: "Order Payment",
       order_id: data.order.id,
       handler: function (response) {
-        console.log(response);
+        
 
         // backend verify call karo
         fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {

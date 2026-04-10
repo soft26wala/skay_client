@@ -8,7 +8,7 @@ const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
   const { authUser } = useSelector((state) => state.auth);
   const updateQuantity = (id, quantity) => {
-    console.log(quantity);
+   
     if (quantity <= 0) {
       dispatch(removeFromCart(id));
     } else {
