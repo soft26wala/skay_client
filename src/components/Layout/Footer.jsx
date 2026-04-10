@@ -46,7 +46,7 @@ const Footer = () => {
           {/* Brand & Contact */}
           <div className="lg:col-span-1">
             <h2 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent mb-4">
-              Anant Ayurveda <img src="/public/img/logo/logo3.png" alt="" className="h-32" />
+              Anant Ayurveda <img src="/img/logo/logo3.png" alt="" className="h-32" />
             </h2>
             <p className="text-muted-foreground mb-6">
               Your trusted partner for online shopping. Discover amazing

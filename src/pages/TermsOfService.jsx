@@ -29,7 +29,7 @@ export default function TermsOfService() {
   ];
 
   return (
-    <div className="min-h-screen bg-[url('/public/about/bg.png')] bg-cover bg-center relative mt-16">
+    <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative mt-16">
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
@@ -76,7 +76,7 @@ export default function TermsOfService() {
         </div>
       </div>
          <img
-                src="/public/privacpolicy/cb.png"
+                src="/privacpolicy/cb.png"
                 className="rounded-xl object-cover right-20 relative top-10 z-10"
               />
     </div>

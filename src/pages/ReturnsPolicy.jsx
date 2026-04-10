@@ -29,7 +29,7 @@ export default function NoReturnPolicy() {
   ];
 
   return (
-    <div className="min-h-screen bg-[url('/public/about/bg.png')] bg-cover bg-center relative mt-10">
+    <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative mt-10">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
 
@@ -75,7 +75,7 @@ export default function NoReturnPolicy() {
         </div>
       </div>
       <img
-                src="/public/privacpolicy/cb.png"
+                src="/privacpolicy/cb.png"
                 className="rounded-xl object-cover right-4 top-5 relative  z-10"
             />
     </div>

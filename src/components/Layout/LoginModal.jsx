@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Mail, Lock, User } from "lucide-react";
+import { X, Mail, Lock, User, Phone } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toggleAuthPopup } from "../../store/slices/popupSlice";
@@ -69,7 +69,7 @@ const LoginModal = () => {
     }
 
     if (authUser) {
-      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+      setFormData({ name: "", email: "", number:"", password: "", confirmPassword: "" });
     }
   };
 
@@ -106,6 +106,8 @@ const LoginModal = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* FULL NAME - ONLY FOR SIGNUP */}
             {mode === "signup" && (
+              <>
+
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
@@ -119,12 +121,26 @@ const LoginModal = () => {
                   required
                 />
               </div>
+               <div className="relative">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  value={formData.number}
+                  onChange={(e) => {
+                    setFormData({ ...formData, number: e.target.value });
+                  }}
+                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              </>
             )}
 
             {/* EMAIL - ALWAYS VISISBLE EXCEPT FOR RESET MODE */}
             {mode !== "reset" && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
                   type="email"
                   placeholder="Email Address"
@@ -141,7 +157,7 @@ const LoginModal = () => {
             {/* PASSWORD - ALWAYS VISIBLE EXCEPT FOR FORGOT MODE */}
             {mode !== "forgot" && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
                   type="password"
                   placeholder="Password"
@@ -158,7 +174,7 @@ const LoginModal = () => {
             {/* CONFIRM PASSWORD - ONLY VISIBLE FOR FOR RESET MODE */}
             {mode === "reset" && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
                   type="password"
                   placeholder="Confirm Password"
