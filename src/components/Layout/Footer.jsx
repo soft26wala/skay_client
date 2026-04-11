@@ -33,10 +33,10 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Facebook, href: "https://www.facebook.com/share/1CVGdPM3Ui/?mibextid=wwXIfr", label: "Facebook" },
     { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Youtube, href: "#", label: "YouTube" },
+    { icon: Instagram, href: "https://www.instagram.com/jaswinder_singh_rajasthani?igsh=MXFwN2U2YXNyNGV1OA==", label: "Instagram" },
+    { icon: Youtube, href: "https://youtube.com/@anantayurveda-l6k?si=MAq24OWfOp1ZbbAK", label: "YouTube" },
   ];
 
   return (
@@ -55,15 +55,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
-                <span>support@cortex.com</span>
+                <span>info@anantayurveda.com</span>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91 8699542143</span>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span>San Francisco, CA</span>
+                <span>V.P.O. Mand, Kapurthala Road, Jalandhar- 144013</span>
               </div>
             </div>
           </div>
@@ -168,10 +168,10 @@ const Footer = () => {
 
           <div className="text-center md:text-right">
             <p className="text-muted-foreground text-sm">
-              © 2025 Cortestack. All rights reserved.
+              © 2026 Ananta Ayurveda. All rights reserved.
             </p>
             <p className="text-muted-foreground text-xs mt-1">
-              Developed By CodeWithZeeshu
+              Developed By Cortex Web Solutions 
             </p>
           </div>
         </div>
