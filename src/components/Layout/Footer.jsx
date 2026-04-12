@@ -44,7 +44,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand & Contact */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1">  
             <h2 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent mb-4">
               Anant Ayurveda // h-16 for mobile, md:h-24 or h-32 for desktop
 <img src="/img/logo/logo3.png" alt="Anant Ayurveda" className="h-16 md:h-24 lg:h-32 object-contain inline-block ml-2" />
