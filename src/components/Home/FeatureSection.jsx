@@ -17,11 +17,11 @@ const FeatureSection = () => {
       title: '24/7 Support',
       description: 'Dedicated customer support available anytime'
     },
-    {
-      icon: CreditCard,
-      title: 'Easy Returns',
-      description: '30-day return policy for your peace of mind'
-    }
+    // {
+    //   icon: CreditCard,
+    //   title: 'Easy Returns',
+    //   description: '30-day return policy for your peace of mind'
+    // }
   ];
 
   return (
