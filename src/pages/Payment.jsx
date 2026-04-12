@@ -137,7 +137,7 @@ const Payment = () => {
 
   return (
     <>
-      <div className="min-h-screen pt-20">
+     <div className="min-h-screen h-auto pt-24 pb-10 overflow-x-hidden">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* HEADER */}
