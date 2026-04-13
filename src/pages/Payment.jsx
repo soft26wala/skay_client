@@ -40,7 +40,7 @@ const Payment = () => {
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
-    dispatch({ type: "order/setStep", payload: 2 });
+    dispatch({ type: "order/setStep", payload: 1 });
     const formData = new FormData();
     formData.append("full_name", shippingDetails.fullName);
     formData.append("state", shippingDetails.state);
@@ -375,7 +375,7 @@ const Payment = () => {
                     <button
                       type="submit"
                       className="w-full py-3 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold"
-                      // onClick={handleRazorpay}
+                      onClick={handleRazorpay}
                     >
                       Continue to Payment
                     </button>
@@ -385,15 +385,14 @@ const Payment = () => {
 
                   </>
                 )}
-                {/* {orderStep === 2 && (
+                {orderStep === 2 && (
                   <button onClick={handleRazorpay} className="...">
                     Pay Now
                   </button>
-                )} */}
+                )}
               </div>
 
               {/* ORDER SUMMARY */}
-              {orderStep === 2 && (
               <div className="lg:col-span-1">
                 <div className="glass-panel sticky top-24">
                   <h2 className="text-xl font-semibold text-foreground">
@@ -495,7 +494,6 @@ const Payment = () => {
                   </div>
                 </div>
               </div>
-              )}
             </div>
           </div>
         </div>
