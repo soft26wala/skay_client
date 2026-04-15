@@ -1,6 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function PrivacyPolicy() {
+
+    useEffect(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }, []);
+
+
     return (
         <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative ">
 

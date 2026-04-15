@@ -1,6 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function TermsOfService() {
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+  
   const sections = [
     {
       title: "100% Natural Products",

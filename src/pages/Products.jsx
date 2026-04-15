@@ -54,12 +54,9 @@ const Products = () => {
   ]);
 
 
-useEffect(() => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}, [selectedCategory, currentPage]);
+
+  
+  
 
 
   const totalPages = Math.ceil(totalProducts / 10);

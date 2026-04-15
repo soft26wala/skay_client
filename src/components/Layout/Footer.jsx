@@ -45,9 +45,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand & Contact */}
           <div className="lg:col-span-1">  
+              <img src="/img/logo/logo3.png" alt="Anant Ayurveda" className="h-16 md:h-24 lg:h-32 object-contain inline-block ml-2" />
             <h2 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent mb-4">
-              Anant Ayurveda // h-16 for mobile, md:h-24 or h-32 for desktop
-<img src="/img/logo/logo3.png" alt="Anant Ayurveda" className="h-16 md:h-24 lg:h-32 object-contain inline-block ml-2" />
+              Anant Ayurveda
             </h2>
             <p className="text-muted-foreground mb-6">
               Your trusted partner for online shopping. Discover amazing
@@ -56,7 +56,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
-                <span>info@anantayurveda.com</span>
+                <span>ayurvedaanant965@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />

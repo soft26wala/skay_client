@@ -50,6 +50,14 @@ const ProductDetail = () => {
     dispatch(fetchProductDetails(id));
   }, [dispatch, id]);
 
+
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}, [id]);
+
   if (!product) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">

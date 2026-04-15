@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const FAQ = () => {
   const [openItems, setOpenItems] = useState({});
-
+useEffect(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, []);
   const faqs = [
     {
       question: 'How do I place an order?',

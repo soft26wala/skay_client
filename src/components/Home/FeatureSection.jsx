@@ -26,7 +26,7 @@ const FeatureSection = () => {
 
   return (
     <section className="py-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {features.map((feature, index) => (
           <div key={index} className="glass-card p-6 text-center hover:glow-on-hover animate-smooth">
             <div className="w-16 h-16 mx-auto mb-4 gradient-primary rounded-full flex items-center justify-center">
