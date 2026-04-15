@@ -15,7 +15,7 @@ const Payment = () => {
   if (!authUser) return navigateTo("/products");
 
   const [stripePromise, setStripePromise] = useState(null);
- 
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
@@ -55,7 +55,7 @@ const Payment = () => {
   };
 
 
-   const updateQuantity = (id, quantity) => {
+  const updateQuantity = (id, quantity) => {
     if (quantity <= 0) {
       dispatch(removeFromCart(id));
     } else {
@@ -64,54 +64,90 @@ const Payment = () => {
   };
 
   const handleRazorpay = async () => {
-    const res = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: authUser.id ,
-        items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
-            formData: shippingDetails, // ✅ add
-        
-      }),
-    });
+    if (isProcessing) return;
+    setIsProcessing(true);
+    try {
+      const res = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: authUser.id,
+          items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
+          formData: shippingDetails, // ✅ add
 
-    const data = await res.json();
+        }),
+      });
 
-    const options = {
-      key: "rzp_test_SaGQvQxqn908wX",
-      amount: data.order.amount,
-      currency: "INR",
-      name: "Your Store",
-      description: "Order Payment",
-      order_id: data.order.id,
-      handler: function (response) {
-        
+      const data = await res.json();
 
-        // backend verify call karo
-        fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
-            user_id: authUser.id,  // ✅ add
-             formData: shippingDetails 
+      const options = {
+        key: "rzp_test_SaGQvQxqn908wX",
+        amount: data.order.amount,
+        currency: "INR",
+        name: "Your Store",
+        description: "Order Payment",
+        order_id: data.order.id,
+        // handler: function (response) {
+        //   // backend verify call karo
+        //   fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //       razorpay_order_id: response.razorpay_order_id,
+        //       razorpay_payment_id: response.razorpay_payment_id,
+        //       razorpay_signature: response.razorpay_signature,
+        //       items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
+        //       user_id: authUser.id,  // ✅ add
+        //        formData: shippingDetails 
 
-          }),
-        });
+        //     }),
+        //   });
 
-        alert("Payment Successful");
-      }
-    };
+        //   alert("Payment Successful");
+        // }
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+
+        handler: async function (response) {
+
+          const verifyRes = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })),
+              user_id: authUser.id,
+              formData: shippingDetails
+            }),
+          });
+
+          const data = await verifyRes.json();
+
+          console.log("VERIFY RESPONSE:", data); // 🔥 IMPORTANT
+
+          if (!data.success) {
+            alert("Payment failed backend");
+            return;
+          }
+
+          alert("Payment Successful");
+        }
+
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      setIsProcessing(false); // re-enable on failure
+    }
   };
 
   if (cart.length === 0) {
@@ -137,7 +173,7 @@ const Payment = () => {
 
   return (
     <>
-     <div className="min-h-screen h-auto pt-24 pb-10 overflow-x-hidden">
+      <div className="min-h-screen h-auto pt-24 pb-10 overflow-x-hidden">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* HEADER */}
@@ -371,13 +407,12 @@ const Payment = () => {
                         </select>
                       </div>
                     </div>
-
                     <button
-                      type="submit"
-                      className="w-full py-3 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold"
                       onClick={handleRazorpay}
+                      disabled={isProcessing}
+                      className={`... ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      Continue to Payment
+                      {isProcessing ? "Processing..." : "Pay Now"}
                     </button>
                   </form>
                 ) : (
@@ -418,43 +453,43 @@ const Payment = () => {
                             <p className="text-xs text-muted-foreground">
                               {/* Qty: {item.quantity} */}
 
-                                 <div className="flex items-center space-x-2 mt-2">
-                              <button
-                                className="p-1 rounded glass-card hover:glow-on-hover animate-smooth"
-                                onClick={() => {
-                                  updateQuantity(
-                                    item.product.id,
-                                    item.quantity - 1
-                                  );
-                                }}
-                                disabled={item.quantity === 1}
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="w-8 text-center font-semibold">
-                                {item.quantity}
-                              </span>
-                              <button
-                                className="p-1 rounded glass-card hover:glow-on-hover animate-smooth"
-                                onClick={() => {
-                                  updateQuantity(
-                                    item.product.id,
-                                    item.quantity + 1
-                                  );
-                                }}
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
+                              <div className="flex items-center space-x-2 mt-2">
+                                <button
+                                  className="p-1 rounded glass-card hover:glow-on-hover animate-smooth"
+                                  onClick={() => {
+                                    updateQuantity(
+                                      item.product.id,
+                                      item.quantity - 1
+                                    );
+                                  }}
+                                  disabled={item.quantity === 1}
+                                >
+                                  <Minus className="w-4 h-4" />
+                                </button>
+                                <span className="w-8 text-center font-semibold">
+                                  {item.quantity}
+                                </span>
+                                <button
+                                  className="p-1 rounded glass-card hover:glow-on-hover animate-smooth"
+                                  onClick={() => {
+                                    updateQuantity(
+                                      item.product.id,
+                                      item.quantity + 1
+                                    );
+                                  }}
+                                >
+                                  <Plus className="w-4 h-4" />
+                                </button>
 
-                              <button
-                                className="p-1 rounded glass-card hover:glow-on-hover animate-smooth ml-2 text-destructive"
-                                onClick={() => {
-                                  dispatch(removeFromCart(item.product.id));
-                                }}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
+                                <button
+                                  className="p-1 rounded glass-card hover:glow-on-hover animate-smooth ml-2 text-destructive"
+                                  onClick={() => {
+                                    dispatch(removeFromCart(item.product.id));
+                                  }}
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
                             </p>
                           </div>
                           <p className="text-sm font-semibold">
