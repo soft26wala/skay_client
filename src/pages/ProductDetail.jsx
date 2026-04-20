@@ -12,9 +12,11 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import ReviewsContainer from "../components/Products/ReviewsContainer";
+// import HowToUseSection from "../components/Products/HowToUseSection";
 import { addToCart } from "../store/slices/cartSlice";
 import { fetchProductDetails } from "../store/slices/productSlice";
 import { toast } from "react-toastify";
+import HowToUseSection from "../components/Products/HowToUseSection";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -57,6 +59,7 @@ const ProductDetail = () => {
     behavior: "smooth",
   });
 }, [id]);
+
 
   if (!product) {
     return (
@@ -246,7 +249,7 @@ const ProductDetail = () => {
 
           <div className="glass-panel">
             <div className="flex border-b border-[hsla(var(--glass-border))]">
-              {["description", "reviews"].map((tab) => {
+              {["description", "reviews", "how-to-use"].map((tab) => {
                 return (
                   <button
                     key={tab}
@@ -257,7 +260,7 @@ const ProductDetail = () => {
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {tab}
+                    {tab === "how-to-use" ? "How to Use" : tab}
                   </button>
                 );
               })}
@@ -279,6 +282,11 @@ const ProductDetail = () => {
                     product={product}
                     productReviews={productReviews}
                   />
+                </>
+              )}
+              {activeTab === "how-to-use" && (
+                <>
+                  <HowToUseSection steps={product.how_to_use} />
                 </>
               )}
             </div>

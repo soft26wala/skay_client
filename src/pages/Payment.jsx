@@ -7,6 +7,7 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "../store/slices/cartSlice";
+// import { fetchAllOrders } from './'
 
 
 const Payment = () => {
@@ -16,7 +17,7 @@ const Payment = () => {
 
   const [stripePromise, setStripePromise] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const [paymentMethod, setPaymentMethod] = useState("online");
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { orderStep } = useSelector((state) => state.order);
@@ -65,89 +66,103 @@ const Payment = () => {
 
   const handleRazorpay = async () => {
     if (isProcessing) return;
-  setIsProcessing(true);
-  try {
-    const res = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: authUser.id,
-        items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
-        formData: shippingDetails, // ✅ add
+    setIsProcessing(true);
+    try {
+      const res = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: authUser.id,
+          items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
+          formData: shippingDetails, // ✅ add
 
-      }),
-    });
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    const options = {
-      key: "rzp_test_SaGQvQxqn908wX",
-      amount: data.order.amount,
-      currency: "INR",
-      name: "Your Store",
-      description: "Order Payment",
-      order_id: data.order.id,
-      // handler: function (response) {
-      //   // backend verify call karo
-      //   fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       razorpay_order_id: response.razorpay_order_id,
-      //       razorpay_payment_id: response.razorpay_payment_id,
-      //       razorpay_signature: response.razorpay_signature,
-      //       items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })), // ✅ add
-      //       user_id: authUser.id,  // ✅ add
-      //        formData: shippingDetails 
-
-      //     }),
-      //   });
-
-      //   alert("Payment Successful");
-      // }
+      const options = {
+        key: "rzp_test_SaGQvQxqn908wX",
+        amount: data.order.amount,
+        currency: "INR",
+        name: "Your Store",
+        description: "Order Payment",
+        order_id: data.order.id,
+        
 
 
-      handler: async function (response) {
+        handler: async function (response) {
 
-        const verifyRes = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })),
-            user_id: authUser.id,
-            formData: shippingDetails
-          }),
-        });
+          const verifyRes = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              items: cart.map(i => ({ productId: i.product.id, qty: i.quantity })),
+              user_id: authUser.id,
+              formData: shippingDetails
+            }),
+          });
 
-        const data = await verifyRes.json();
+          const data = await verifyRes.json();
 
-        console.log("VERIFY RESPONSE:", data); // 🔥 IMPORTANT
+          console.log("VERIFY RESPONSE:", data); // 🔥 IMPORTANT
 
-        if (!data.success) {
-          alert("Payment failed backend");
-          return;
+          if (!data.success) {
+            alert("Payment failed backend");
+            return;
+          }
+
+          alert("Payment Successful");
         }
 
-        alert("Payment Successful");
-      }
-      
-    };
+      };
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (err) {
-    console.error(err);
-    setIsProcessing(false); // re-enable on failure
-  }
+      console.error(err);
+      setIsProcessing(false); // re-enable on failure
+    }
+  };
+
+
+
+
+  const handleCOD = async () => {
+    try {
+      const res = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/create-cod", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: authUser.id,
+          items: cart.map(i => ({
+          productId: i.product.id,
+          qty: i.quantity
+        })),
+          formData: shippingDetails,
+          payment_method: "COD"
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        navigateTo(`/Payment-result?status=SUCCESS&type=COD&tid=${data.id}`);
+      } else {
+        alert("Order failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (cart.length === 0) {
@@ -408,19 +423,54 @@ const Payment = () => {
                       </div>
                     </div>
 
-                    <button 
-  onClick={handleRazorpay} 
-  disabled={isProcessing}                     
-  className={`... ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''} w-full py-3 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold`}
->
-  {isProcessing ? "Processing..." : "Pay Now"}
-</button>
+                    <div className="mb-6">
+                      <h3 className="font-semibold mb-2">Select Payment Method</h3>
+
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          value="online"
+                          checked={paymentMethod === "online"}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                        />
+                        <span>Online Payment</span>
+                      </label>
+
+                      <label className="flex items-center space-x-2 mt-2">
+                        <input
+                          type="radio"
+                          value="cod"
+                          checked={paymentMethod === "cod"}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                        />
+                        <span>Cash on Delivery (COD)</span>
+                      </label>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        if (paymentMethod === "online") {
+                          handleRazorpay();
+                        } else {
+                          handleCOD();
+                        }
+                      }}
+                      className="w-full py-3 gradient-primary text-white rounded-lg"
+                    >
+                      Place Order
+                    </button>
                   </form>
                 ) : (
                   <>
 
                   </>
                 )}
+
+
+
+
                 {orderStep === 2 && (
                   <button onClick={handleRazorpay} className="...">
                     Pay Now

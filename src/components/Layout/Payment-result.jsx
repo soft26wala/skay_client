@@ -7,12 +7,12 @@ const PaymentResultClient = () => {
 
   const status = searchParams.get("status") ?? "unknown";
   const tid = searchParams.get("tid") ?? "";
-
+  const type = searchParams.get("type") ?? "ONLINE";
   return (
     <div className="min-h-screen bg-white dark:bg-[#0a0a0a] flex items-center justify-center p-6">
       <div className="max-w-md w-full bg-gray-50 dark:bg-[#111] p-10 rounded-[2rem] border border-gray-200 dark:border-white/5 shadow-2xl text-center mt-16">
-        
-        {status === "SUCCESS" && (
+
+        {status === "SUCCESS" && type === "ONLINE" && (
           <>
             <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
               <Icon icon="solar:check-circle-bold" className="text-5xl" />
@@ -25,6 +25,29 @@ const PaymentResultClient = () => {
             </p>
           </>
         )}
+
+
+        {status === "SUCCESS" && type === "COD" && (
+          <>
+            <div className="w-20 h-20 bg-yellow-400/10 text-yellow-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Icon icon="solar:box-bold" className="text-5xl" />
+            </div>
+
+            <h1 className="text-3xl font-black dark:text-white mb-3 tracking-tight">
+              Order Placed!
+            </h1>
+
+            <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+              Your order has been placed successfully using Cash on Delivery (COD).
+              Please keep the payment ready at the time of delivery.
+            </p>
+          </>
+        )}
+
+
+
+
+
 
         {status === "PENDING" && (
           <>
@@ -60,10 +83,10 @@ const PaymentResultClient = () => {
 
         <div className="flex flex-col gap-3">
           <Link
-            to="/classroom"
+            to="/orders"
             className="bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl font-bold transition-all"
           >
-            Go to Classroom
+            Go to Order
           </Link>
 
           <Link
