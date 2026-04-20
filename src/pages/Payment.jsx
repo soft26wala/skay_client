@@ -37,7 +37,22 @@ const Payment = () => {
   );
 
   const shipping = total >= 400 ? 0 : 40;
-  const totalWithTax = total + (total * 0.18) + shipping;
+  const SELLER_STATE = "PUNJAB";
+  const customerState = (shippingDetails.state || "").toUpperCase();
+
+  let cgst = 0;
+  let sgst = 0;
+  let igst = 0;
+
+  if (customerState === SELLER_STATE) {
+    cgst = total * 0.025;
+    sgst = total * 0.025;
+  } else {
+    igst = total * 0.05;
+  }
+
+  const tax = cgst + sgst + igst;
+  const totalWithTax = total + tax + shipping;
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
@@ -90,7 +105,7 @@ const Payment = () => {
         name: "Your Store",
         description: "Order Payment",
         order_id: data.order.id,
-        
+
 
 
         handler: async function (response) {
@@ -145,9 +160,9 @@ const Payment = () => {
         body: JSON.stringify({
           user_id: authUser.id,
           items: cart.map(i => ({
-          productId: i.product.id,
-          qty: i.quantity
-        })),
+            productId: i.product.id,
+            qty: i.quantity
+          })),
           formData: shippingDetails,
           payment_method: "COD"
         }),
@@ -288,7 +303,7 @@ const Payment = () => {
                           }}
                           className="w-full px-4 py-3 bg-secondary border border-border rounded-lg text-foreground"
                         >
-                          <option value="New Dehli">New Dehli</option>
+                          <option value="Delhi">Delhi</option>
                           <option value="Andhra Pradesh">Andhra Pradesh</option>
                           <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                           <option value="Assam">Assam</option>
@@ -566,8 +581,29 @@ const Payment = () => {
 
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Tax</span>
-                      <span>₹ {(total * 0.18).toFixed(2)}</span>
+                      <span>₹ {tax.toFixed(2)}</span>
                     </div>
+
+                    {/* GST Breakdown */}
+                    {igst > 0 ? (
+                      <div className="flex justify-between text-sm text-gray-500">
+                        <span>IGST (5%)</span>
+                        <span>₹ {igst.toFixed(2)}</span>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex justify-between text-sm text-gray-500">
+                          <span>CGST (2.5%)</span>
+                          <span>₹ {cgst.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between text-sm text-gray-500">
+                          <span>SGST (2.5%)</span>
+                          <span>₹ {sgst.toFixed(2)}</span>
+                        </div>
+                      </>
+                    )}
+
+
                     <div className="flex justify-between font-semibold text-lg pt-2 border-t border-[hsla(var(--glass-border))]">
                       <span>Total</span>
                       <span className="text-primary">
