@@ -265,13 +265,13 @@ const ProductDetail = () => {
                 );
               })}
             </div>
-            <div className="p-6">
+            <div className="p-6" >
               {activeTab === "description" && (
                 <div>
                   <h3 className="text-xl font-semibold text-foreground mb-4">
                     Product Description
                   </h3>
-                  <p className="text-muted-foreground loading-relaxed">
+                  <p className="text-muted-foreground loading-relaxed"  style={{ whiteSpace: "pre-line" }}>
                     {product.description}
                   </p>
                 </div>
