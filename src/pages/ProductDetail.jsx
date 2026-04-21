@@ -272,7 +272,7 @@ const ProductDetail = () => {
                     Product Description
                   </h3>
                   <p className="text-muted-foreground loading-relaxed"  style={{ whiteSpace: "pre-line" }}>
-                    {product.description}
+                    {product.description.replace(/\\n/g, "\n")}
                   </p>
                 </div>
               )}
