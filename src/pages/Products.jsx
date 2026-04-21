@@ -10,11 +10,20 @@ import { fetchAllProducts } from "../store/slices/productSlice";
 import { toggleAIModal } from "../store/slices/popupSlice";
 
 const Products = () => {
-  const { products, totalProducts } = useSelector((state) => state.product);
+  
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
 
-  const useQuery = () => {
+    const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
+
+  const { products, totalProducts } = useSelector((state) => state.product);
+
+
+
+
 
   const query = useQuery();
   const searchTerm = query.get("search");

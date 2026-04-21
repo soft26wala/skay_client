@@ -17,7 +17,7 @@ const Payment = () => {
 
   const [stripePromise, setStripePromise] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("online");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { orderStep } = useSelector((state) => state.order);
@@ -130,7 +130,7 @@ const Payment = () => {
           console.log("VERIFY RESPONSE:", data); // 🔥 IMPORTANT
 
           if (!data.success) {
-            alert("Payment failed backend");
+            navigateTo(`/Payment-result?status=SUCCESS&type=ONLINE&tid=${data.orderId}`);
             return;
           }
 
@@ -171,7 +171,7 @@ const Payment = () => {
       const data = await res.json();
 
       if (data.success) {
-       navigateTo(`/Payment-result?status=SUCCESS&type=COD&tid=${data.orderId}`);
+        navigateTo(`/Payment-result?status=SUCCESS&type=COD&tid=${data.orderId}`);
       } else {
         alert("Order failed");
       }
@@ -441,14 +441,16 @@ const Payment = () => {
                     <div className="mb-6">
                       <h3 className="font-semibold mb-2">Select Payment Method</h3>
 
-                      <label className="flex items-center space-x-2">
+                      <label className="flex items-center space-x-2 opacity-50 cursor-not-allowed">
                         <input
                           type="radio"
                           value="online"
-                          checked={paymentMethod === "online"}
-                          onChange={(e) => setPaymentMethod(e.target.value)}
+                          disabled
                         />
-                        <span>Online Payment</span>
+                        <span>
+                          Online Payment
+                          <span className="ml-2 text-xs text-orange-500">(Coming Soon)</span>
+                        </span>
                       </label>
 
                       <label className="flex items-center space-x-2 mt-2">
@@ -575,7 +577,7 @@ const Payment = () => {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Shipping</span>
                       <span className="text-green-500">
-                       {total >= 400 ? "Free" : "₹ 40"}
+                        {total >= 400 ? "Free" : "₹ 40"}
                       </span>
                     </div>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeroSlider from "../components/Home/HeroSlider";
 import CategoryGrid from "../components/Home/CategoryGrid";
 import DoctorTrustSection from "../components/Home/DoctorTrustSection";
@@ -12,6 +12,11 @@ import FeaturesSectionWay from "../components/Layout/FeaturesSectionWay";
 
 
 const Index = () => {
+  
+   useEffect(() => {
+   window.scrollTo(0, 0);
+ }, []);
+
   const { topRatedProducts, newProducts } = useSelector(
     (state) => state.product
   );
