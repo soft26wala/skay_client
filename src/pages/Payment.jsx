@@ -171,7 +171,7 @@ const Payment = () => {
       const data = await res.json();
 
       if (data.success) {
-        navigateTo(`/Payment-result?status=SUCCESS&type=COD&tid=${data.id}`);
+       navigateTo(`/Payment-result?status=SUCCESS&type=COD&tid=${data.orderId}`);
       } else {
         alert("Order failed");
       }
@@ -575,7 +575,7 @@ const Payment = () => {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Shipping</span>
                       <span className="text-green-500">
-                        {totalWithTax >= 400 ? "Free" : "₹ 40"}
+                       {total >= 400 ? "Free" : "₹ 40"}
                       </span>
                     </div>
 
