@@ -7,6 +7,7 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "../store/slices/cartSlice";
+import {toggleAuthPopup} from "../store/slices/popupSlice";
 // import { fetchAllOrders } from './'
 
 
@@ -24,12 +25,21 @@ const Payment = () => {
             Please login to continue shopping
           </p>
 
-          <Link
+          {/* <Link
             to="/login"
-            className="px-6 py-3 rounded-lg bg-primary text-white font-semibold"
+            className="px-6 py-3 rounded-lg bg-primary text-black font-semibold"
           >
-            Login Now
-          </Link>
+          </Link> */}
+
+           <button
+                          onClick={() => dispatch(toggleAuthPopup())}
+                          className="p-2 rounded-lg hover:bg-secondary transition-colors"
+                        >
+                                      Login Now
+
+                        </button>
+
+
         </div>
       </div>
     );
