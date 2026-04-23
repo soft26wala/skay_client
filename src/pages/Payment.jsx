@@ -13,7 +13,27 @@ import {
 const Payment = () => {
   const { authUser } = useSelector((state) => state.auth);
   const navigateTo = useNavigate();
-  if (!authUser) return navigateTo("/products");
+  if (!authUser) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="glass-panel text-center p-8 max-w-md">
+          <h1 className="text-2xl font-bold mb-4">
+            You are not logged in
+          </h1>
+          <p className="text-muted-foreground mb-6">
+            Please login to continue shopping
+          </p>
+
+          <Link
+            to="/login"
+            className="px-6 py-3 rounded-lg bg-primary text-white font-semibold"
+          >
+            Login Now
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const [stripePromise, setStripePromise] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
