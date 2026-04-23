@@ -7,13 +7,15 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "../store/slices/cartSlice";
-import {toggleAuthPopup} from "../store/slices/popupSlice";
+import {toggleAuthPopup} from "../store/slices/authSlice";
 // import { fetchAllOrders } from './'
 
 
 const Payment = () => {
   const { authUser } = useSelector((state) => state.auth);
   const navigateTo = useNavigate();
+  const dispatch = useDispatch();
+
   if (!authUser) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -48,7 +50,6 @@ const Payment = () => {
   const [stripePromise, setStripePromise] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("cod");
-  const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { orderStep } = useSelector((state) => state.order);
   const [shippingDetails, setShippingDetails] = useState({
