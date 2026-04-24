@@ -13,30 +13,25 @@ const Footer = () => {
   const footerLinks = {
     company: [
       { name: "About Us", path: "/about" },
-      // { name: "Careers", path: "#" },
-      // { name: "Press", path: "#" },
-      // { name: "Blog", path: "#" },
     ],
     customer: [
       { name: "Contact Us", path: "/contact" },
       { name: "FAQ", path: "/faq" },
       { name: "Shipping Info", path: "#" },
-      // { name: "Returns", path: "#" },
       { name: "Returns Policy", path: "/ReturnsPolicy" },
     ],
     legal: [
       { name: "Privacy Policy", path: "/privacy-policy" },
       { name: "Terms of Service", path: "/TermsOfService" },
-      // { name: "Cookie Policy", path: "#" },
       { name: "Security", path: "/Security" },
     ],
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "https://www.facebook.com/share/1CVGdPM3Ui/?mibextid=wwXIfr", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "https://www.instagram.com/jaswinder_singh_rajasthani?igsh=MXFwN2U2YXNyNGV1OA==", label: "Instagram" },
-    { icon: Youtube, href: "https://youtube.com/@anantayurveda-l6k?si=MAq24OWfOp1ZbbAK", label: "YouTube" },
+    { icon: Facebook, href: "Your Facebook URL", label: "Facebook" },
+    { icon: Twitter, href: "Your Twitter URL", label: "Twitter" },
+    { icon: Instagram, href: "Your Instagram URL", label: "Instagram" },
+    { icon: Youtube, href: "Your YouTube URL", label: "YouTube" },
   ];
 
   return (
@@ -47,7 +42,7 @@ const Footer = () => {
           <div className="lg:col-span-1">  
               <img src="/img/logo/logo3.png" alt="Anant Ayurveda" className="h-16 md:h-24 lg:h-32 object-contain inline-block ml-2" />
             <h2 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent mb-4">
-              Anant Ayurveda
+             Cortex_Ecom  {/* set your name here */}
             </h2>
             <p className="text-muted-foreground mb-6">
               Your trusted partner for online shopping. Discover amazing
@@ -56,15 +51,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
-                <span>ayurvedaanant965@gmail.com</span>
+                <span>Your Email Address</span>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />
-                <span>+91 8699542143</span>
+                <span>+ Your Phone Number</span>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span>V.P.O. Mand, Kapurthala Road, Jalandhar- 144013</span>
+                <span>Set Your Address here</span>
               </div>
             </div>
           </div>
@@ -169,7 +164,7 @@ const Footer = () => {
 
           <div className="text-center md:text-right">
             <p className="text-muted-foreground text-sm">
-              © 2026 Ananta Ayurveda. All rights reserved.
+              © 2026 Cortex_Ecom. All rights reserved.
             </p>
             <p className="text-muted-foreground text-xs mt-1">
               Developed By Cortex Web Solutions 

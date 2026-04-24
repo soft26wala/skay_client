@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import HeroSlider from "../components/Home/HeroSlider";
 import CategoryGrid from "../components/Home/CategoryGrid";
-import DoctorTrustSection from "../components/Home/DoctorTrustSection";
+import TrustSection from "../components/Home/TrustSection";
 // import HappyCustomersSection from "../components/Home/HappyCustomersSection";
 import ClinicTeamSection from "../components/Home/ClinicTeamSection";
 import ProductSlider from "../components/Home/ProductSlider";
@@ -12,10 +12,10 @@ import FeaturesSectionWay from "../components/Layout/FeaturesSectionWay";
 
 
 const Index = () => {
-  
-   useEffect(() => {
-   window.scrollTo(0, 0);
- }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const { topRatedProducts, newProducts } = useSelector(
     (state) => state.product
@@ -25,21 +25,14 @@ const Index = () => {
       <HeroSlider />
       <div className="container mx-auto px-4 pt-20">
         <CategoryGrid />
-        <DoctorTrustSection 
-          dimg="/officepic/IMG_3313.jpg"
-          dname="Dr. Jaswinder Singh Rajsthani"
-          title="Vade Jaswinder Singh Rajsthani"
-          dexperience="Our expert Ayurvedic doctor has been helping patients naturally with safe and effective herbal treatments for over 35 years."
-          
-        />
-        {/* <DoctorTrustSection 
-          dimg="/about/jas2.png"
-          dname="Dr. Rajesh Kumar"
-          title="Trusted Ayurvedic Doctor with 35+ Years of Experience"
-          dexperience="Our expert Ayurvedic doctor has been helping patients naturally with safe and effective herbal treatments for over 35 years."
-          reverse={true}
+        <TrustSection
+          dimg="/new/hero/trust/trust.png"  // Replace with actual image path
+          dname="Cortex Web Solutions"  // Replace with actual name
+          title="Mr. Anmolsingh Co founder of Cortex Web Solutions" // Replace with actual title
+          dexperience="This product is built with React.js (frontend & dashboard) and Node.js (backend). It includes Razorpay & COD payments, PostgreSQL database, and Cloudinary for image handling. Everything is already set up — just configure the environment variables to get started." // Replace with actual experience
 
-        /> */}
+        />
+
         {/* <HappyCustomersSection /> */}
 
         <ClinicTeamSection />
@@ -57,15 +50,16 @@ const Index = () => {
         <FeatureSection />
         <FeaturesSectionWay />
         <NewsletterSection />
+
         <iframe
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d372.27926543410337!2d75.49331886195283!3d31.346174701917242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a4f00432e5921%3A0x80f0f962e61eb435!2sAnant%20Ayurveda%20mand%20jalandhar!5e1!3m2!1sen!2sin!4v1776347323088!5m2!1sen!2sin"
-  width="100%"
-  height="300"
-  style={{ border: 0 }}
-  allowFullScreen=""
-  loading="lazy"
-  referrerPolicy="no-referrer-when-downgrade"
-></iframe>
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2762.8412882432917!2d73.44479607450093!3d29.659018975119974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x393d873845407ca7%3A0xa6310eab46f2e97!2sCortex%20web%20solutions!5e1!3m2!1sen!2sin!4v1777008464268!5m2!1sen!2sin"
+          width="100%"
+          height="300"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
 
       </div>
     </div>

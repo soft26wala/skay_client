@@ -1,6 +1,6 @@
 import React from "react";
 
-const DoctorTrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
+const TrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
   return (
     <section className="bg-green-50 dark:bg-gray-800 py-12">
       <div className="max-w-6xl mx-auto px-4">
@@ -28,9 +28,9 @@ const DoctorTrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
             </p>
 
             <ul className="space-y-1">
-              <li>✓ 100% Natural Ayurvedic Treatment</li>
-              <li>✓ Thousands of Happy Patients</li>
-              <li>✓ No Side Effects</li>
+              <li>✓ All PostgreSQL table queries are already written — just connect and use them. </li>
+              <li>✓ or the favicon, set your SVG file name to vite.svg and delete or rename the existing one.</li>
+              <li>✓ Easy setup — just plug in and enjoy!</li>
             </ul>
           </div>
         </div>
@@ -40,4 +40,4 @@ const DoctorTrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
 
 };
 
-export default DoctorTrustSection;
+export default TrustSection;

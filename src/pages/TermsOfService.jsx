@@ -11,11 +11,11 @@ export default function TermsOfService() {
   
   const sections = [
     {
-      title: "100% Natural Products",
-      desc: "All products are made using natural and traditional Ayurvedic ingredients. We ensure chemical-free and authentic formulations. Results may vary based on individual conditions.",
+      title: "Demo",
+      desc: "this is demo terms of service page. Please replace this with your actual terms of service content. You can add sections, images, and other details as needed to create a comprehensive terms of service for your website.",
     },
     {
-      title: "Product Usage",
+      title: "demo Product Usage",
       desc: "Our products are for general wellness and not a substitute for professional medical advice. Please consult a doctor if needed.",
     },
     {
@@ -46,7 +46,7 @@ export default function TermsOfService() {
 
         {/* Title */}
         <h1 className="text-center text-4xl md:text-5xl font-bold text-yellow-300 mb-10">
-          Terms of Service
+          Terms of Service (demo)
         </h1>
 
         {/* Glass Container */}
@@ -54,7 +54,7 @@ export default function TermsOfService() {
 
           {/* Intro */}
           <p className="text-white/80 text-center max-w-4xl mx-auto mb-10 leading-relaxed">
-            Welcome to Anant Ayurveda. By using our website, you agree to our terms. We provide 100% natural Ayurvedic products with trust, transparency, and quality.
+            Welcome to Cortex Ecom demo. By using our website, you agree to our terms. We provide 100% natural Ayurvedic products with trust, transparency, and quality.
           </p>
 
           {/* Cards */}

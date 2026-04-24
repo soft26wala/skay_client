@@ -12,27 +12,27 @@ const HeroSlider = () => {
       subtitle: "",
       description:
         "",
-      image: "/img/slider/slide1.jpg",
-      // cta: "Shop Now",
-      // url: "/img/slider/slide1.jpg",
+      image: "/new/hero/img1.png",
+      cta: "Shop Now",
+      url: "/img/slider/slide1.jpg",
     },
     {
       id: 2,
       title: "",
       subtitle: "",
       description: "",
-      image: "/img/slider/slide2.png",
-      // cta: "Explore Fashion",
-      // url: "/products?category=Fashion",
+      image: "/new/hero/img2.png",
+      cta: "Explore Fashion",
+      url: "/products?category=Fashion",
     },
     {
       id: 3,
       title: "",
       subtitle: "",
       description: "",
-      image: "/img/slider/slide3.png",
-      // cta: "Shop Home",
-      // url: `/products?category=Home & Garden`,
+      image: "/new/hero/img3.png",
+      cta: "Shop Home",
+      url: `/products?category=Home & Garden`,
     },
   ];
 
@@ -73,12 +73,12 @@ const HeroSlider = () => {
             <p className="text-xl text-primary mb-8 max-w-2xl mx-auto">
               {slide.description}
             </p>
-            {/* <Link
+            <Link
               to={slide.url}
-              className="px-8 py-4 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold text-lg"
+              className="px-8 py-4 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold text-lg mt-10"
             >
               {slide.cta}
-            </Link> */}
+            </Link>
           </div>
         </div>
       </div>

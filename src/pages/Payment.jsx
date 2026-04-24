@@ -7,7 +7,7 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "../store/slices/cartSlice";
-import {toggleAuthPopup} from "../store/slices/authSlice";
+import {toggleAuthPopup} from "../store/slices/popupSlice";
 // import { fetchAllOrders } from './'
 
 
@@ -130,7 +130,7 @@ const Payment = () => {
       const data = await res.json();
 
       const options = {
-        key: "rzp_test_SaGQvQxqn908wX",
+        key: "YOUR_RAZORPAY_KEY", // Replace with your Razorpay key
         amount: data.order.amount,
         currency: "INR",
         name: "Your Store",
@@ -141,7 +141,7 @@ const Payment = () => {
 
         handler: async function (response) {
 
-          const verifyRes = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/verify-payment", {
+          const verifyRes = await fetch("http://localhost:4000/api/v1/payment/verify-payment", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -183,7 +183,7 @@ const Payment = () => {
 
   const handleCOD = async () => {
     try {
-      const res = await fetch("https://anantayurvedaa-api-1.onrender.com/api/v1/payment/create-cod", {
+      const res = await fetch("http://localhost:4000/api/v1/payment/create-cod", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -476,7 +476,7 @@ const Payment = () => {
                         <input
                           type="radio"
                           value="online"
-                          disabled
+                          // disabled
                         />
                         <span>
                           Online Payment

@@ -2,15 +2,14 @@ import React from 'react';
 
 const ClinicTeamSection = () => {
   const images = [
-    { src: '/officepic/IMG_3313.jpg', label: 'Ayurvedic Specialist' },
-    { src: '/officepic/IMG_3310.jpg', label: 'Clinic Interior' },
-    { src: '/officepic/IMG_3314.jpg', label: 'Ayurvedic Specialist' },
-    { src: '/officepic/IMG_3317.jpg', label: 'Treatment Room' },
-    { src: '/officepic/IMG_3318.jpg', label: 'Natural Environment' },
-    { src: '/officepic/IMG_3321.jpg', label: 'Our Team' },
-    { src: '/officepic/IMG_3322.jpg', label: 'Experienced Doctor' },
-    // { src: '/clinic/staff4.jpg', label: 'Wellness Expert' },
-    // { src: '/clinic/clinic4.jpg', label: 'Clinic Exterior' },
+    { src: '/new/hero/client/ofc.png', label: 'Ayurvedic Specialist' },
+    { src: '/new/hero/client/met.png', label: 'Clinic Interior' },
+    { src: '/new/hero/client/lab.png', label: 'Ayurvedic Specialist' },
+    { src: '/new/hero/client/office.png', label: 'Treatment Room' },
+    { src: '/new/hero/client/sms.png', label: 'Natural Environment' },
+    { src: '/new/hero/client/des.png', label: 'Our Team' },
+    { src: '/new/hero/client/ana.png', label: 'Experienced Doctor' },
+    { src: '/new/hero/client/storage.png', label: 'Experienced Doctor' },
   ];
 
   return (
@@ -18,7 +17,7 @@ const ClinicTeamSection = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
-            Inside Our Ayurvedic Clinic
+           Inside Our Store – For Clinic Teams
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
             Meet our experienced team and explore our natural healing environment

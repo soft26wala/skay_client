@@ -2,42 +2,42 @@ import React from 'react';
 import { ShieldCheck, Leaf, Activity } from "lucide-react";
 
 const FeaturesSectionWay = () => {
-  const features = [
-    {
-      id: "01",
-      title: "ANANT SCIENCE: FROM ORGAN REPAIR TO VITALITY",
-      subtitle: "TARGETED CARE BY ANANT RESEARCH CELL",
-      description: "Humari expertise Liver aur Kidney regeneration ke pioneers hone mein hai. Wahi deep research humne apne Sugar control, Weight loss aur Shilajit extracts mein dali hai. Har product organ-level repair ke liye clinically design kiya gaya hai.",
-      icon: <Activity className="w-8 h-8 text-primary" />,
-      image: "/points/image1.png", // Yahan apni kidney/liver wali image ka path dalo
-      isReverse: false
-    },
-    {
-      id: "02",
-      title: "VIRGIN INGREDIENTS, UNCOMPROMISED PURITY",
-      subtitle: "ETHICALLY SOURCED, POTENT EXTRACTS",
-      description: "Chahe wo Kala Piliya ke liye 'Kutki' ho ya premium Shilajit, hum herbs ko unke natural habitat se manually pick karte hain. Humara 'Cold-Extraction' process ensure karta hai ki herbs ki healing power 100% barkarar rahe.",
-      icon: <Leaf className="w-8 h-8 text-primary" />,
-      image: "/points/image2.png", // Shilajit ya herbs ki image
-      isReverse: true
-    },
-    {
-      id: "03",
-      title: "INFINITE SOLUTIONS FOR EVERY LIFESTYLE NEED",
-      subtitle: "HOLISTIC CARE & EXPERT VAIDYA SUPPORT",
-      description: "Sugar management ho ya internal strength badhani ho—hum root cause par kaam karte hain. Anant Ayurveda ke saath aapko milta hai personalized diet guidance aur expert Vaidya support, jo aapki health journey ko safal banata hai.",
-      icon: <ShieldCheck className="w-8 h-8 text-primary" />,
-      image: "/points/image3.png", // Healthy lifestyle icon/image
-      isReverse: false
-    }
-  ];
+ const features = [
+  {
+    id: "01",
+    title: "COMPLETE READY-MADE SYSTEM – NO DEVELOPMENT NEEDED",
+    subtitle: "FULL STACK SETUP INCLUDED",
+    description: "This template comes with a fully developed React.js frontend (including dashboard) and Node.js backend. All core features like authentication, API structure, and business logic are already implemented. You don’t need to build anything from scratch — just connect, customize, and launch.",
+    icon: <Activity className="w-8 h-8 text-primary" />,
+    image: "/new/hero/downside/des.png",
+    isReverse: false
+  },
+  {
+    id: "02",
+    title: "BUILT-IN PAYMENTS, DATABASE & MEDIA HANDLING",
+    subtitle: "RAZORPAY, COD & CLOUDINARY READY",
+    description: "Integrated with Razorpay and Cash on Delivery (COD) system. PostgreSQL database schema is fully written and optimized — just plug and use. Cloudinary integration is already set up for image uploads and management. Everything is production-ready.",
+    icon: <Leaf className="w-8 h-8 text-primary" />,
+    image: "/public/new/hero/downside/code.jfif",
+    isReverse: true
+  },
+  {
+    id: "03",
+    title: "SUPER EASY SETUP – LAUNCH IN MINUTES",
+    subtitle: "JUST CONFIGURE & GO LIVE",
+    description: "No complex setup required. All you need to do is configure environment variables and you're ready to go. For favicon, simply replace your SVG file with 'vite.svg' and remove the default one. Clean structure, beginner-friendly, and easy to scale.",
+    icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+    image: "/new/hero/downside/deploy.jfif",
+    isReverse: false
+  }
+];
 
   return (
     <section className="py-20 px-6 max-w-7xl mx-auto space-y-32">
-        <p className='text-6xl'>Why Anant Ayurveda?</p>
+        <p className='text-6xl'>Why Cortex Ecom?</p>
 <div className="flex justify-center items-center">
   <p className="text-xl font-semibold text-[#8B6E5D] tracking-[0.2em] uppercase text-center animate-glow-soft">
-    HEALTHY INSIDE, HAPPY OUTSIDE
+    (easily customizable and ready to launch)
   </p>
 </div>
       {features.map((feature) => (
@@ -68,7 +68,7 @@ const FeaturesSectionWay = () => {
                <div className="p-3 glass-card rounded-xl">
                  {feature.icon}
                </div>
-               <span className="font-semibold text-foreground">Premium Ayurvedic Standards</span>
+               <span className="font-semibold text-foreground">Premium Glass Design</span>
             </div>
           </div>
 

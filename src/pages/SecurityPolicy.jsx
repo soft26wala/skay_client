@@ -54,7 +54,7 @@ export default function SecurityPolicy() {
 
           {/* Intro */}
           <p className="text-white/80 text-center max-w-4xl mx-auto mb-10 leading-relaxed">
-            At Anant Ayurveda, we prioritize your security. We implement strong security practices to protect your data, transactions, and privacy.
+            At Cortex Ecom demo, we prioritize your security. We implement strong security practices to protect your data, transactions, and privacy.
           </p>
 
           {/* Cards */}

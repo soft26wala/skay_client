@@ -37,7 +37,7 @@ export default function NoReturnPolicy() {
   ];
 
   return (
-    <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative mt-10">
+    <div className="min-h-screen bg-[url('your-image-url')] bg-cover bg-center relative mt-10">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
 
@@ -53,7 +53,7 @@ export default function NoReturnPolicy() {
 
           {/* Intro */}
           <p className="text-white/80 text-center max-w-4xl mx-auto mb-10 leading-relaxed">
-            At Anant Ayurveda, we maintain strict quality standards. Due to hygiene and product safety reasons, we follow a No Return Policy on all delivered products.
+            At Cortex_Ecom, we maintain strict quality standards. Due to hygiene and product safety reasons, we follow a No Return Policy on all delivered products.
           </p>
 
           {/* Cards */}
@@ -82,10 +82,9 @@ export default function NoReturnPolicy() {
 
         </div>
       </div>
-      <img
-                src="/privacpolicy/cb.png"
-                className="rounded-xl object-cover right-4 top-5 relative  z-10"
-            />
+      
+
+      plese set your required to edit the code and create your return policy page. You can also add images and other sections as needed.
     </div>
   );
 }
