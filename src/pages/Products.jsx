@@ -19,8 +19,7 @@ const Products = () => {
     return new URLSearchParams(useLocation().search);
   };
 
-  const { products, totalProducts } = useSelector((state) => state.product);
-
+const { products = [], totalProducts = 0 } = useSelector((state) => state.product);
 
 
 
