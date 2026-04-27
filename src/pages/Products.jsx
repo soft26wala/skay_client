@@ -64,6 +64,19 @@ const Products = () => {
 
 
 
+
+  const demoProduct = {
+  id: "demo-1",
+  name: "Premium Wireless Headphones",
+  description: "Best sound quality with noise cancellation",
+  price: 2999,
+  category: "Electronics",
+  rating: 4,
+  stock: 20,
+  image: "https://via.placeholder.com/300"
+};
+
+const displayProducts = products.length > 0 ? products : [demoProduct];
   
   
 
@@ -267,7 +280,8 @@ const Products = () => {
 
               {/* PRODUCTS GRID */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                {products.map((product) => (
+                {/* {products.map((product) => (  this is db api demo removed and uncomant this */}
+                {displayProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
