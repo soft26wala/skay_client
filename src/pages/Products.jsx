@@ -65,7 +65,7 @@ const { products = [], totalProducts = 0 } = useSelector((state) => state.produc
 
 
   const demoProduct = {  // demo remove this
-  id: "demo-1",
+  id: "1",
   name: "Premium Wireless Headphones",
   description: "Best sound quality with noise cancellation",
   price: 2999,
