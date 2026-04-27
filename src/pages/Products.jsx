@@ -19,7 +19,8 @@ const Products = () => {
     return new URLSearchParams(useLocation().search);
   };
 
-const { products = [], totalProducts = 0 } = useSelector((state) => state.product);
+  const { products, totalProducts } = useSelector((state) => state.product);
+
 
 
 
@@ -63,19 +64,6 @@ const { products = [], totalProducts = 0 } = useSelector((state) => state.produc
 
 
 
-
-  const demoProduct = {  // demo remove this
-  id: "1",
-  name: "Premium Wireless Headphones",
-  description: "Best sound quality with noise cancellation",
-  price: 2999,
-  category: "Electronics",
-  rating: 4,
-  stock: 20,
-  image: "/demo/demo.webp"
-};
-
-const displayProducts = products.length > 0 ? products : [demoProduct]; // demo remove this
   
   
 
@@ -279,8 +267,7 @@ const displayProducts = products.length > 0 ? products : [demoProduct]; // demo 
 
               {/* PRODUCTS GRID */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                {/* {products.map((product) => (  // this is db api real uncomant this */}
-                {displayProducts.map((product) => (  // demo remove this  
+                {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
