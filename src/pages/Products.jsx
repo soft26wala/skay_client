@@ -64,7 +64,7 @@ const { products = [], totalProducts = 0 } = useSelector((state) => state.produc
 
 
 
-  const demoProduct = {
+  const demoProduct = {  // demo remove this
   id: "demo-1",
   name: "Premium Wireless Headphones",
   description: "Best sound quality with noise cancellation",
@@ -72,10 +72,10 @@ const { products = [], totalProducts = 0 } = useSelector((state) => state.produc
   category: "Electronics",
   rating: 4,
   stock: 20,
-  image: "https://via.placeholder.com/300"
+  image: "/demo/demo.webp"
 };
 
-const displayProducts = products.length > 0 ? products : [demoProduct];
+const displayProducts = products.length > 0 ? products : [demoProduct]; // demo remove this
   
   
 
@@ -279,8 +279,8 @@ const displayProducts = products.length > 0 ? products : [demoProduct];
 
               {/* PRODUCTS GRID */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                {/* {products.map((product) => (  this is db api demo removed and uncomant this */}
-                {displayProducts.map((product) => (
+                {/* {products.map((product) => (  // this is db api real uncomant this */}
+                {displayProducts.map((product) => (  // demo remove this  
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
