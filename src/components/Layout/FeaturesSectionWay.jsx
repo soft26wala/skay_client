@@ -18,7 +18,7 @@ const FeaturesSectionWay = () => {
     subtitle: "RAZORPAY, COD & CLOUDINARY READY",
     description: "Integrated with Razorpay and Cash on Delivery (COD) system. PostgreSQL database schema is fully written and optimized — just plug and use. Cloudinary integration is already set up for image uploads and management. Everything is production-ready.",
     icon: <Leaf className="w-8 h-8 text-primary" />,
-    image: "/public/new/hero/downside/code.jfif",
+    image: "/new/hero/downside/code.jfif",
     isReverse: true
   },
   {
