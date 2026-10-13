@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Mail, Lock, User, Phone } from "lucide-react";
+import { X, Mail, Lock, User, Phone, Sparkles, ArrowRight, KeyRound } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toggleAuthPopup } from "../../store/slices/popupSlice";
@@ -18,7 +18,7 @@ const LoginModal = () => {
     useSelector((state) => state.auth);
   const { isAuthPopupOpen } = useSelector((state) => state.popup);
 
-  const [mode, setMode] = useState("signin"); //signin | signup | forgot | reset
+  const [mode, setMode] = useState("signin"); // "signin" | "signup" | "forgot" | "reset"
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,19 +31,21 @@ const LoginModal = () => {
   useEffect(() => {
     if (location.pathname.startsWith("/password/reset/")) {
       setMode("reset");
-      dispatch(toggleAuthPopup());
+      if (!isAuthPopupOpen) {
+        dispatch(toggleAuthPopup());
+      }
     }
-  }, [location.pathname, dispatch]);
+  }, [location.pathname, dispatch, isAuthPopupOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = new FormData();
-
     data.append("number", formData.number);
     data.append("password", formData.password);
+
     if (mode === "signup") {
-      data.append("name", formData.name)
+      data.append("name", formData.name);
       data.append("email", formData.email);
     }
 
@@ -66,6 +68,7 @@ const LoginModal = () => {
       );
       return;
     }
+
     if (mode === "signup") {
       dispatch(register(data));
     } else {
@@ -73,197 +76,256 @@ const LoginModal = () => {
     }
 
     if (authUser) {
-      setFormData({ name: "", email: "", number: "", password: "", confirmPassword: "" });
+      setFormData({
+        name: "",
+        email: "",
+        number: "",
+        password: "",
+        confirmPassword: "",
+      });
     }
   };
 
   if (!isAuthPopupOpen || authUser) return null;
 
-  let isLoading = isSigningUp || isLoggingIn || isRequestingForToken;
+  const isLoading = isSigningUp || isLoggingIn || isRequestingForToken;
 
   return (
-    <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        {/* OVERLAY */}
-        <div className="absolute inset-0 backdrop-blur-md bg-[hsla(var(--glass-bg))]" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* OVERLAY */}
+      <div
+        className="absolute inset-0 bg-black/65 backdrop-blur-md transition-opacity"
+        onClick={() => dispatch(toggleAuthPopup())}
+      />
 
-        <div className="relative z-10 glass-panel w-full max-w-md mx-4 animate-fade-in-up">
-          {/* HEADER */}
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-primary">
+      {/* LUXURY AUTH MODAL */}
+      <div className="relative z-10 glass-panel w-full max-w-md border border-champagne/30 shadow-2xl animate-fade-in-up p-8 sm:p-10">
+        {/* Glow accent */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-champagne/15 rounded-full blur-2xl pointer-events-none" />
+
+        {/* HEADER */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <span className="luxury-pill mb-2">
+              <Sparkles className="w-3 h-3 text-champagne" />
+              <span>Maison Client Portal</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground mt-1">
               {mode === "reset"
-                ? "Reset Password"
+                ? "Reset Credentials"
                 : mode === "signup"
-                  ? "Create Account"
-                  : mode === "forgot"
-                    ? "Forgot Password"
-                    : "Welcome Back"}
+                ? "Join the Atelier"
+                : mode === "forgot"
+                ? "Recover Account"
+                : "Client Sign In"}
             </h2>
+          </div>
+          <button
+            onClick={() => dispatch(toggleAuthPopup())}
+            aria-label="Close modal"
+            className="p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* TABS (For signin and signup) */}
+        {["signin", "signup"].includes(mode) && (
+          <div className="flex rounded-xl bg-secondary/80 p-1 mb-6 border border-border/50">
             <button
-              onClick={() => dispatch(toggleAuthPopup())}
-              className="p-2 rounded-lg glass-card hover:glow-on-hover animate-smooth"
+              type="button"
+              onClick={() => setMode("signin")}
+              className={`flex-1 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all ${
+                mode === "signin"
+                  ? "gradient-primary text-black shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
-              <X className="w-5 h-5 text-primary" />
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("signup")}
+              className={`flex-1 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all ${
+                mode === "signup"
+                  ? "gradient-primary text-black shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              New Client
             </button>
           </div>
-          {/* AUTHENTICATION FORM */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* FULL NAME - ONLY FOR SIGNUP */}
-            {mode === "signup" && (
-              <>
+        )}
 
+        {/* FORM */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* FULL NAME & EMAIL - SIGNUP ONLY */}
+          {mode === "signup" && (
+            <>
+              <div>
+                <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                  Full Name *
+                </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
                   <input
                     type="text"
-                    placeholder="Full Name"
+                    placeholder="Lady / Lord Harrington"
                     value={formData.name}
-                    onChange={(e) => {
-                      setFormData({ ...formData, name: e.target.value });
-                    }}
-                    className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                     required
                   />
                 </div>
+              </div>
 
+              <div>
+                <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                  Email Address *
+                </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
                   <input
                     type="email"
-                    placeholder="Email Address"
+                    placeholder="client@luxury-domain.com"
                     value={formData.email}
-                    onChange={(e) => {
-                      setFormData({ ...formData, email: e.target.value });
-                    }}
-                    className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                     required
                   />
                 </div>
+              </div>
+            </>
+          )}
 
-
-              </>
-            )}
-
-            {/* Number - ALWAYS VISISBLE EXCEPT FOR RESET MODE */}
-            {mode !== "reset" && (
+          {/* NUMBER - ALWAYS VISIBLE EXCEPT RESET */}
+          {mode !== "reset" && (
+            <div>
+              <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                Phone Number * (Primary ID)
+              </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
                 <input
-                  type="text"
-                  placeholder="Phone Number"
+                  type="tel"
+                  placeholder="e.g. 9876543210"
                   value={formData.number}
-                  onChange={(e) => {
-                    setFormData({ ...formData, number: e.target.value });
-                  }}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                  onChange={(e) =>
+                    setFormData({ ...formData, number: e.target.value })
+                  }
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                   required
                 />
               </div>
-            )}
+            </div>
+          )}
 
-            {/* PASSWORD - ALWAYS VISIBLE EXCEPT FOR FORGOT MODE */}
-            {mode !== "forgot" && (
+          {/* PASSWORD - VISIBLE EXCEPT FORGOT */}
+          {mode !== "forgot" && (
+            <div>
+              <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                Password *
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder="••••••••••••"
                   value={formData.password}
-                  onChange={(e) => {
-                    setFormData({ ...formData, password: e.target.value });
-                  }}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                   required
                 />
               </div>
-            )}
+            </div>
+          )}
 
-            {/* CONFIRM PASSWORD - ONLY VISIBLE FOR FOR RESET MODE */}
-            {mode === "reset" && (
+          {/* CONFIRM PASSWORD - RESET ONLY */}
+          {mode === "reset" && (
+            <div>
+              <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                Confirm Password *
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
                 <input
                   type="password"
-                  placeholder="Confirm Password"
+                  placeholder="••••••••••••"
                   value={formData.confirmPassword}
-                  onChange={(e) => {
+                  onChange={(e) =>
                     setFormData({
                       ...formData,
                       confirmPassword: e.target.value,
-                    });
-                  }}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none"
+                    })
+                  }
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                   required
                 />
               </div>
-            )}
+            </div>
+          )}
 
-            {/* FORGOT PASSWORD TOGGLE BUTTON/LINK */}
-            {mode === "signin" && (
-              <div className="text-right text-sm">
-                <button
-                  type="button"
-                  onClick={() => setMode("forgot")}
-                  className="text-primary hover:text-accent animate-smooth"
-                >
-                  Forgot Password?
-                </button>
-              </div>
-            )}
-
-            {/* SUBMIT BUTTON */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full py-3 gradient-primary flex justify-center items-center gap-2 text-primary-foreground rounded-lg font-semibold animate-smooth ${isLoading
-                  ? "opacity-70 cursor-not-allowed"
-                  : "hover:glow-on-hover"
-                }`}
-            >
-              {isLoading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>
-                    {mode === "reset"
-                      ? "Reseting password..."
-                      : mode === "signup"
-                        ? "Signing up..."
-                        : mode === "forgot"
-                          ? "Requesting for Whatsapp number..."
-                          : "Signing in..."}{" "}
-                  </span>
-                </>
-              ) : mode === "reset" ? (
-                "Reset Password"
-              ) : mode === "signup" ? (
-                "Create Account"
-              ) : mode === "forgot" ? (
-                "Send Reset Whatsapp number"
-              ) : (
-                "Sign In"
-              )}
-            </button>
-          </form>
-
-          {/* MODE TOGGLE */}
-          {["signin", "signup"].includes(mode) && (
-            <div className="mt-6 text-center">
+          {/* FORGOT PASSWORD LINK */}
+          {mode === "signin" && (
+            <div className="text-right">
               <button
                 type="button"
-                onClick={() => {
-                  setMode((prev) => (prev === "signup" ? "signin" : "signup"));
-                }}
-                className="text-primary hover:text-accent animate-smooth"
+                onClick={() => setMode("forgot")}
+                className="text-xs text-champagne hover:underline transition-all"
               >
-                {mode === "signup"
-                  ? "Already have an account? Sign in"
-                  : "Don't have an account? Sign up"}
+                Forgot your password?
               </button>
             </div>
           )}
-        </div>
+
+          {mode === "forgot" && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => setMode("signin")}
+                className="text-xs text-champagne hover:underline transition-all"
+              >
+                Return to Sign In
+              </button>
+            </div>
+          )}
+
+          {/* SUBMIT BUTTON */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-4 mt-2 gradient-primary text-black font-bold text-xs tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth flex items-center justify-center space-x-2 disabled:opacity-60 shadow-lg"
+          >
+            {isLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                <span>Authenticating with Atelier...</span>
+              </>
+            ) : mode === "reset" ? (
+              <span>Reset Credentials</span>
+            ) : mode === "signup" ? (
+              <>
+                <span>Complete Registration</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </>
+            ) : mode === "forgot" ? (
+              <span>Send Recovery Request</span>
+            ) : (
+              <>
+                <span>Sign In to Account</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </>
+            )}
+          </button>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 

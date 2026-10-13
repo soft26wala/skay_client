@@ -1,24 +1,24 @@
-/* Leaf.css */
+/* Luxury Ambient Atmosphere */
 .left-leaf {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 200px; /* Adjust the width of the leaf */
-  height: 100vh; /* Adjust the height of the leaf to cover the full viewport */
-  background-image: url('path/to/left_leaf_image.png'); /* Replace with the path to your left leaf image */
-  background-repeat: no-repeat;
-  background-position: left top;
-  z-index: -1; /* Place the leaf behind the website content */
+  top: -100px;
+  left: -100px;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.02) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
 }
 
 .right-leaf {
   position: fixed;
-  top: 0;
-  right: 0;
-  width: 200px; /* Adjust the width of the leaf */
-  height: 100vh; /* Adjust the height of the leaf to cover the full viewport */
-  background-image: url('path/to/right_leaf_image.png'); /* Replace with the path to your right leaf image */
-  background-repeat: no-repeat;
-  background-position: right top;
-  z-index: -1; /* Place the leaf behind the website content */
+  top: 20%;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(197, 168, 128, 0.07) 0%, rgba(212, 175, 55, 0.015) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(50px);
 }

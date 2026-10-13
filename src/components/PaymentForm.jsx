@@ -64,7 +64,7 @@ const PaymentForm = () => {
             Card Details *
           </label>
           <div className="px-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none text-foreground">
-            <CardElement options={{ style: { base: { fontSize: "16px" } } }} /> 
+            <CardElement options={{ style: { base: { fontSize: "16px" } } }} />
           </div>
         </div>
         <div className="flex items-center space-x-2 mb-6 p-4 bg-secondary/50 rounded-lg">

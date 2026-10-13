@@ -1,4 +1,4 @@
-import { Menu, User, ShoppingCart, Sun, Moon, Search } from "lucide-react";
+import { Menu, User, ShoppingBag, Sun, Moon, Search, Sparkles } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,92 +7,159 @@ import {
   toggleSearchBar,
   toggleSidebar,
 } from "../../store/slices/popupSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
-
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { cart } = useSelector((state) => state.cart);
+  const { authUser } = useSelector((state) => state.auth);
+
   let cartItemsCount = 0;
   if (cart) {
     cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
   }
 
+  const navLinks = [
+    { name: "Collections", path: "/products" },
+    { name: "Artisanal Story", path: "/about" },
+    { name: "Concierge", path: "/contact" },
+    { name: "FAQ", path: "/faq" },
+  ];
+
   return (
-    <>
-      <nav className="fixed left-0 w-full top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* LEFT - HAMBURGER MENU */}
+    <nav className="fixed left-0 w-full top-0 z-50 bg-background/85 backdrop-blur-xl border-b border-champagne/20 transition-all duration-300">
+      {/* Top Luxury Announcement Bar */}
+      <div className="bg-gradient-to-r from-noir via-secondary to-noir py-1.5 px-4 text-center border-b border-champagne/10">
+        <p className="text-[11px] tracking-[0.2em] uppercase text-champagne/90 font-medium flex items-center justify-center gap-2">
+          <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
+          <span>Haute Formulation & Complimentary Concierge Delivery on Orders Above ₹400</span>
+          <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
+        </p>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-20">
+          {/* LEFT: HAMBURGER & DESKTOP NAVIGATION */}
+          <div className="flex items-center space-x-6">
             <button
               onClick={() => dispatch(toggleSidebar())}
-              className="p-2 rounded-lg hover:bg-secondary transition-colors"
+              aria-label="Toggle navigation menu"
+              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground"
             >
-              <Menu className="w-6 h-6 text-foreground" />
+              <Menu className="w-5 h-5" />
             </button>
 
-            {/* CENTER LOGO */}
-            <div className="flex-1 flex">
-              <Link to="/" className="flex items-center justify-center">
-              <img
-                src="/img/logo/logo3.png"
-                alt="Anant Ayurevedaa Logo"
-                className="h-12 w-auto object-contain"
-              />
-              </Link>
-              {/* <h1 className="text-2xl font-bold text-primary">Anant 🫘Ayurvedaa</h1> */}
-
-            </div>
-
-            {/* RIGHT SIDE ICONS */}
-            <div className="flex items-center space-x-2">
-              {/* THEME TOGGLE */}
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-secondary transition-colors"
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5 text-foreground" />
-                ) : (
-                  <Moon className="w-5 h-5 text-foreground" />
-                )}
-              </button>
-
-              {/* SEARCH OVERLAY */}
-              <button
-                onClick={() => dispatch(toggleSearchBar())}
-                className="p-2 rounded-lg hover:bg-secondary transition-colors"
-              >
-                <Search className="w-5 h-5 text-foreground" />
-              </button>
-
-              {/* USER PROFILE */}
-              <button
-                onClick={() => dispatch(toggleAuthPopup())}
-                className="p-2 rounded-lg hover:bg-secondary transition-colors"
-              >
-                <User className="w-5 h-5 text-foreground" />
-              </button>
-
-              {/* CART */}
-              <button
-                onClick={() => dispatch(toggleCart())}
-                className="relative p-2 rounded-lg hover:bg-secondary transition-colors"
-              >
-                <ShoppingCart className="w-5 h-5 text-foreground" />
-                {cartItemsCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItemsCount}
-                  </span>
-                )}
-              </button>
-              
+            <div className="hidden lg:flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`text-xs font-semibold tracking-[0.15em] uppercase transition-all relative py-1 ${
+                    location.pathname === link.path
+                      ? "text-champagne font-bold"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.name}
+                  {location.pathname === link.path && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-champagne rounded-full" />
+                  )}
+                </Link>
+              ))}
             </div>
           </div>
+
+          {/* CENTER: BRAND LOGO */}
+          <div className="flex items-center justify-center">
+            <Link to="/" className="flex items-center space-x-3 group">
+              <img
+                src="/img/logo/logo3.png"
+                alt="Maison Logo"
+                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              <div className="text-center sm:text-left">
+                <span className="text-xl sm:text-2xl font-serif font-bold tracking-tight text-foreground block group-hover:text-champagne transition-colors">
+                  MAISON LUXE
+                </span>
+                <span className="text-[9px] tracking-[0.25em] uppercase text-champagne/80 font-medium block">
+                  Haute E-Commerce
+                </span>
+              </div>
+            </Link>
+          </div>
+
+          {/* RIGHT: ACTIONS & CONTROLS */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* SEARCH */}
+            <button
+              onClick={() => dispatch(toggleSearchBar())}
+              aria-label="Search collection"
+              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+
+            {/* THEME TOGGLE */}
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle visual theme"
+              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground"
+            >
+              {theme === "dark" ? (
+                <Sun className="w-4 h-4 text-champagne" />
+              ) : (
+                <Moon className="w-4 h-4 text-foreground" />
+              )}
+            </button>
+
+            {/* CLIENT PROFILE / AUTH */}
+            <button
+              onClick={() => dispatch(toggleAuthPopup())}
+              aria-label="Client Account"
+              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground flex items-center space-x-1.5"
+            >
+              {authUser?.avatar?.url ? (
+                <img
+                  src={authUser.avatar.url}
+                  alt={authUser.name}
+                  className="w-5 h-5 rounded-full object-cover border border-champagne"
+                />
+              ) : (
+                <User className="w-4 h-4" />
+              )}
+              {authUser && (
+                <span className="hidden md:inline-block text-xs font-semibold text-champagne max-w-[100px] truncate">
+                  {authUser.name?.split(" ")[0] || "Client"}
+                </span>
+              )}
+            </button>
+
+            {/* SHOPPING BAG */}
+            <button
+              onClick={() => dispatch(toggleCart())}
+              aria-label="Shopping Bag"
+              className="relative p-2.5 rounded-xl gradient-primary text-black font-semibold hover:glow-on-hover transition-all flex items-center gap-2"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span className="hidden sm:inline-block text-xs font-bold tracking-wider uppercase">
+                Bag
+              </span>
+              {cartItemsCount > 0 && (
+                <span className="px-1.5 py-0.2 bg-black text-champagne text-[10px] font-black rounded-full min-w-[18px] text-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 };
 

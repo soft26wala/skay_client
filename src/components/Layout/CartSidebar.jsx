@@ -1,4 +1,4 @@
-import { X, Plus, Minus, Trash2 } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,135 +20,177 @@ const CartSidebar = () => {
     }
   };
 
-  let total = 0;
-  if (cart) {
-    total = cart.reduce(
-      (sum, item) => sum + item.product.price * item.quantity,
-      0
-    );
-  }
+  const total = cart
+    ? cart.reduce(
+        (sum, item) => sum + (Number(item.product?.price) || 0) * item.quantity,
+        0
+      )
+    : 0;
+
+  const cartItemsCount = cart
+    ? cart.reduce((count, item) => count + item.quantity, 0)
+    : 0;
 
   if (!isCartOpen) return null;
 
   return (
     <>
-      {/* OVERLAY */}
+      {/* BACKDROP OVERLAY */}
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity"
         onClick={() => dispatch(toggleCart())}
       />
 
-      {/* CART SIDEBAR */}
-      <div className="fixed right-0 top-0 h-full w-96 z-50 glass-panel animate-slide-in-right overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-[hsla(var(--glass-border))]">
-          <h2 className="text-xl font-semibold text-primary">Shopping Cart</h2>
+      {/* LUXURY CART DRAWER */}
+      <div className="fixed right-0 top-0 h-full w-full max-w-md z-50 bg-background/95 backdrop-blur-2xl border-l border-champagne/30 shadow-2xl animate-slide-in-right flex flex-col">
+        {/* HEADER */}
+        <div className="flex items-center justify-between p-6 border-b border-border/50">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-full bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne">
+              <ShoppingBag className="w-4 h-4" />
+            </div>
+            <div>
+              <h2 className="text-lg font-serif font-bold text-foreground">
+                Your Luxury Bag
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                {cartItemsCount} bespoke acquisition{cartItemsCount !== 1 ? "s" : ""}
+              </p>
+            </div>
+          </div>
+
           <button
             onClick={() => dispatch(toggleCart())}
-            className="p-2 rounded-lg glass-card hover:glow-on-hover animate-smooth"
+            aria-label="Close cart drawer"
+            className="p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
           >
-            <X className="w-5 h-5 text-primary" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6">
+        {/* FREE SHIPPING PROGRESS NOTICE */}
+        {cart.length > 0 && (
+          <div className="px-6 py-3 bg-champagne/5 border-b border-champagne/10 flex items-center justify-between text-xs">
+            <span className="text-muted-foreground flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-champagne" />
+              {total >= 400
+                ? "Complimentary Concierge Shipping unlocked!"
+                : `Add ₹${(400 - total).toFixed(0)} more for Complimentary Shipping`}
+            </span>
+          </div>
+        )}
+
+        {/* ITEMS LIST */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {cart && cart.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Your cart is empty.</p>
+            <div className="text-center py-20">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center text-muted-foreground">
+                <ShoppingBag className="w-8 h-8" />
+              </div>
+              <p className="text-base font-serif font-semibold text-foreground mb-1">
+                Your Bag is Currently Empty
+              </p>
+              <p className="text-xs text-muted-foreground mb-6">
+                Discover exceptional luxury formulations from our collections.
+              </p>
               <Link
-                to={"/products"}
+                to="/products"
                 onClick={() => dispatch(toggleCart())}
-                className="inline-block mt-4 px-6 py-2 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth"
+                className="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-black font-semibold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover transition-all"
               >
-                Browse Products
+                <span>Explore Products</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           ) : (
-            <>
-              {/* CART ITEMS */}
-              <div className="space-y-4 mb-6">
-                {cart &&
-                  cart.map((item) => {
-                    return (
-                      <div key={item.product.id} className="glass-card p-4">
-                        <div className="flex items-start space-x-4">
-                          <img
-                            src={item.product.images[0].url}
-                            alt={item.product.name}
-                            className="w-16 h-16 object-cover rounded-lg"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-foreground truncate">
-                              {item.product.name}
-                            </h3>
-                            <p className="text-primary font-semibold">
-                              ₹ {item.product.price}
-                            </p>
-                            {/* Quantity Controls */}
+            cart.map((item) => (
+              <div
+                key={item.product?.id}
+                className="p-4 rounded-xl bg-secondary/40 border border-border/50 hover:border-champagne/30 transition-all flex items-start space-x-4"
+              >
+                <img
+                  src={
+                    item.product?.images?.[0]?.url || "/avatar-holder.avif"
+                  }
+                  alt={item.product?.name}
+                  className="w-16 h-16 object-cover rounded-lg border border-border/40 flex-shrink-0"
+                />
 
-                            <div className="flex items-center space-x-2 mt-2">
-                              <button
-                                className="p-1 rounded glass-card hover:glow-on-hover animate-smooth"
-                                onClick={() => {
-                                  updateQuantity(
-                                    item.product.id,
-                                    item.quantity - 1
-                                  );
-                                }}
-                                disabled={item.quantity === 1}
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="w-8 text-center font-semibold">
-                                {item.quantity}
-                              </span>
-                              <button
-                                className="p-1 rounded glass-card hover:glow-on-hover animate-smooth"
-                                onClick={() => {
-                                  updateQuantity(
-                                    item.product.id,
-                                    item.quantity + 1
-                                  );
-                                }}
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-1">
+                    <h3 className="text-xs font-semibold text-foreground truncate">
+                      {item.product?.name}
+                    </h3>
+                    <button
+                      onClick={() => dispatch(removeFromCart(item.product?.id))}
+                      className="text-muted-foreground hover:text-destructive p-1 transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
 
-                              <button
-                                className="p-1 rounded glass-card hover:glow-on-hover animate-smooth ml-2 text-destructive"
-                                onClick={() => {
-                                  dispatch(removeFromCart(item.product.id));
-                                }}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
+                  <p className="text-xs font-bold text-champagne mt-1">
+                    ₹{Number(item.product?.price).toFixed(2)}
+                  </p>
 
-              {/* TOTAL */}
-              <div className="border-t border-[hsla(var(--glass-border))] pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-lg font-semibold">Total:</span>
-                  <span className="text-xl font-bold text-primary">
-                    ₹ {total.toFixed(2)}
-                  </span>
+                  <div className="flex items-center space-x-2 mt-3">
+                    <button
+                      disabled={item.quantity <= 1}
+                      onClick={() =>
+                        updateQuantity(item.product?.id, item.quantity - 1)
+                      }
+                      className="w-6 h-6 rounded bg-secondary flex items-center justify-center text-muted-foreground hover:bg-champagne/20 disabled:opacity-30"
+                    >
+                      <Minus className="w-3 h-3" />
+                    </button>
+                    <span className="w-6 text-center text-xs font-bold text-foreground">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.product?.id, item.quantity + 1)
+                      }
+                      className="w-6 h-6 rounded bg-secondary flex items-center justify-center text-muted-foreground hover:bg-champagne/20"
+                    >
+                      <Plus className="w-3 h-3" />
+                    </button>
+                  </div>
                 </div>
-
-                <Link
-                  to={"/cart"}
-                  onClick={() => dispatch(toggleCart())}
-                  className="w-full py-3 block text-center gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold"
-                >
-                  View Cart & Checkout
-                </Link>
               </div>
-            </>
+            ))
           )}
         </div>
+
+        {/* FOOTER ACTIONS */}
+        {cart.length > 0 && (
+          <div className="p-6 border-t border-border/50 bg-secondary/30 space-y-4">
+            <div className="flex justify-between items-baseline">
+              <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                Subtotal Amount
+              </span>
+              <span className="text-xl font-serif font-bold text-champagne">
+                ₹{total.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                to="/cart"
+                onClick={() => dispatch(toggleCart())}
+                className="py-3 text-center border border-border/70 hover:border-champagne text-foreground font-semibold text-xs uppercase tracking-wider rounded-xl transition-all"
+              >
+                View Full Bag
+              </Link>
+              <Link
+                to="/payment"
+                onClick={() => dispatch(toggleCart())}
+                className="py-3 text-center gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover transition-all"
+              >
+                Checkout
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

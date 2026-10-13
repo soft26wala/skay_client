@@ -1,95 +1,96 @@
-import React, {useEffect} from "react";
+import { useEffect } from "react";
+import { ShieldCheck, Lock, KeyRound, Server, FileCheck, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function SecurityPolicy() {
-
-   useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }, []);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const sections = [
     {
-      title: "Data Protection",
-      desc: "We use advanced security measures to protect your personal and payment information from unauthorized access.",
+      icon: Lock,
+      title: "256-Bit SSL Transport Security",
+      desc: "All client browsing sessions and checkout transmissions are protected with industry-standard 256-bit encryption.",
     },
     {
-      title: "Secure Payments",
-      desc: "All transactions are processed through secure and encrypted payment gateways to ensure safe payments.",
+      icon: Server,
+      title: "PCI-DSS Level 1 Gateway Integration",
+      desc: "Cardholder data is tokenized and processed through certified PCI-DSS payment gateways. Sensitive card numbers never touch our servers.",
     },
     {
-      title: "User Privacy",
-      desc: "Your personal information is never sold or shared with third parties without your consent.",
+      icon: KeyRound,
+      title: "Cryptographic Credential Storage",
+      desc: "Client passwords and access tokens are hashed using salted cryptographic algorithms, safeguarding accounts against unauthorized access.",
     },
     {
-      title: "Website Security",
-      desc: "Our website is protected with SSL encryption and regular security updates to prevent vulnerabilities.",
-    },
-    {
-      title: "Account Safety",
-      desc: "Users are responsible for maintaining the confidentiality of their account credentials.",
-    },
-    {
-      title: "Fraud Prevention",
-      desc: "We actively monitor suspicious activities and take action to prevent fraud and misuse.",
+      icon: FileCheck,
+      title: "Continuous Threat Auditing",
+      desc: "Our server environments and API endpoints undergo continuous dependency and vulnerability assessments to neutralize emerging threats.",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[url('/about/bg.png')] bg-cover bg-center relative mt-10">
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
-
-      <div className="relative max-w-7xl mx-auto px-6 py-12">
-
-        {/* Title */}
-        <h1 className="text-center text-4xl md:text-5xl font-bold text-yellow-300 mb-10">
-          Security Policy
-        </h1>
-
-        {/* Glass Container */}
-        <div className="backdrop-blur-0 bg-blue/10 border border-yellow-200/20 rounded-3xl p-6 md:p-10 shadow-[0_0_40px_rgba(255,215,0,0.2)]">
-
-          {/* Intro */}
-          <p className="text-white/80 text-center max-w-4xl mx-auto mb-10 leading-relaxed">
-            At Cortex Ecom demo, we prioritize your security. We implement strong security practices to protect your data, transactions, and privacy.
+    <div className="min-h-screen pt-28 pb-24 bg-background text-foreground">
+      <div className="container mx-auto px-4 max-w-4xl space-y-12">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <span className="luxury-pill mx-auto">
+            <Sparkles className="w-3 h-3 text-champagne" />
+            <span>Digital Infrastructure</span>
+          </span>
+          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-foreground tracking-tight">
+            Security & Encryption Standards
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            Rigorous protocols deployed to safeguard your confidential transactions and personal data.
           </p>
+        </div>
 
-          {/* Cards */}
-          <div className="grid md:grid-cols-3 gap-6">
+        {/* Security Box */}
+        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-champagne/25 shadow-xl space-y-8">
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-champagne/10 border border-champagne/30 text-xs text-foreground">
+            <ShieldCheck className="w-6 h-6 text-champagne flex-shrink-0" />
+            <p className="leading-relaxed">
+              At Maison Luxe, security is engineered into every interaction. From the moment you browse our formulations to final transaction settlement, your data is fortified by institutional-grade defenses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {sections.map((item, index) => (
               <div
                 key={index}
-                className="backdrop-blur-lg bg-white/10 border border-yellow-200/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition"
+                className="glass-card p-6 rounded-2xl border border-border/50 hover:border-champagne/40 transition-all space-y-3"
               >
-                <h2 className="text-yellow-300 text-lg font-semibold mb-2">
+                <div className="w-10 h-10 rounded-xl bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne">
+                  <item.icon className="w-5 h-5" />
+                </div>
+                <h3 className="font-serif font-bold text-base text-foreground">
                   {item.title}
-                </h2>
-                <p className="text-white/80 text-sm">{item.desc}</p>
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* Bottom Image */}
-          <div className="mt-10 text-center">
-            <img
-              src="/herbs.png"
-              className="mx-auto rounded-xl border border-yellow-200/20 mb-6 shadow-lg"
-            />
-
-            <p className="text-white/80">
-              Your security is our priority. For any concerns, contact us at email@example.com
+          <div className="pt-6 border-t border-border/40 text-center space-y-3">
+            <p className="text-xs text-muted-foreground">
+              To report a security concern or verify system integrity, contact our technical security desk:
             </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl gradient-primary text-black font-bold text-xs uppercase tracking-wider hover:glow-on-hover transition-all"
+            >
+              <span>Security Concierge</span>
+            </Link>
           </div>
-
         </div>
       </div>
-      <img
-                src="/privacpolicy/cb.png"
-                className="rounded-xl object-cover right-20 relative top-10  z-10"
-            />
     </div>
   );
 }

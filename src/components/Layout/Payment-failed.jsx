@@ -1,36 +1,42 @@
-import React from "react";
-import { Icon } from "@iconify/react";
+import { XCircle, ArrowLeft, RefreshCw, Headphones } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const PaymentFailed = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] flex items-center justify-center p-5">
-      <div className="text-center">
-        <div className="w-20 h-20 bg-red-100 dark:bg-red-500/10 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Icon icon="solar:close-circle-bold" className="text-5xl" />
+    <div className="min-h-screen pt-28 pb-20 bg-background text-foreground flex items-center justify-center px-4">
+      <div className="max-w-md w-full glass-panel p-8 sm:p-10 rounded-3xl border border-destructive/30 shadow-2xl text-center space-y-6 animate-fade-in-up">
+        <div className="w-20 h-20 bg-destructive/10 text-destructive border border-destructive/30 rounded-full flex items-center justify-center mx-auto shadow-lg">
+          <XCircle className="w-10 h-10" />
         </div>
 
-        <h1 className="text-3xl font-bold dark:text-white mb-2">
-          Payment Failed
-        </h1>
+        <div className="space-y-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-destructive bg-destructive/10 px-3 py-1 rounded-full border border-destructive/20 inline-block">
+            Transaction Interrupted
+          </span>
+          <h1 className="text-3xl font-serif font-bold text-foreground">
+            Payment Unsuccessful
+          </h1>
+        </div>
 
-        <p className="text-gray-500 dark:text-gray-400 mb-8">
-          Oops! Payment Failed. Payment could not be processed. Please try again.
+        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+          The transaction could not be authorized by your financial institution. Your shopping bag remains intact, and no funds were deducted.
         </p>
 
-        <div className="flex gap-4 justify-center">
+        <div className="pt-2 flex flex-col sm:flex-row gap-3">
           <Link
-            to="/"
-            className="border border-gray-300 dark:border-white/10 dark:text-white px-8 py-3 rounded-xl font-bold"
+            to="/payment"
+            className="flex-1 py-3.5 gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover transition-all flex items-center justify-center gap-2 shadow-lg"
           >
-            Go Home
+            <RefreshCw className="w-4 h-4" />
+            <span>Retry Checkout</span>
           </Link>
 
           <Link
-            to="/courses"
-            className="bg-red-600 text-white px-8 py-3 rounded-xl font-bold"
+            to="/contact"
+            className="flex-1 py-3.5 border border-border/70 hover:border-champagne text-foreground font-semibold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2"
           >
-            Try Again
+            <Headphones className="w-4 h-4 text-champagne" />
+            <span>Concierge Help</span>
           </Link>
         </div>
       </div>

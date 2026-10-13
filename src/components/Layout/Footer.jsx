@@ -7,74 +7,109 @@ import {
   Twitter,
   Instagram,
   Youtube,
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email) return;
+    toast.success("Welcome to the Maison Gazette. You will receive private previews.");
+    setEmail("");
+  };
+
   const footerLinks = {
-    company: [
-      { name: "About Us", path: "/about" },
+    maison: [
+      { name: "Artisanal Heritage", path: "/about" },
+      { name: "Haute Formulations", path: "/products" },
+      { name: "Client Testimonials", path: "/about" },
     ],
-    customer: [
-      { name: "Contact Us", path: "/contact" },
-      { name: "FAQ", path: "/faq" },
-      { name: "Shipping Info", path: "#" },
-      { name: "Returns Policy", path: "/ReturnsPolicy" },
+    concierge: [
+      { name: "Atelier Contact", path: "/contact" },
+      { name: "Frequently Asked Questions", path: "/faq" },
+      { name: "Returns & Replacements", path: "/ReturnsPolicy" },
+      { name: "Delivery Standards", path: "/faq" },
     ],
     legal: [
-      { name: "Privacy Policy", path: "/privacy-policy" },
-      { name: "Terms of Service", path: "/TermsOfService" },
-      { name: "Security", path: "/Security" },
+      { name: "Privacy Protocol", path: "/privacy-policy" },
+      { name: "Terms of Acquisition", path: "/TermsOfService" },
+      { name: "Security & Encryption", path: "/Security" },
     ],
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "Your Facebook URL", label: "Facebook" },
-    { icon: Twitter, href: "Your Twitter URL", label: "Twitter" },
-    { icon: Instagram, href: "Your Instagram URL", label: "Instagram" },
-    { icon: Youtube, href: "Your YouTube URL", label: "YouTube" },
+    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
   ];
 
   return (
-    <footer className="glass border-t border-[hsla(var(--glass-border))]">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Brand & Contact */}
-          <div className="lg:col-span-1">  
-              <img src="/img/logo/logo3.png" alt="Anant Ayurveda" className="h-16 md:h-24 lg:h-32 object-contain inline-block ml-2" />
-            <h2 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent mb-4">
-             Cortex_Ecom  {/* set your name here */}
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Your trusted partner for online shopping. Discover amazing
-              products with exceptional quality and service.
+    <footer className="bg-background border-t border-champagne/20 relative overflow-hidden text-foreground">
+      {/* Ambient background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-champagne/5 blur-3xl pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 py-16 lg:py-20 max-w-7xl relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-16">
+          {/* Brand & Atelier Coordinates (Col 1 to 5) */}
+          <div className="lg:col-span-5 space-y-6">
+            <Link to="/" className="flex items-center space-x-3 group inline-block">
+              <img
+                src="/img/logo/logo3.png"
+                alt="Maison Luxe"
+                className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              <div>
+                <span className="text-2xl font-serif font-bold tracking-tight text-foreground block">
+                  MAISON LUXE
+                </span>
+                <span className="text-[10px] tracking-[0.25em] uppercase text-champagne font-medium block">
+                  Haute E-Commerce & Curated Living
+                </span>
+              </div>
+            </Link>
+
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+              Purveyors of exquisite botanical alchemy and high-end lifestyle formulations.
+              Crafted in collaboration with master artisans to elevate modern self-care rituals.
             </p>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-muted-foreground">
-                <Mail className="w-5 h-5 text-primary" />
-                <span>Your Email Address</span>
+
+            <div className="space-y-3 text-xs text-muted-foreground pt-2">
+              <div className="flex items-center space-x-3">
+                <Mail className="w-4 h-4 text-champagne flex-shrink-0" />
+                <span>concierge@maisonluxe.com</span>
               </div>
-              <div className="flex items-center space-x-3 text-muted-foreground">
-                <Phone className="w-5 h-5 text-primary" />
-                <span>+ Your Phone Number</span>
+              <div className="flex items-center space-x-3">
+                <Phone className="w-4 h-4 text-champagne flex-shrink-0" />
+                <span>+91 (0) 11 4982 0000 / Concierge Line</span>
               </div>
-              <div className="flex items-center space-x-3 text-muted-foreground">
-                <MapPin className="w-5 h-5 text-primary" />
-                <span>Set Your Address here</span>
+              <div className="flex items-center space-x-3">
+                <MapPin className="w-4 h-4 text-champagne flex-shrink-0" />
+                <span>Atelier Pavillon, Heritage Boulevard, New Delhi, India</span>
               </div>
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-foreground mb-4">
-              Company
+          {/* Links: Maison (Col 6 to 7) */}
+          <div className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-champagne">
+              Maison
             </h3>
-            <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
+            <ul className="space-y-2.5 text-xs">
+              {footerLinks.maison.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-champagne transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -83,17 +118,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Customer Service */}
-          <div>
-            <h3 className="text-lg font-semibold text-foreground mb-4">
-              Customer Service
+          {/* Links: Concierge (Col 8 to 9) */}
+          <div className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-champagne">
+              Concierge
             </h3>
-            <ul className="space-y-2">
-              {footerLinks.customer.map((link) => (
+            <ul className="space-y-2.5 text-xs">
+              {footerLinks.concierge.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-champagne transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -102,17 +137,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="text-lg font-semibold text-foreground mb-4">
-              Legal
+          {/* Links: Protocol / Legal (Col 10 to 12) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-champagne">
+              Protocol & Legal
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5 text-xs">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-champagne transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -122,52 +157,62 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        <div className="glass-panel mb-12">
-          <div className="text-center mb-6">
-            <h3 className="text-xl font-semibold text-foreground mb-2">
-              Stay Connected
+        {/* Newsletter Gazette Subscription */}
+        <div className="glass-panel p-8 sm:p-10 mb-12 border border-champagne/30 bg-gradient-to-r from-secondary/50 via-champagne/5 to-secondary/50">
+          <div className="max-w-2xl mx-auto text-center space-y-3 mb-6">
+            <span className="luxury-pill mx-auto">
+              <Sparkles className="w-3 h-3 text-champagne" />
+              <span>Private Gazette</span>
+            </span>
+            <h3 className="text-2xl font-serif font-bold text-foreground">
+              Subscribe to Private Previews
             </h3>
-            <p className="text-muted-foreground">
-              Subscribe to our newsletter for exclusive offers and updates
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Receive confidential dispatches regarding seasonal reserve formulations,
+              exclusive atelier invitations, and private client privileges.
             </p>
           </div>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <input
               type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 bg-secondary border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder-muted-foreground"
+              required
+              placeholder="Enter your confidential email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 px-4 py-3 bg-secondary/80 border border-border rounded-xl text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-champagne transition-colors"
             />
             <button
               type="submit"
-              className="px-6 py-3 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold"
+              className="px-6 py-3 gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover transition-all flex items-center justify-center gap-2"
             >
-              Subscribe
+              <span>Join Gazette</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </form>
         </div>
 
-        {/* Social Links & Copyright */}
-        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-[hsla(var(--glass-border))]">
-          <div className="flex items-center space-x-4 mb-4 md:mb-0">
+        {/* Socials & Copyright */}
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-border/40 gap-4 text-xs">
+          <div className="flex items-center space-x-3">
             {socialLinks.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
+                target="_blank"
+                rel="noreferrer"
                 aria-label={social.label}
-                className="p-2 glass-card hover:glow-on-hover animate-smooth"
+                className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-champagne hover:border hover:border-champagne/40 transition-all"
               >
-                <social.icon className="w-5 h-5 text-primary" />
+                <social.icon className="w-4 h-4" />
               </a>
             ))}
           </div>
 
-          <div className="text-center md:text-right">
-            <p className="text-muted-foreground text-sm">
-              © 2026 Cortex_Ecom. All rights reserved.
-            </p>
-            <p className="text-muted-foreground text-xs mt-1">
-              Developed By Cortex Web Solutions 
+          <div className="text-center sm:text-right text-muted-foreground text-[11px] space-y-1">
+            <p>© {new Date().getFullYear()} MAISON LUXE. All Rights Reserved.</p>
+            <p className="text-[10px] text-muted-foreground/70">
+              Secured with 256-Bit SSL Encryption • Razorpay & COD Certified
             </p>
           </div>
         </div>

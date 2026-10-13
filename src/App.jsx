@@ -41,7 +41,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [getUser]);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(
@@ -54,14 +54,19 @@ const App = () => {
         page: 1,
       })
     );
-  }, []);
+  }, [dispatch]);
 
   const { products } = useSelector((state) => state.product);
 
-  if ((isCheckingAuth && !authUser) || !products) {
+  if (isCheckingAuth && !authUser && !products) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+      <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground space-y-4">
+        <div className="w-16 h-16 rounded-full bg-champagne/15 border border-champagne/40 flex items-center justify-center text-champagne animate-pulse">
+          <Loader className="w-7 h-7 animate-spin" />
+        </div>
+        <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold">
+          MAISON LUXE
+        </span>
       </div>
     );
   }

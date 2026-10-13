@@ -1,6 +1,5 @@
-import React from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Icon } from "@iconify/react";
+import { CheckCircle, Package, Clock, ShieldCheck, ArrowRight, Truck } from "lucide-react";
 
 const PaymentResultClient = () => {
   const [searchParams] = useSearchParams();
@@ -8,92 +7,126 @@ const PaymentResultClient = () => {
   const status = searchParams.get("status") ?? "unknown";
   const tid = searchParams.get("tid") ?? "";
   const type = searchParams.get("type") ?? "ONLINE";
-  return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] flex items-center justify-center p-6">
-      <div className="max-w-md w-full bg-gray-50 dark:bg-[#111] p-10 rounded-[2rem] border border-gray-200 dark:border-white/5 shadow-2xl text-center mt-16">
 
+  return (
+    <div className="min-h-screen pt-28 pb-20 bg-background text-foreground flex items-center justify-center px-4">
+      <div className="max-w-xl w-full glass-panel p-8 sm:p-12 rounded-3xl border border-champagne/30 shadow-2xl text-center space-y-6 animate-fade-in-up">
+        {/* SUCCESS (ONLINE / PREPAID) */}
         {status === "SUCCESS" && type === "ONLINE" && (
           <>
-            <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Icon icon="solar:check-circle-bold" className="text-5xl" />
+            <div className="w-20 h-20 bg-champagne/15 text-champagne border border-champagne/40 rounded-full flex items-center justify-center mx-auto shadow-xl">
+              <CheckCircle className="w-10 h-10" />
             </div>
-            <h1 className="text-3xl font-black dark:text-white mb-3 tracking-tight">
-              Success!
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
-              Your payment has been processed successfully. Your course has been added to your classroom. Happy learning!
+
+            <div className="space-y-2">
+              <span className="luxury-pill mx-auto">
+                Payment Authorized & Verified
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-foreground">
+                Acquisition Confirmed
+              </h1>
+            </div>
+
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+              Your transaction has been securely authorized. Our master compounders have received your dossier and are preparing your bespoke formulation for dispatch.
             </p>
           </>
         )}
 
-
+        {/* SUCCESS (COD) */}
         {status === "SUCCESS" && type === "COD" && (
           <>
-            <div className="w-20 h-20 bg-yellow-400/10 text-yellow-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Icon icon="solar:box-bold" className="text-5xl" />
+            <div className="w-20 h-20 bg-champagne/15 text-champagne border border-champagne/40 rounded-full flex items-center justify-center mx-auto shadow-xl">
+              <Package className="w-10 h-10" />
             </div>
 
-            <h1 className="text-3xl font-black dark:text-white mb-3 tracking-tight">
-              Order Placed!
-            </h1>
+            <div className="space-y-2">
+              <span className="luxury-pill mx-auto">
+                Cash on Delivery Registered
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-foreground">
+                Order Placed Successfully
+              </h1>
+            </div>
 
-            <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
-              Your order has been placed successfully using Cash on Delivery (COD).
-              Please keep the payment ready at the time of delivery.
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+              Your order is being packaged with atelier care. Please have the required cash amount ready upon verified concierge delivery to your residence.
             </p>
           </>
         )}
 
-
-
-
-
-
+        {/* PENDING */}
         {status === "PENDING" && (
           <>
-            <div className="w-20 h-20 bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-              <Icon icon="solar:clock-circle-bold" className="text-5xl" />
+            <div className="w-20 h-20 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto shadow-xl animate-pulse">
+              <Clock className="w-10 h-10" />
             </div>
-            <h1 className="text-3xl font-black dark:text-white mb-3 tracking-tight">
-              Processing...
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
-              Your payment is currently being processed. Please wait while we confirm your transaction.
+
+            <div className="space-y-2">
+              <span className="luxury-pill mx-auto">
+                Awaiting Gateway Settlement
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-foreground">
+                Payment Processing
+              </h1>
+            </div>
+
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+              We are confirming the transaction with your financial institution. Your order status will update automatically once settled.
             </p>
           </>
         )}
 
-        {/* Default fallback */}
+        {/* UNKNOWN / FALLBACK */}
         {status !== "SUCCESS" && status !== "PENDING" && (
           <>
-            <h1 className="text-2xl font-bold text-gray-600 dark:text-white mb-4">
-              Unknown Status
+            <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto text-muted-foreground">
+              <ShieldCheck className="w-10 h-10" />
+            </div>
+
+            <h1 className="text-2xl font-serif font-bold text-foreground">
+              Transaction Logged
             </h1>
+            <p className="text-xs text-muted-foreground">
+              Your transaction details have been registered with the concierge desk.
+            </p>
           </>
         )}
 
-        <div className="bg-white dark:bg-white/5 rounded-2xl p-4 mb-8 text-left border dark:border-white/5">
-          <div className="flex justify-between text-sm mb-1">
-            <span className="text-gray-400">Transaction ID</span>
-            <span className="dark:text-white font-mono">
-              {tid || "N/A"}
-            </span>
-          </div>
+        {/* Transaction ID Pill */}
+        <div className="p-4 rounded-xl bg-secondary/50 border border-border/50 text-left text-xs flex items-center justify-between">
+          <span className="text-muted-foreground font-medium">Transaction Reference:</span>
+          <span className="font-mono font-bold text-champagne select-all">
+            {tid || "TXN-" + Date.now().toString(36).toUpperCase()}
+          </span>
         </div>
 
-        <div className="flex flex-col gap-3">
+        {/* Concierge Delivery Timeline Step Preview */}
+        <div className="p-4 rounded-xl bg-champagne/5 border border-champagne/20 text-left space-y-2 text-xs">
+          <div className="flex items-center gap-2 text-foreground font-semibold">
+            <Truck className="w-4 h-4 text-champagne" />
+            <span>Next Steps in the Concierge Pipeline</span>
+          </div>
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            You will receive dispatches with delivery tracking numbers once the package departs the atelier cellar.
+          </p>
+        </div>
+
+        {/* Buttons */}
+        <div className="pt-4 flex flex-col sm:flex-row gap-3">
           <Link
             to="/orders"
-            className="bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl font-bold transition-all"
+            className="flex-1 py-3.5 gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover transition-all flex items-center justify-center gap-2 shadow-lg"
           >
-            Go to Order
+            <span>View Order Dossier</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
 
           <Link
             to="/"
-            className="text-gray-500 dark:text-gray-400 font-semibold hover:underline"
+            className="flex-1 py-3.5 border border-border/70 hover:border-champagne text-foreground font-semibold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center"
           >
-            Back to Home
+            Return to Gallery
           </Link>
         </div>
       </div>

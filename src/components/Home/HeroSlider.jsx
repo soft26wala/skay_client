@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const HeroSlider = () => {
@@ -8,40 +8,45 @@ const HeroSlider = () => {
   const slides = [
     {
       id: 1,
-      title: "",
-      subtitle: "",
+      subtitle: "Haute Botanicals & Pure Alchemy",
+      title: "The Royal Ayurvedic Reserve",
       description:
-        "",
+        "Sacred high-altitude herbal harvests blended with artisan precision to cultivate inner vitality and timeless radiance.",
       image: "/new/hero/img1.png",
-      cta: "Shop Now",
-      url: "/img/slider/slide1.jpg",
+      cta: "Discover the Reserve",
+      url: "/products",
+      tag: "Seasonal Private Reserve",
     },
     {
       id: 2,
-      title: "",
-      subtitle: "",
-      description: "",
+      subtitle: "Atelier Formulation",
+      title: "Radiance & Longevity Alchemy",
+      description:
+        "Ancient restorative wisdom harmonized with contemporary purity standards for extraordinary holistic wellness.",
       image: "/new/hero/img2.png",
-      cta: "Explore Fashion",
-      url: "/products?category=Fashion",
+      cta: "Explore Formulations",
+      url: "/products",
+      tag: "Master Artisan Crafted",
     },
     {
       id: 3,
-      title: "",
-      subtitle: "",
-      description: "",
+      subtitle: "Sacred Wellness Rituals",
+      title: "Restorative Botanical Elixirs",
+      description:
+        "Hand-extracted golden oils and pure therapeutic essences created for meditative calm and physical rejuvenation.",
       image: "/new/hero/img3.png",
-      cta: "Shop Home",
-      url: `/products?category=Home & Garden`,
+      cta: "Acquire The Ritual",
+      url: "/products",
+      tag: "Limited Concierge Release",
     },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 8000);
+    }, 7000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -54,59 +59,86 @@ const HeroSlider = () => {
   const slide = slides[currentSlide];
 
   return (
-    <div className="relative h-[250px] sm:h-[350px] md:h-[70vh] overflow-hidden rounded-2xl mt-[80px]">
-      {/* Single Active Slide */}
-      <div className="relative h-full">
-   <div 
-  className="absolute inset-0 bg-cover bg-[center_top] md:bg-center scale-105 transition-all duration-1000"
-  style={{ backgroundImage: `url(${slide.image})` }}
-/>
-        <div className="absolute inset-0"  />
-        <div className="relative h-full flex items-center justify-center text-center px-6">
-          <div className="max-w-3xl animate-fade-in-up">
-            <h3 className="text-lg font-medium text-primary mb-2">
+    <div className="relative h-[550px] sm:h-[620px] md:h-[75vh] min-h-[520px] overflow-hidden rounded-3xl mt-6 border border-champagne/20 shadow-2xl mx-auto max-w-7xl">
+      {/* Background slide image with subtle zoom */}
+      <div className="absolute inset-0 bg-noir">
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"
+          style={{ backgroundImage: `url(${slide.image})` }}
+        />
+        {/* Editorial gradient overlays for high contrast and luxury mood */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
+      </div>
+
+      {/* Slide Content */}
+      <div className="relative h-full flex items-center px-6 sm:px-12 md:px-16 z-10">
+        <div className="max-w-2xl animate-fade-in-up space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-champagne/15 border border-champagne/30 text-champagne text-xs font-semibold uppercase tracking-[0.2em]">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>{slide.tag}</span>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm sm:text-base font-semibold tracking-[0.25em] uppercase text-champagne/90">
               {slide.subtitle}
             </h3>
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-4">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-foreground leading-[1.1] tracking-tight">
               {slide.title}
             </h1>
-            <p className="text-xl text-primary mb-8 max-w-2xl mx-auto">
-              {slide.description}
-            </p>
+          </div>
+
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+            {slide.description}
+          </p>
+
+          <div className="pt-2 flex flex-wrap items-center gap-4">
             <Link
               to={slide.url}
-              className="px-8 py-4 gradient-primary text-primary-foreground rounded-lg hover:glow-on-hover animate-smooth font-semibold text-lg mt-10"
+              className="inline-flex items-center space-x-3 px-8 py-4 gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover animate-smooth shadow-xl group"
             >
-              {slide.cta}
+              <span>{slide.cta}</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            <Link
+              to="/about"
+              className="px-6 py-3.5 rounded-xl border border-border/80 hover:border-champagne text-xs font-semibold uppercase tracking-wider text-foreground hover:text-champagne transition-colors"
+            >
+              Our Story
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Arrows */}
+      {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="hidden sm:block absolute left-6 top-1/2 transform -translate-y-1/2 p-3 glass-card hover:glow-on-hover animate-smooth"
+        aria-label="Previous slide"
+        className="hidden sm:flex absolute left-6 top-1/2 -translate-y-1/2 p-3.5 rounded-full glass-card border border-champagne/30 hover:border-champagne text-foreground hover:text-champagne transition-all z-20"
       >
-        <ChevronLeft className="w-6 h-6 text-primary" />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="hidden sm:block absolute right-6 top-1/2 transform -translate-y-1/2 p-3 glass-card hover:glow-on-hover animate-smooth"
-      >
-        <ChevronRight className="w-6 h-6 text-primary" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
 
-      {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+      <button
+        onClick={nextSlide}
+        aria-label="Next slide"
+        className="hidden sm:flex absolute right-6 top-1/2 -translate-y-1/2 p-3.5 rounded-full glass-card border border-champagne/30 hover:border-champagne text-foreground hover:text-champagne transition-all z-20"
+      >
+        <ChevronRight className="w-5 h-5" />
+      </button>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center space-x-3 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            aria-label={`Go to slide ${index + 1}`}
+            className={`transition-all duration-300 rounded-full ${
               index === currentSlide
-                ? "bg-primary glow-primary"
-                : "bg-white/30 hover:bg-white/50"
+                ? "w-8 h-2 bg-champagne shadow-md"
+                : "w-2 h-2 bg-white/30 hover:bg-white/60"
             }`}
           />
         ))}
