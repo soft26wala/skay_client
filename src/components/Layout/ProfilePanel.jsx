@@ -232,7 +232,7 @@ const ProfilePanel = () => {
             className="w-full py-3.5 rounded-xl border border-destructive/30 hover:bg-destructive/10 text-destructive text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
           >
             <LogOut className="w-4 h-4" />
-            <span>Sign Out of Maison</span>
+            <span>Sign Out of Skay Products</span>
           </button>
         </div>
       </div>

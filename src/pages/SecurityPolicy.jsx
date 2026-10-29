@@ -55,7 +55,7 @@ export default function SecurityPolicy() {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-champagne/10 border border-champagne/30 text-xs text-foreground">
             <ShieldCheck className="w-6 h-6 text-champagne flex-shrink-0" />
             <p className="leading-relaxed">
-              At Maison Luxe, security is engineered into every interaction. From the moment you browse our formulations to final transaction settlement, your data is fortified by institutional-grade defenses.
+              At Skay Products, security is engineered into every interaction. From the moment you browse our formulations to final transaction settlement, your data is fortified by institutional-grade defenses.
             </p>
           </div>
 

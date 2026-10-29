@@ -233,7 +233,7 @@ const ProductDetail = () => {
                   Bespoke Acquisition Price
                 </span>
                 <span className="text-3xl font-serif font-bold text-champagne">
-                  ₹{Number(product.price).toFixed(2)}
+                  ${Number(product.price).toFixed(2)}
                 </span>
               </div>
 
@@ -330,7 +330,7 @@ const ProductDetail = () => {
             <div className="pt-6 border-t border-border/40 space-y-3 text-xs text-muted-foreground">
               <div className="flex items-center space-x-3">
                 <Truck className="w-4 h-4 text-champagne flex-shrink-0" />
-                <span>Complimentary Concierge Shipping on Orders Above ₹400</span>
+                <span>Complimentary Concierge Shipping on Orders Above $75 CAD</span>
               </div>
               <div className="flex items-center space-x-3">
                 <ShieldCheck className="w-4 h-4 text-champagne flex-shrink-0" />

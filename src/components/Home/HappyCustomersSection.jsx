@@ -19,7 +19,7 @@ const HappyCustomersSection = () => {
             Trusted by Thousands of Happy Customers
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Real results from real people using our Ayurvedic products
+            Real results from real people using our Skay Products
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

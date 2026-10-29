@@ -21,7 +21,7 @@ const SearchOverlay = () => {
   };
 
   const curatedSearches = [
-    "Ayurvedic Formulations",
+    "Skay Products Formulations",
     "Luxury Serums",
     "Restorative Oils",
     "Artisanal Wellness",

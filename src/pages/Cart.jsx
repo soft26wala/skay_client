@@ -27,7 +27,7 @@ const Cart = () => {
     ? cart.reduce((count, item) => count + item.quantity, 0)
     : 0;
 
-  const freeShippingThreshold = 400;
+  const freeShippingThreshold = 75;
   const progressToFreeShipping = Math.min(
     100,
     (total / freeShippingThreshold) * 100
@@ -90,7 +90,7 @@ const Cart = () => {
               <Sparkles className="w-3.5 h-3.5 text-champagne" />
               {remainingForFreeShipping === 0
                 ? "You have unlocked Complimentary Concierge Delivery!"
-                : `Add ₹${remainingForFreeShipping.toFixed(
+                : `Add $${remainingForFreeShipping.toFixed(
                     2
                   )} more for Complimentary Concierge Delivery.`}
             </span>
@@ -180,10 +180,10 @@ const Cart = () => {
                     {/* Pricing */}
                     <div className="text-right">
                       <p className="text-xs text-muted-foreground">
-                        ₹{Number(item.product?.price).toFixed(2)} each
+                        ${Number(item.product?.price).toFixed(2)} each
                       </p>
                       <p className="text-base font-bold text-champagne">
-                        ₹{(Number(item.product?.price) * item.quantity).toFixed(2)}
+                        ${(Number(item.product?.price) * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -203,7 +203,7 @@ const Cart = () => {
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal ({cartItemsCount} items)</span>
                   <span className="text-foreground font-semibold">
-                    ₹{total.toFixed(2)}
+                    ${total.toFixed(2)}
                   </span>
                 </div>
 
@@ -216,14 +216,14 @@ const Cart = () => {
                         : "text-foreground font-semibold"
                     }
                   >
-                    {remainingForFreeShipping === 0 ? "Complimentary" : "₹40.00"}
+                    {remainingForFreeShipping === 0 ? "Complimentary" : "$5.00"}
                   </span>
                 </div>
 
                 <div className="flex justify-between text-muted-foreground">
-                  <span>Estimated Tax (GST)</span>
+                  <span>Estimated Tax (GST/HST)</span>
                   <span className="text-foreground font-semibold">
-                    ₹{(total * 0.05).toFixed(2)}
+                    ${(total * 0.05).toFixed(2)}
                   </span>
                 </div>
 
@@ -237,7 +237,7 @@ const Cart = () => {
                     </span>
                   </div>
                   <span className="text-2xl font-serif font-bold text-champagne">
-                    ₹{(total + total * 0.05 + (remainingForFreeShipping === 0 ? 0 : 40)).toFixed(2)}
+                    ${(total + total * 0.05 + (remainingForFreeShipping === 0 ? 0 : 5)).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -257,7 +257,7 @@ const Cart = () => {
                   <span>Guaranteed Safe Checkout</span>
                 </div>
                 <p className="leading-relaxed">
-                  Support for Cash on Delivery, UPI, Credit Cards, and NetBanking via Razorpay.
+                  Support for Cash on Delivery, Credit/Debit Cards, and Secure Canadian Checkout.
                 </p>
               </div>
             </div>

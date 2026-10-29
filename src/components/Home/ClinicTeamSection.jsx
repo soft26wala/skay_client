@@ -1,16 +1,34 @@
+import { useState, useEffect } from "react";
 import { Sparkles } from "lucide-react";
+import { axiosInstance } from "../../lib/axios";
+
+const defaultSpaces = [
+  { src: "/new/hero/client/ofc.png", label: "Consultation Sanctum" },
+  { src: "/new/hero/client/met.png", label: "Artisanal Dispensing Suite" },
+  { src: "/new/hero/client/lab.png", label: "Botanical Extraction Lab" },
+  { src: "/new/hero/client/office.png", label: "Therapeutic Chamber" },
+  { src: "/new/hero/client/sms.png", label: "Herbal Reserve Vault" },
+  { src: "/new/hero/client/des.png", label: "Master Formulators" },
+  { src: "/new/hero/client/ana.png", label: "Diagnostic Wellness Desk" },
+  { src: "/new/hero/client/storage.png", label: "Climate-Controlled Cellar" },
+];
 
 const ClinicTeamSection = () => {
-  const spaces = [
-    { src: "/new/hero/client/ofc.png", label: "Consultation Sanctum" },
-    { src: "/new/hero/client/met.png", label: "Artisanal Dispensing Suite" },
-    { src: "/new/hero/client/lab.png", label: "Botanical Extraction Lab" },
-    { src: "/new/hero/client/office.png", label: "Therapeutic Chamber" },
-    { src: "/new/hero/client/sms.png", label: "Herbal Reserve Vault" },
-    { src: "/new/hero/client/des.png", label: "Master Formulators" },
-    { src: "/new/hero/client/ana.png", label: "Diagnostic Wellness Desk" },
-    { src: "/new/hero/client/storage.png", label: "Climate-Controlled Cellar" },
-  ];
+  const [spaces, setSpaces] = useState(defaultSpaces);
+
+  useEffect(() => {
+    const fetchSpaces = async () => {
+      try {
+        const res = await axiosInstance.get("/web/sanctum");
+        if (res.data?.spaces && res.data.spaces.length > 0) {
+          setSpaces(res.data.spaces);
+        }
+      } catch (err) {
+        console.warn("Using default sanctum spaces fallback:", err.message);
+      }
+    };
+    fetchSpaces();
+  }, []);
 
   return (
     <section className="py-20 max-w-7xl mx-auto px-4">

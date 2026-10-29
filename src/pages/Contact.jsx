@@ -62,7 +62,7 @@ const Contact = () => {
                     <h4 className="font-bold text-foreground uppercase tracking-wider mb-0.5">
                       Concierge Email
                     </h4>
-                    <p>concierge@maisonluxe.com</p>
+                    <p>contact@skayproducts.com</p>
                     <p className="text-[11px] text-muted-foreground/70">
                       Dispatches reviewed daily
                     </p>

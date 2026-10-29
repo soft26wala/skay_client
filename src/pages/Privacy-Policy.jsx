@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <span className="luxury-pill mx-auto">
             <Sparkles className="w-3 h-3 text-champagne" />
-            <span>Maison Protocol</span>
+            <span>Skay Products Protocol</span>
           </span>
           <h1 className="text-3xl sm:text-5xl font-serif font-bold text-foreground tracking-tight">
             Privacy & Data Protocol
@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
         {/* Content Panel */}
         <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-champagne/25 shadow-xl space-y-8">
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            At Maison Luxe, trust is the bedrock of our atelier. When you commission a formulation or register your profile, you entrust us with personal information. We treat this data with the highest discretion and protective protocols.
+            At Skay Products, trust is the bedrock of our atelier. When you commission a formulation or register your profile, you entrust us with personal information. We treat this data with the highest discretion and protective protocols.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -80,7 +80,7 @@ export default function PrivacyPolicy() {
             </p>
             <p>
               For data requests, profile deletion, or privacy inquiries, contact our Data Privacy Officer at{" "}
-              <span className="text-champagne font-mono">privacy@maisonluxe.com</span>.
+              <span className="text-champagne font-mono">privacy@skayproducts.com</span>.
             </p>
           </div>
         </div>

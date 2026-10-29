@@ -20,12 +20,12 @@ const Footer = () => {
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (!email) return;
-    toast.success("Welcome to the Maison Gazette. You will receive private previews.");
+    toast.success("Welcome to the Skay Products Gazette. You will receive private previews.");
     setEmail("");
   };
 
   const footerLinks = {
-    maison: [
+    brand: [
       { name: "Artisanal Heritage", path: "/about" },
       { name: "Haute Formulations", path: "/products" },
       { name: "Client Testimonials", path: "/about" },
@@ -62,7 +62,7 @@ const Footer = () => {
             <Link to="/" className="flex items-center space-x-3 group inline-block">
               <img
                 src="/img/logo/logo3.png"
-                alt="Maison Luxe"
+                alt="Skay Products"
                 className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 onError={(e) => {
                   e.target.style.display = 'none';
@@ -70,10 +70,10 @@ const Footer = () => {
               />
               <div>
                 <span className="text-2xl font-serif font-bold tracking-tight text-foreground block">
-                  MAISON LUXE
+                  SKAY PRODUCTS
                 </span>
                 <span className="text-[10px] tracking-[0.25em] uppercase text-champagne font-medium block">
-                  Haute E-Commerce & Curated Living
+                  skayproducts.com • Curated Living
                 </span>
               </div>
             </Link>
@@ -86,7 +86,7 @@ const Footer = () => {
             <div className="space-y-3 text-xs text-muted-foreground pt-2">
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-champagne flex-shrink-0" />
-                <span>concierge@maisonluxe.com</span>
+                <span>contact@skayproducts.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-champagne flex-shrink-0" />
@@ -99,13 +99,13 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Links: Maison (Col 6 to 7) */}
+          {/* Links: Skay Products (Col 6 to 7) */}
           <div className="lg:col-span-2 space-y-4">
             <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-champagne">
-              Maison
+              Skay Products
             </h3>
             <ul className="space-y-2.5 text-xs">
-              {footerLinks.maison.map((link) => (
+              {footerLinks.brand.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
@@ -210,7 +210,7 @@ const Footer = () => {
           </div>
 
           <div className="text-center sm:text-right text-muted-foreground text-[11px] space-y-1">
-            <p>© {new Date().getFullYear()} MAISON LUXE. All Rights Reserved.</p>
+            <p>© {new Date().getFullYear()} SKAY PRODUCTS. All Rights Reserved.</p>
             <p className="text-[10px] text-muted-foreground/70">
               Secured with 256-Bit SSL Encryption • Razorpay & COD Certified
             </p>

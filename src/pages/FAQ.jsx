@@ -15,15 +15,15 @@ const FAQ = () => {
   const faqs = [
     {
       category: "Acquisitions & Payment",
-      question: "Which payment methods are accepted at Maison Luxe?",
+      question: "Which payment methods are accepted at Skay Products?",
       answer:
-        "We accept Cash on Delivery (COD) across India, alongside end-to-end encrypted online payments via Razorpay (supporting UPI apps like GPay & PhonePe, all major Credit/Debit cards, and Net Banking).",
+        "We accept Cash on Delivery (COD) across Canada, alongside end-to-end encrypted online payments (supporting all major Canadian Credit and Debit cards including Visa, Mastercard, and American Express).",
     },
     {
       category: "Concierge Delivery",
       question: "What are your delivery timeframes and shipping fees?",
       answer:
-        "All acquisitions exceeding ₹400 qualify for Complimentary Concierge Delivery. Orders below ₹400 incur a standard flat dispatch fee of ₹40. Standard transit requires 2 to 4 business days in major metros, and 3 to 5 days nationwide.",
+        "All acquisitions exceeding $75 CAD qualify for Complimentary Concierge Delivery. Orders below $75 CAD incur a standard flat dispatch fee of $5.00 CAD. Standard transit requires 2 to 4 business days in major Canadian cities, and 3 to 5 days nationwide across all provinces.",
     },
     {
       category: "Formulation Purity",

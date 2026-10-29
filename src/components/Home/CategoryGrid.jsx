@@ -1,8 +1,35 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { categories } from "../../data/products";
 import { Sparkles, ArrowRight } from "lucide-react";
+import { axiosInstance } from "../../lib/axios";
+
+const defaultCategories = [
+  { id: "1", name: "Skincare & Serums", image: "/new/hero/img1.png" },
+  { id: "2", name: "Hair Care & Oils", image: "/new/hero/img2.png" },
+  { id: "3", name: "Body & Bath Luxury", image: "/new/hero/img3.png" },
+  { id: "4", name: "Wellness & Daily Vitality", image: "/new/hero/downside/des.png" },
+  { id: "5", name: "Organic Teas & Infusions", image: "/new/hero/downside/code.jfif" },
+  { id: "6", name: "Aromatherapy & Essential Oils", image: "/new/hero/downside/deploy.jfif" },
+  { id: "7", name: "Men's Grooming", image: "/new/hero/client/lab.png" },
+  { id: "8", name: "Sleep & Relaxation", image: "/new/hero/client/met.png" },
+];
 
 const CategoryGrid = () => {
+  const [categories, setCategories] = useState(defaultCategories);
+
+  useEffect(() => {
+    const fetchCats = async () => {
+      try {
+        const res = await axiosInstance.get("/web/categories");
+        if (res.data?.categories && res.data.categories.length > 0) {
+          setCategories(res.data.categories);
+        }
+      } catch (err) {
+        console.warn("Using default categories fallback:", err.message);
+      }
+    };
+    fetchCats();
+  }, []);
   return (
     <section className="py-20 max-w-7xl mx-auto px-4">
       {/* Section Header */}

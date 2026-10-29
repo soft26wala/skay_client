@@ -1,5 +1,5 @@
 /**
- * MAISON LUXE - Haute E-Commerce Type Definitions
+ * SKAY PRODUCTS - Haute E-Commerce Type Definitions
  * Compatible with Next.js App Router and Vite + TypeScript
  */
 

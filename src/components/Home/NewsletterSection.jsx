@@ -8,7 +8,7 @@ const NewsletterSection = () => {
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (!email) return;
-    toast.success("Welcome to the Maison Gazette. You will receive private previews.");
+    toast.success("Welcome to the Skay Products Gazette. You will receive private previews.");
     setEmail("");
   };
 

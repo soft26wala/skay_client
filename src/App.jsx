@@ -65,7 +65,7 @@ const App = () => {
           <Loader className="w-7 h-7 animate-spin" />
         </div>
         <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold">
-          MAISON LUXE
+          SKAY PRODUCTS
         </span>
       </div>
     );

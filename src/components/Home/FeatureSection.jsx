@@ -6,13 +6,13 @@ const FeatureSection = () => {
       icon: Truck,
       title: "Complimentary Concierge Delivery",
       description:
-        "Complimentary insured shipping on all orders over ₹400 across India with real-time tracking.",
+        "Complimentary insured shipping on all orders over $75 CAD across Canada with real-time tracking.",
     },
     {
       icon: ShieldCheck,
       title: "Secure Encrypted Transactions",
       description:
-        "256-bit bank-grade encryption with seamless Razorpay, UPI, Cards, and Cash on Delivery.",
+        "256-bit bank-grade encryption with seamless Canadian Credit/Debit Cards, and Cash on Delivery.",
     },
     {
       icon: Headphones,

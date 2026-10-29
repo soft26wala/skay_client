@@ -1,4 +1,4 @@
-# MAISON LUXE — Next.js App Router & TypeScript Migration Blueprint
+# SKAY PRODUCTS — Next.js App Router & TypeScript Migration Blueprint
 
 ## 1. Feasibility & Architectural Evaluation
 

@@ -1,45 +1,71 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../../lib/axios";
+
+const defaultSlides = [
+  {
+    id: 1,
+    subtitle: "Haute Botanicals & Pure Alchemy",
+    title: "The Royal Skay Reserve",
+    description:
+      "Sacred high-altitude herbal harvests blended with artisan precision to cultivate inner vitality and timeless radiance.",
+    image: "/new/hero/img1.png",
+    cta: "Discover the Reserve",
+    url: "/products",
+    tag: "Seasonal Private Reserve",
+  },
+  {
+    id: 2,
+    subtitle: "Atelier Formulation",
+    title: "Radiance & Longevity Alchemy",
+    description:
+      "Ancient restorative wisdom harmonized with contemporary purity standards for extraordinary holistic wellness.",
+    image: "/new/hero/img2.png",
+    cta: "Explore Formulations",
+    url: "/products",
+    tag: "Master Artisan Crafted",
+  },
+  {
+    id: 3,
+    subtitle: "Sacred Wellness Rituals",
+    title: "Restorative Botanical Elixirs",
+    description:
+      "Hand-extracted golden oils and pure therapeutic essences created for meditative calm and physical rejuvenation.",
+    image: "/new/hero/img3.png",
+    cta: "Acquire The Ritual",
+    url: "/products",
+    tag: "Limited Concierge Release",
+  },
+];
 
 const HeroSlider = () => {
+  const [slides, setSlides] = useState(defaultSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
-    {
-      id: 1,
-      subtitle: "Haute Botanicals & Pure Alchemy",
-      title: "The Royal Ayurvedic Reserve",
-      description:
-        "Sacred high-altitude herbal harvests blended with artisan precision to cultivate inner vitality and timeless radiance.",
-      image: "/new/hero/img1.png",
-      cta: "Discover the Reserve",
-      url: "/products",
-      tag: "Seasonal Private Reserve",
-    },
-    {
-      id: 2,
-      subtitle: "Atelier Formulation",
-      title: "Radiance & Longevity Alchemy",
-      description:
-        "Ancient restorative wisdom harmonized with contemporary purity standards for extraordinary holistic wellness.",
-      image: "/new/hero/img2.png",
-      cta: "Explore Formulations",
-      url: "/products",
-      tag: "Master Artisan Crafted",
-    },
-    {
-      id: 3,
-      subtitle: "Sacred Wellness Rituals",
-      title: "Restorative Botanical Elixirs",
-      description:
-        "Hand-extracted golden oils and pure therapeutic essences created for meditative calm and physical rejuvenation.",
-      image: "/new/hero/img3.png",
-      cta: "Acquire The Ritual",
-      url: "/products",
-      tag: "Limited Concierge Release",
-    },
-  ];
+  useEffect(() => {
+    const fetchHeroSlides = async () => {
+      try {
+        const res = await axiosInstance.get("/web/hero");
+        if (res.data?.slides && res.data.slides.length > 0) {
+          const formatted = res.data.slides.map((s, idx) => ({
+            id: s.id || idx + 1,
+            subtitle: s.subtitle || "Atelier Formulation",
+            title: s.title || "Sacred Wellness Rituals",
+            description: s.description || s.subtitle || "Hand-extracted golden botanicals and pure therapeutic formulations.",
+            image: s.image,
+            cta: s.cta_text || "Explore Collection",
+            url: s.link || "/products",
+            tag: s.badge || "Artisanal Harvest",
+          }));
+          setSlides(formatted);
+        }
+      } catch (err) {
+        console.warn("Using default hero slides fallback:", err.message);
+      }
+    };
+    fetchHeroSlides();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -59,7 +85,7 @@ const HeroSlider = () => {
   const slide = slides[currentSlide];
 
   return (
-    <div className="relative h-[550px] sm:h-[620px] md:h-[75vh] min-h-[520px] overflow-hidden rounded-3xl mt-6 border border-champagne/20 shadow-2xl mx-auto max-w-7xl">
+    <div className="relative h-[550px] sm:h-[620px] md:h-[75vh] min-h-[520px] overflow-hidden rounded-3xl mt-2 sm:mt-4 border border-champagne/20 shadow-2xl mx-auto max-w-7xl">
       {/* Background slide image with subtle zoom */}
       <div className="absolute inset-0 bg-noir">
         <div

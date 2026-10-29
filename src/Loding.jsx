@@ -18,8 +18,8 @@ const LoadingPage = () => {
   return (
     <div className={`loading-page ${isLoading ? '' : 'fade-out'}`}>
       <div className="loading-content">
-        <img src="/img/logo/logo3.png" alt="Anant Ayurveda Logo" className="loading-logo" />
-        <h1 className="loading-name">Anant Ayurveda</h1>
+        <img src="/img/logo/logo3.png" alt="Skay Products Logo" className="loading-logo" />
+        <h1 className="loading-name">Skay Products</h1>
         <div className="loading-spinner"></div>
       </div>
     </div>

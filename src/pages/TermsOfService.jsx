@@ -14,7 +14,7 @@ export default function TermsOfService() {
     {
       icon: Scale,
       title: "Agreement of Client Engagement",
-      desc: "By accessing Maison Luxe, exploring our catalog, and placing orders, you agree to be bound by these Terms of Acquisition and all associated atelier policies.",
+      desc: "By accessing Skay Products (skayproducts.com), exploring our catalog, and placing orders, you agree to be bound by these Terms of Acquisition and all associated atelier policies.",
     },
     {
       icon: AlertCircle,
@@ -29,7 +29,7 @@ export default function TermsOfService() {
     {
       icon: FileText,
       title: "Pricing, Currency & Taxes",
-      desc: "All monetary values are denominated in Indian Rupees (INR) and are inclusive of standard applicable GST and statutory levies as calculated at checkout.",
+      desc: "All monetary values are denominated in Canadian Dollars (CAD) and are inclusive of standard applicable GST/HST and statutory levies as calculated at checkout.",
     },
   ];
 
@@ -46,14 +46,14 @@ export default function TermsOfService() {
             Terms of Service & Acquisition
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            The legal framework governing acquisitions, usage, and client responsibilities at Maison Luxe.
+            The legal framework governing acquisitions, usage, and client responsibilities at Skay Products.
           </p>
         </div>
 
         {/* Content Box */}
         <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-champagne/25 shadow-xl space-y-8">
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Welcome to Maison Luxe. These terms govern your rights and obligations when interacting with our online boutique, communicating with our concierge, or commissioning artisanal formulations.
+            Welcome to Skay Products. These terms govern your rights and obligations when interacting with our online boutique, communicating with our concierge, or commissioning artisanal formulations.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

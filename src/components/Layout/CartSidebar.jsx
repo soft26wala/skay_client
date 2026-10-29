@@ -73,9 +73,9 @@ const CartSidebar = () => {
           <div className="px-6 py-3 bg-champagne/5 border-b border-champagne/10 flex items-center justify-between text-xs">
             <span className="text-muted-foreground flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-champagne" />
-              {total >= 400
+              {total >= 75
                 ? "Complimentary Concierge Shipping unlocked!"
-                : `Add ₹${(400 - total).toFixed(0)} more for Complimentary Shipping`}
+                : `Add $${(75 - total).toFixed(0)} more for Complimentary Shipping`}
             </span>
           </div>
         )}
@@ -130,7 +130,7 @@ const CartSidebar = () => {
                   </div>
 
                   <p className="text-xs font-bold text-champagne mt-1">
-                    ₹{Number(item.product?.price).toFixed(2)}
+                    ${Number(item.product?.price).toFixed(2)}
                   </p>
 
                   <div className="flex items-center space-x-2 mt-3">
@@ -169,7 +169,7 @@ const CartSidebar = () => {
                 Subtotal Amount
               </span>
               <span className="text-xl font-serif font-bold text-champagne">
-                ₹{total.toFixed(2)}
+                ${total.toFixed(2)}
               </span>
             </div>
 

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Menu, User, ShoppingBag, Sun, Moon, Search, Sparkles } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import {
   toggleSidebar,
 } from "../../store/slices/popupSlice";
 import { Link, useLocation } from "react-router-dom";
+import { axiosInstance } from "../../lib/axios";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -16,6 +18,27 @@ const Navbar = () => {
 
   const { cart } = useSelector((state) => state.cart);
   const { authUser } = useSelector((state) => state.auth);
+
+  const [announcement, setAnnouncement] = useState(
+    "Haute Formulation & Complimentary Concierge Delivery on Orders Above $75 CAD"
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+    axiosInstance
+      .get("/web/announcement")
+      .then((res) => {
+        if (isMounted && res.data?.announcement) {
+          setAnnouncement(res.data.announcement);
+        }
+      })
+      .catch(() => {
+        // keep fallback
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   let cartItemsCount = 0;
   if (cart) {
@@ -35,29 +58,29 @@ const Navbar = () => {
       <div className="bg-gradient-to-r from-noir via-secondary to-noir py-1.5 px-4 text-center border-b border-champagne/10">
         <p className="text-[11px] tracking-[0.2em] uppercase text-champagne/90 font-medium flex items-center justify-center gap-2">
           <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
-          <span>Haute Formulation & Complimentary Concierge Delivery on Orders Above ₹400</span>
+          <span>{announcement}</span>
           <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* LEFT: HAMBURGER & DESKTOP NAVIGATION */}
-          <div className="flex items-center space-x-6">
+        <div className="grid grid-cols-12 items-center h-20">
+          {/* LEFT: HAMBURGER & DESKTOP NAVIGATION (5 Columns) */}
+          <div className="col-span-5 flex items-center space-x-3 sm:space-x-4">
             <button
               onClick={() => dispatch(toggleSidebar())}
               aria-label="Toggle navigation menu"
-              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground"
+              className="p-2 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground flex-shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-5 xl:space-x-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`text-xs font-semibold tracking-[0.15em] uppercase transition-all relative py-1 ${
+                  className={`text-[11px] xl:text-xs font-semibold tracking-[0.12em] uppercase transition-all relative py-1 whitespace-nowrap ${
                     location.pathname === link.path
                       ? "text-champagne font-bold"
                       : "text-muted-foreground hover:text-foreground"
@@ -72,30 +95,22 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* CENTER: BRAND LOGO */}
-          <div className="flex items-center justify-center">
-            <Link to="/" className="flex items-center space-x-3 group">
+          {/* CENTER: BRAND LOGO (2 Columns, Centered with generous gaps on both sides) */}
+          <div className="col-span-2 flex items-center justify-center">
+            <Link to="/" className="flex items-center justify-center group py-1" aria-label="SKAY PRODUCTS">
               <img
                 src="/img/logo/logo3.png"
-                alt="Maison Logo"
-                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                alt="SKAY PRODUCTS"
+                className="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
               />
-              <div className="text-center sm:text-left">
-                <span className="text-xl sm:text-2xl font-serif font-bold tracking-tight text-foreground block group-hover:text-champagne transition-colors">
-                  MAISON LUXE
-                </span>
-                <span className="text-[9px] tracking-[0.25em] uppercase text-champagne/80 font-medium block">
-                  Haute E-Commerce
-                </span>
-              </div>
             </Link>
           </div>
 
-          {/* RIGHT: ACTIONS & CONTROLS */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* RIGHT: ACTIONS & CONTROLS (5 Columns, Right-aligned) */}
+          <div className="col-span-5 flex items-center justify-end space-x-2 sm:space-x-3">
             {/* SEARCH */}
             <button
               onClick={() => dispatch(toggleSearchBar())}

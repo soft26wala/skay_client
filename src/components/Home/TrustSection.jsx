@@ -1,9 +1,9 @@
 import { Sparkles, ShieldCheck, Award, HeartHandshake } from "lucide-react";
 
 const TrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
-  const defaultTitle = "The Maison Heritage & Formulation Oath";
+  const defaultTitle = "The Skay Products Heritage & Formulation Oath";
   const defaultExperience =
-    "Under the guidance of master herbal alchemists, each batch is formulated with reverence to ancient Ayurvedic canons and modern bio-availability standards. Every element is harvested with sustainable stewardship.";
+    "Under the guidance of master herbal alchemists, each batch is formulated with reverence to premium Canadian botanical canons and modern bio-availability standards. Every element is harvested with sustainable stewardship.";
 
   const pillars = [
     {

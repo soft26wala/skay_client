@@ -40,14 +40,14 @@ export default function AboutPage() {
         <div className="text-center max-w-3xl mx-auto space-y-5">
           <span className="luxury-pill mx-auto">
             <Sparkles className="w-3 h-3 text-champagne" />
-            <span>The Maison Heritage</span>
+            <span>The Skay Products Heritage</span>
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-foreground tracking-tight leading-tight">
             The Ancient Art of Living Well
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
             Founded on the conviction that sacred self-care is a profound ritual,
-            Maison Luxe unites the purity of traditional Ayurvedic wisdom with the exacting
+            Skay Products unites the purity of traditional botanical wisdom with the exacting
             refinement of modern luxury.
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function AboutPage() {
               <div className="rounded-2xl overflow-hidden border border-champagne/30 shadow-xl aspect-square bg-secondary">
                 <img
                   src="/new/hero/img1.png"
-                  alt="Maison Story Formulation"
+                  alt="Skay Products Formulation"
                   className="w-full h-full object-cover"
                 />
               </div>

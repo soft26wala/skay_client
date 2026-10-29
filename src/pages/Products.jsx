@@ -1,5 +1,4 @@
 import { Search, Sparkles, Star, Filter, RotateCcw } from "lucide-react";
-import { categories } from "../data/products";
 import ProductCard from "../components/Products/ProductCard";
 import Pagination from "../components/Products/Pagination";
 import AISearchModal from "../components/Products/AISearchModal";
@@ -8,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllProducts } from "../store/slices/productSlice";
 import { toggleAIModal } from "../store/slices/popupSlice";
+import { axiosInstance } from "../lib/axios";
 
 const Products = () => {
   useEffect(() => {
@@ -23,6 +23,30 @@ const Products = () => {
   );
 
   const query = useQuery();
+  const [dbCategories, setDbCategories] = useState([
+    { id: "1", name: "Skincare & Serums" },
+    { id: "2", name: "Hair Care & Oils" },
+    { id: "3", name: "Body & Bath Luxury" },
+    { id: "4", name: "Wellness & Daily Vitality" },
+    { id: "5", name: "Organic Teas & Infusions" },
+    { id: "6", name: "Aromatherapy & Essential Oils" },
+    { id: "7", name: "Men's Grooming" },
+    { id: "8", name: "Sleep & Relaxation" },
+  ]);
+
+  useEffect(() => {
+    const fetchCats = async () => {
+      try {
+        const res = await axiosInstance.get("/web/categories");
+        if (res.data?.categories && res.data.categories.length > 0) {
+          setDbCategories(res.data.categories);
+        }
+      } catch (e) {
+        console.warn("Using default category filter list:", e.message);
+      }
+    };
+    fetchCats();
+  }, []);
   const searchTerm = query.get("search");
   const searchedCategory = query.get("category");
 
@@ -130,7 +154,7 @@ const Products = () => {
                   Refine Selection
                 </h2>
                 <span className="text-[10px] text-champagne uppercase font-bold tracking-wider">
-                  Maison Filters
+                  Skay Filters
                 </span>
               </div>
 
@@ -141,7 +165,7 @@ const Products = () => {
                     Price Range
                   </span>
                   <span className="text-champagne font-bold">
-                    Up to ₹{priceRange[1]}
+                    Up to ${priceRange[1]}
                   </span>
                 </div>
                 <input
@@ -156,8 +180,8 @@ const Products = () => {
                   className="w-full accent-champagne cursor-pointer"
                 />
                 <div className="flex justify-between text-[11px] text-muted-foreground">
-                  <span>₹0</span>
-                  <span>₹10,000+</span>
+                  <span>$0</span>
+                  <span>$10,000+</span>
                 </div>
               </div>
 
@@ -177,7 +201,7 @@ const Products = () => {
                   >
                     All Categories
                   </button>
-                  {categories.map((category) => (
+                  {dbCategories.map((category) => (
                     <button
                       key={category.id}
                       onClick={() => setSelectedCategory(category.name)}

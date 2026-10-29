@@ -101,7 +101,7 @@ const ProductCard = ({ product }) => {
             {/* PRICE & STOCK */}
             <div className="flex items-baseline justify-between pt-2">
               <span className="text-lg font-serif font-bold text-champagne">
-                ₹{Number(product.price).toFixed(2)}
+                ${Number(product.price).toFixed(2)}
               </span>
 
               <span

@@ -44,13 +44,23 @@ const Sidebar = () => {
       <div className="fixed left-0 top-0 h-full w-full max-w-xs z-50 bg-background/95 backdrop-blur-2xl border-r border-champagne/30 shadow-2xl animate-slide-in-left flex flex-col">
         {/* BRAND HEADER */}
         <div className="flex items-center justify-between p-6 border-b border-border/50">
-          <div>
-            <span className="text-lg font-serif font-bold text-foreground block">
-              MAISON LUXE
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-champagne block">
-              Haute E-Commerce
-            </span>
+          <div className="flex items-center space-x-3">
+            <img
+              src="/img/logo/logo3.png"
+              alt="Skay Products Logo"
+              className="h-10 w-auto object-contain"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+            <div>
+              <span className="text-lg font-serif font-bold text-foreground block">
+                SKAY PRODUCTS
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.25em] text-champagne block">
+                skayproducts.com
+              </span>
+            </div>
           </div>
 
           <button

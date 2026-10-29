@@ -20,7 +20,7 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen pt-20 bg-background text-foreground overflow-hidden">
+    <div className="min-h-screen pt-32 sm:pt-36 bg-background text-foreground overflow-hidden">
       {/* 1. HERO SLIDER */}
       <div className="px-4">
         <HeroSlider />

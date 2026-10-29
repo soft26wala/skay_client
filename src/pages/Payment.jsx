@@ -28,44 +28,20 @@ import { login, register } from "../store/slices/authSlice";
 import { axiosInstance } from "../lib/axios";
 import { toast } from "react-toastify";
 
-const indianStates = [
-  "Andaman and Nicobar Islands",
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chandigarh",
-  "Chhattisgarh",
-  "Dadra and Nagar Haveli and Daman and Diu",
-  "Delhi",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jammu and Kashmir",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Ladakh",
-  "Lakshadweep",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "New Delhi",
-  "Odisha",
-  "Puducherry",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
+const canadianProvinces = [
+  "Alberta",
+  "British Columbia",
+  "Manitoba",
+  "New Brunswick",
+  "Newfoundland and Labrador",
+  "Northwest Territories",
+  "Nova Scotia",
+  "Nunavut",
+  "Ontario",
+  "Prince Edward Island",
+  "Quebec",
+  "Saskatchewan",
+  "Yukon",
 ];
 
 const Payment = () => {
@@ -94,12 +70,12 @@ const Payment = () => {
   // Shipping details state
   const [shippingDetails, setShippingDetails] = useState({
     fullName: authUser?.name || "",
-    state: "Delhi",
+    state: "Ontario",
     phone: authUser?.number || "",
     address: "",
     city: "",
     zipCode: "",
-    country: "India",
+    country: "Canada",
   });
 
   // Calculate cart financials
@@ -108,10 +84,10 @@ const Payment = () => {
     0
   );
 
-  const isComplimentaryShipping = total >= 400;
-  const shipping = isComplimentaryShipping ? 0 : 40;
+  const isComplimentaryShipping = total >= 75;
+  const shipping = isComplimentaryShipping ? 0 : 5;
 
-  const SELLER_STATE = "PUNJAB";
+  const SELLER_STATE = "ONTARIO";
   const customerState = (shippingDetails.state || "").toUpperCase();
 
   let cgst = 0;
@@ -206,7 +182,7 @@ const Payment = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: authUser.id,
+          user_id: authUser?.id || null,
           items: cart.map((i) => ({ productId: i.product.id, qty: i.quantity })),
           formData: shippingDetails,
         }),
@@ -220,9 +196,9 @@ const Payment = () => {
       const options = {
         key: data.key || "rzp_test_placeholder",
         amount: data.order.amount,
-        currency: "INR",
-        name: "MAISON LUXE",
-        description: "Haute E-Commerce Order",
+        currency: "CAD",
+        name: "SKAY PRODUCTS",
+        description: "skayproducts.com Order",
         order_id: data.order.id,
         handler: async function (response) {
           try {
@@ -299,7 +275,7 @@ const Payment = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: authUser.id,
+          user_id: authUser?.id || null,
           items: cart.map((i) => ({
             productId: i.product.id,
             qty: i.quantity,
@@ -318,7 +294,7 @@ const Payment = () => {
           }`
         );
       } else {
-        toast.error(data.message || "Order placement failed. Please verify details.");
+        toast.error(data.message || data.error || "Order placement failed. Please verify details.");
       }
     } catch (err) {
       console.error(err);
@@ -448,7 +424,7 @@ const Payment = () => {
                   <span className="luxury-pill mb-3">Client Identification</span>
                   <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground mt-2 mb-2">
                     {authMode === "signin"
-                      ? "Welcome Back to Maison"
+                      ? "Welcome Back to Skay Products"
                       : "Create Your Luxury Account"}
                   </h2>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -646,7 +622,7 @@ const Payment = () => {
                         }
                         className="w-full px-4 py-3 bg-secondary/80 border border-border rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                       >
-                        {indianStates.map((st) => (
+                        {canadianProvinces.map((st) => (
                           <option key={st} value={st} className="bg-noir text-foreground">
                             {st}
                           </option>
@@ -727,7 +703,7 @@ const Payment = () => {
                             zipCode: e.target.value,
                           })
                         }
-                        placeholder="400001"
+                        placeholder="K1A 0B1"
                         className="w-full px-4 py-3 bg-secondary/80 border border-border rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                       />
                     </div>
@@ -739,7 +715,7 @@ const Payment = () => {
                       <input
                         type="text"
                         disabled
-                        value="India"
+                        value="Canada"
                         className="w-full px-4 py-3 bg-secondary/50 border border-border/50 rounded-lg text-sm text-muted-foreground cursor-not-allowed"
                       />
                     </div>
@@ -877,7 +853,7 @@ const Payment = () => {
                       </>
                     ) : (
                       <>
-                        <span>Place Luxury Order (₹{totalWithTax.toFixed(2)})</span>
+                        <span>Place Luxury Order (${totalWithTax.toFixed(2)})</span>
                         <ShieldCheck className="w-4 h-4" />
                       </>
                     )}
@@ -957,7 +933,7 @@ const Payment = () => {
                     </div>
                     <div className="text-right">
                       <span className="text-xs font-bold text-champagne">
-                        ₹{(Number(item.product?.price) * item.quantity).toFixed(2)}
+                        ${(Number(item.product?.price) * item.quantity).toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -969,7 +945,7 @@ const Payment = () => {
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal</span>
                   <span className="text-foreground font-semibold">
-                    ₹{total.toFixed(2)}
+                    ${total.toFixed(2)}
                   </span>
                 </div>
 
@@ -982,32 +958,32 @@ const Payment = () => {
                         : "text-foreground font-semibold"
                     }
                   >
-                    {isComplimentaryShipping ? "Complimentary" : "₹40.00"}
+                    {isComplimentaryShipping ? "Complimentary" : "$5.00"}
                   </span>
                 </div>
 
                 <div className="flex justify-between text-muted-foreground">
                   <span>Applicable GST / Tax</span>
                   <span className="text-foreground font-semibold">
-                    ₹{tax.toFixed(2)}
+                    ${tax.toFixed(2)}
                   </span>
                 </div>
 
                 {/* GST detail Breakdown */}
                 {igst > 0 ? (
                   <div className="flex justify-between text-[11px] text-muted-foreground/80 pl-2">
-                    <span>• Integrated GST (5%)</span>
-                    <span>₹{igst.toFixed(2)}</span>
+                    <span>• Canadian GST/HST (5%)</span>
+                    <span>${igst.toFixed(2)}</span>
                   </div>
                 ) : (
                   <>
                     <div className="flex justify-between text-[11px] text-muted-foreground/80 pl-2">
-                      <span>• Central GST (2.5%)</span>
-                      <span>₹{cgst.toFixed(2)}</span>
+                      <span>• Provincial PST/QST (2.5%)</span>
+                      <span>${cgst.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-[11px] text-muted-foreground/80 pl-2">
-                      <span>• State GST (2.5%)</span>
-                      <span>₹{sgst.toFixed(2)}</span>
+                      <span>• Canadian GST (2.5%)</span>
+                      <span>${sgst.toFixed(2)}</span>
                     </div>
                   </>
                 )}
@@ -1022,7 +998,7 @@ const Payment = () => {
                     </span>
                   </div>
                   <span className="text-2xl font-serif font-bold text-champagne">
-                    ₹{totalWithTax.toFixed(2)}
+                    ${totalWithTax.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -1031,7 +1007,7 @@ const Payment = () => {
               <div className="p-4 rounded-xl bg-champagne/5 border border-champagne/20 space-y-2 text-[11px] text-muted-foreground">
                 <div className="flex items-center gap-2 text-foreground font-medium">
                   <ShieldCheck className="w-4 h-4 text-champagne" />
-                  <span>The Maison Authenticity Promise</span>
+                  <span>The Skay Products Authenticity Promise</span>
                 </div>
                 <p className="leading-relaxed">
                   Every order is packaged with atelier precision. 100% verified authentic formulations with direct tracking.

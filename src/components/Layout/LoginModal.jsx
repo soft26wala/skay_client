@@ -108,7 +108,7 @@ const LoginModal = () => {
           <div>
             <span className="luxury-pill mb-2">
               <Sparkles className="w-3 h-3 text-champagne" />
-              <span>Maison Client Portal</span>
+              <span>Skay Products Client Portal</span>
             </span>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground mt-1">
               {mode === "reset"
