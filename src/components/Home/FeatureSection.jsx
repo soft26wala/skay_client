@@ -4,27 +4,27 @@ const FeatureSection = () => {
   const features = [
     {
       icon: Truck,
-      title: "Complimentary Concierge Delivery",
+      title: "Free Express Shipping",
       description:
-        "Complimentary insured shipping on all orders over $75 CAD across Canada with real-time tracking.",
+        "Free fast shipping on all orders over $75 with comprehensive door-to-door tracking.",
     },
     {
       icon: ShieldCheck,
-      title: "Secure Encrypted Transactions",
+      title: "Secure Checkout",
       description:
-        "256-bit bank-grade encryption with seamless Canadian Credit/Debit Cards, and Cash on Delivery.",
+        "Bank-grade security supporting major credit & debit cards in both CAD & USD.",
     },
     {
       icon: Headphones,
-      title: "Private Client Advisory",
+      title: "Friendly Customer Support",
       description:
-        "Dedicated wellness concierge ready to assist with formulation guidance and bespoke queries.",
+        "Dedicated support team ready to help with product questions and order assistance.",
     },
     {
       icon: Award,
-      title: "Uncompromising Provenance",
+      title: "100% Quality Guaranteed",
       description:
-        "100% verified authentic formulations with rigorous quality assurance from certified master compounders.",
+        "Every household item is crafted and tested for everyday durability and home comfort.",
     },
   ];
 

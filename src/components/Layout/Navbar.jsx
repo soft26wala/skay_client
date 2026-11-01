@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Menu, User, ShoppingBag, Sun, Moon, Search, Sparkles } from "lucide-react";
-import { useTheme } from "../../contexts/ThemeContext";
+import { Menu, User, ShoppingBag, Search, Sparkles } from "lucide-react";
+import { useCurrency } from "../../contexts/CurrencyContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleAuthPopup,
@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { axiosInstance } from "../../lib/axios";
 
 const Navbar = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { currency, toggleCurrency } = useCurrency();
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -20,7 +20,7 @@ const Navbar = () => {
   const { authUser } = useSelector((state) => state.auth);
 
   const [announcement, setAnnouncement] = useState(
-    "Haute Formulation & Complimentary Concierge Delivery on Orders Above $75 CAD"
+    "Free Express Shipping on Orders Above $75"
   );
 
   useEffect(() => {
@@ -32,9 +32,8 @@ const Navbar = () => {
           setAnnouncement(res.data.announcement);
         }
       })
-      .catch(() => {
-        // keep fallback
-      });
+      .catch(() => { });
+
     return () => {
       isMounted = false;
     };
@@ -46,17 +45,18 @@ const Navbar = () => {
   }
 
   const navLinks = [
-    { name: "Collections", path: "/products" },
-    { name: "Artisanal Story", path: "/about" },
-    { name: "Concierge", path: "/contact" },
+    { name: "Shop All", path: "/products" },
+    { name: "Best Sellers", path: "/products?filter=best-sellers" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact", path: "/contact" },
     { name: "FAQ", path: "/faq" },
   ];
 
   return (
-    <nav className="fixed left-0 w-full top-0 z-50 bg-background/85 backdrop-blur-xl border-b border-champagne/20 transition-all duration-300">
-      {/* Top Luxury Announcement Bar */}
-      <div className="bg-gradient-to-r from-noir via-secondary to-noir py-1.5 px-4 text-center border-b border-champagne/10">
-        <p className="text-[11px] tracking-[0.2em] uppercase text-champagne/90 font-medium flex items-center justify-center gap-2">
+    <nav className="fixed left-0 w-full top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border/60 transition-all duration-300">
+      {/* Top Friendly Announcement Bar */}
+      <div className="bg-secondary/70 py-1.5 px-4 text-center border-b border-border/50">
+        <p className="text-[11px] tracking-[0.18em] uppercase text-foreground/80 font-medium flex items-center justify-center gap-2">
           <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
           <span>{announcement}</span>
           <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
@@ -70,74 +70,84 @@ const Navbar = () => {
             <button
               onClick={() => dispatch(toggleSidebar())}
               aria-label="Toggle navigation menu"
-              className="p-2 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground flex-shrink-0"
+              className="p-2 rounded-xl hover:bg-secondary border border-transparent hover:border-border/80 transition-all text-foreground flex-shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="hidden lg:flex items-center space-x-5 xl:space-x-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`text-[11px] xl:text-xs font-semibold tracking-[0.12em] uppercase transition-all relative py-1 whitespace-nowrap ${
-                    location.pathname === link.path
-                      ? "text-champagne font-bold"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {link.name}
-                  {location.pathname === link.path && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-champagne rounded-full" />
-                  )}
-                </Link>
-              ))}
+            <div className="hidden lg:flex items-center space-x-4 xl:space-x-5">
+              {navLinks.map((link) => {
+                const isActive =
+                  location.pathname === link.path ||
+                  (link.path.includes("?") &&
+                    location.pathname === link.path.split("?")[0] &&
+                    location.search.includes(link.path.split("?")[1]));
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`text-[11px] xl:text-xs font-semibold tracking-[0.08em] uppercase transition-all relative py-1 whitespace-nowrap flex items-center gap-1 ${
+                      isActive
+                        ? "text-champagne font-bold"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-champagne rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
-          {/* CENTER: BRAND LOGO (2 Columns, Centered with generous gaps on both sides) */}
+          {/* CENTER: BRAND LOGO (2 Columns, Centered) */}
           <div className="col-span-2 flex items-center justify-center">
-            <Link to="/" className="flex items-center justify-center group py-1" aria-label="SKAY PRODUCTS">
-              <img
-                src="/img/logo/logo3.png"
-                alt="SKAY PRODUCTS"
-                className="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
+            <Link to="/" className="flex flex-col items-center justify-center group py-1 text-center select-none" aria-label="sKay Products">
+              <div className="flex items-baseline tracking-tight font-serif">
+                <span className="text-2xl sm:text-3xl font-normal lowercase italic text-champagne leading-none">s</span>
+                <span className="text-2xl sm:text-3xl font-bold uppercase text-foreground leading-none">K</span>
+                <span className="text-2xl sm:text-3xl font-serif text-foreground leading-none">ay</span>
+              </div>
+              <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.25em] text-muted-foreground font-sans font-semibold -mt-0.5 whitespace-nowrap">
+                Household & Living
+              </span>
             </Link>
           </div>
 
           {/* RIGHT: ACTIONS & CONTROLS (5 Columns, Right-aligned) */}
-          <div className="col-span-5 flex items-center justify-end space-x-2 sm:space-x-3">
+          <div className="col-span-5 flex items-center justify-end space-x-1.5 sm:space-x-2.5">
+            {/* CAD / USD CURRENCY TOGGLE */}
+            <button
+              onClick={toggleCurrency}
+              aria-label="Toggle currency between CAD and USD"
+              className="px-2.5 py-1.5 rounded-xl border border-border/80 hover:border-champagne/60 bg-secondary/70 hover:bg-secondary text-xs font-bold transition-all flex items-center space-x-1 text-foreground"
+              title="Click to toggle currency (CAD / USD)"
+            >
+              <span className={currency === "CAD" ? "text-champagne font-black" : "text-muted-foreground font-medium"}>
+                CAD
+              </span>
+              <span className="text-muted-foreground/40 text-[10px]">/</span>
+              <span className={currency === "USD" ? "text-champagne font-black" : "text-muted-foreground font-medium"}>
+                USD
+              </span>
+            </button>
+
             {/* SEARCH */}
             <button
               onClick={() => dispatch(toggleSearchBar())}
-              aria-label="Search collection"
-              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground"
+              aria-label="Search products"
+              className="p-2.5 rounded-xl hover:bg-secondary border border-transparent hover:border-border/80 transition-all text-foreground"
             >
               <Search className="w-4 h-4" />
-            </button>
-
-            {/* THEME TOGGLE */}
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle visual theme"
-              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground"
-            >
-              {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-champagne" />
-              ) : (
-                <Moon className="w-4 h-4 text-foreground" />
-              )}
             </button>
 
             {/* CLIENT PROFILE / AUTH */}
             <button
               onClick={() => dispatch(toggleAuthPopup())}
-              aria-label="Client Account"
-              className="p-2.5 rounded-xl hover:bg-secondary/80 border border-transparent hover:border-champagne/20 transition-all text-foreground flex items-center space-x-1.5"
+              aria-label="My Account"
+              className="p-2.5 rounded-xl hover:bg-secondary border border-transparent hover:border-border/80 transition-all text-foreground flex items-center space-x-1.5"
             >
               {authUser?.avatar?.url ? (
                 <img
@@ -150,7 +160,7 @@ const Navbar = () => {
               )}
               {authUser && (
                 <span className="hidden md:inline-block text-xs font-semibold text-champagne max-w-[100px] truncate">
-                  {authUser.name?.split(" ")[0] || "Client"}
+                  {authUser.name?.split(" ")[0] || "Account"}
                 </span>
               )}
             </button>

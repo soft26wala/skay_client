@@ -13,21 +13,26 @@ export const useTheme = () => {
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'dark';
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') {
+        localStorage.removeItem('theme');
+        return 'light';
+      }
+      return saved || 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    const newTheme = theme === 'light' ? 'beige' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
   };
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
+    root.classList.remove('dark');
+    root.classList.add('light');
   }, [theme]);
 
   return (

@@ -6,36 +6,36 @@ import { axiosInstance } from "../../lib/axios";
 const defaultSlides = [
   {
     id: 1,
-    subtitle: "Haute Botanicals & Pure Alchemy",
-    title: "The Royal Skay Reserve",
+    subtitle: "Modern Living & Essentials",
+    title: "Thoughtfully Designed For Your Home",
     description:
-      "Sacred high-altitude herbal harvests blended with artisan precision to cultivate inner vitality and timeless radiance.",
+      "Discover quality household items and living essentials crafted with durable materials, timeless warmth, and everyday comfort.",
     image: "/new/hero/img1.png",
-    cta: "Discover the Reserve",
+    cta: "Shop Now",
     url: "/products",
-    tag: "Seasonal Private Reserve",
+    tag: "New Arrivals",
   },
   {
     id: 2,
-    subtitle: "Atelier Formulation",
-    title: "Radiance & Longevity Alchemy",
+    subtitle: "Comfort & Elegance",
+    title: "Elevate Every Corner Of Your Home",
     description:
-      "Ancient restorative wisdom harmonized with contemporary purity standards for extraordinary holistic wellness.",
+      "Functional designs and warm neutral aesthetics that transform ordinary living spaces into cozy, welcoming homes.",
     image: "/new/hero/img2.png",
-    cta: "Explore Formulations",
+    cta: "Explore Products",
     url: "/products",
-    tag: "Master Artisan Crafted",
+    tag: "Customer Favorites",
   },
   {
     id: 3,
-    subtitle: "Sacred Wellness Rituals",
-    title: "Restorative Botanical Elixirs",
+    subtitle: "Everyday Quality",
+    title: "Household Essentials For Modern Living",
     description:
-      "Hand-extracted golden oils and pure therapeutic essences created for meditative calm and physical rejuvenation.",
+      "Durable, practical, and beautiful household items tailored to simplify and brighten your daily living.",
     image: "/new/hero/img3.png",
-    cta: "Acquire The Ritual",
-    url: "/products",
-    tag: "Limited Concierge Release",
+    cta: "Shop Best Sellers",
+    url: "/products?filter=best-sellers",
+    tag: "Best Sellers",
   },
 ];
 
@@ -85,16 +85,16 @@ const HeroSlider = () => {
   const slide = slides[currentSlide];
 
   return (
-    <div className="relative h-[550px] sm:h-[620px] md:h-[75vh] min-h-[520px] overflow-hidden rounded-3xl mt-2 sm:mt-4 border border-champagne/20 shadow-2xl mx-auto max-w-7xl">
-      {/* Background slide image with subtle zoom */}
-      <div className="absolute inset-0 bg-noir">
+    <div className="relative h-[550px] sm:h-[620px] md:h-[75vh] min-h-[520px] overflow-hidden rounded-3xl mt-2 sm:mt-4 border border-border/60 shadow-xl mx-auto max-w-7xl">
+      {/* Background slide image */}
+      <div className="absolute inset-0 bg-secondary">
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"
           style={{ backgroundImage: `url(${slide.image})` }}
         />
-        {/* Editorial gradient overlays for high contrast and luxury mood */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
+        {/* Warm editorial gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/30 to-transparent" />
       </div>
 
       {/* Slide Content */}

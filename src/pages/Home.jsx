@@ -30,55 +30,55 @@ const Index = () => {
         {/* 2. CATEGORY DISCOVERY */}
         <CategoryGrid />
 
-        {/* 3. NEW ARRIVALS SLIDER */}
-        {newProducts && newProducts.length > 0 && (
-          <ProductSlider title="New Reserve Arrivals" products={newProducts} />
-        )}
-
-        {/* 4. ATELIER TRUST & FOUNDER HERITAGE */}
-        <TrustSection
-          dimg="/new/hero/trust/trust.png"
-          dname="Atelier Master Formulator"
-          title="Generational Botanical Heritage & Master Alchemy"
-          dexperience="Formulated in small, artisanal batches in strict accordance with classical wisdom and verified modern purity standards. We source only wild-crafted, single-origin herbs harvested at peak potency."
-        />
-
-        {/* 5. TOP RATED SELECTIONS */}
+        {/* 3. BEST SELLER PRODUCTS SLIDER */}
         {topRatedProducts && topRatedProducts.length > 0 && (
           <ProductSlider
-            title="Most Coveted Formulations"
+            title="Best Selling Products"
             products={topRatedProducts}
           />
         )}
 
-        {/* 6. INSIDE THE ATELIER & SANCTUM */}
+        {/* 4. NEW ARRIVALS SLIDER */}
+        {newProducts && newProducts.length > 0 && (
+          <ProductSlider title="New Arrivals" products={newProducts} />
+        )}
+
+        {/* 5. BRAND TRUST & QUALITY */}
+        <TrustSection
+          dimg="/new/hero/trust/trust.png"
+          dname="sKay Home Essentials"
+          title="Curated Household Products Designed for Modern Living"
+          dexperience="Crafted with thoughtful care, premium materials, and timeless aesthetic to bring warmth, organization, and everyday comfort to your home."
+        />
+
+        {/* 6. OUR COMMITMENT */}
         <ClinicTeamSection />
 
         {/* 7. PHILOSOPHY & PILLARS */}
         <FeaturesSectionWay />
 
-        {/* 8. LUXURY GUARANTEES & CONCIERGE VALUE */}
+        {/* 8. SHOPPING GUARANTEES */}
         <FeatureSection />
 
-        {/* 9. GAZETTE NEWSLETTER CIRCLE */}
+        {/* 9. NEWSLETTER */}
         <NewsletterSection />
 
-        {/* 10. ATELIER LOCATION & MAP PIN */}
+        {/* 10. STORE LOCATION & MAP PIN */}
         <section className="py-16 max-w-7xl mx-auto px-4">
-          <div className="glass-panel p-6 sm:p-10 border border-champagne/20 shadow-xl overflow-hidden rounded-3xl">
+          <div className="glass-panel p-6 sm:p-10 border border-border/70 shadow-xl overflow-hidden rounded-3xl bg-card">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-border/40">
               <div>
                 <span className="luxury-pill mb-1.5">
                   <Sparkles className="w-3 h-3 text-champagne" />
-                  <span>Flagship Atelier</span>
+                  <span>Our Showroom</span>
                 </span>
                 <h3 className="text-xl sm:text-2xl font-serif font-bold text-foreground">
-                  Visit Our Sanctum
+                  Visit Us
                 </h3>
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <MapPin className="w-4 h-4 text-champagne" />
-                <span>Private Consultations by Appointment</span>
+                <span>Open Monday to Saturday</span>
               </div>
             </div>
 

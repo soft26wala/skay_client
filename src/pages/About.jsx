@@ -13,23 +13,23 @@ export default function AboutPage() {
   const values = [
     {
       icon: Leaf,
-      title: "Wild-Harvested Integrity",
-      desc: "Our botanicals are gathered according to traditional lunar cycles from fertile Himalayan and Western Ghat sanctuaries.",
+      title: "Thoughtful Materials",
+      desc: "We prioritize durable, safe, and quality materials designed to last and perform reliably in everyday home life.",
     },
     {
       icon: Award,
-      title: "Bio-Chromatographic Potency",
-      desc: "Every tincture and oil is tested for peak active constituent density, certifying maximum rejuvenating potency.",
+      title: "Quality & Durability",
+      desc: "Every household product is tested for practical everyday use, durability, and reliable comfort.",
     },
     {
       icon: ShieldCheck,
-      title: "Zero Synthetic Adulterants",
-      desc: "We formulate strictly without parabens, sulfates, synthetic fragrances, micro-plastics, or artificial preservatives.",
+      title: "Safe & Family-Friendly",
+      desc: "We curate essentials with non-toxic, clean, and family-safe standards so you can shop with complete peace of mind.",
     },
     {
       icon: Heart,
-      title: "Generational Stewardship",
-      desc: "Reinvesting directly into the indigenous farming guilds who have safeguarded sacred seed banks for centuries.",
+      title: "Customer Satisfaction",
+      desc: "Your home happiness is our top priority. We offer dedicated customer care and prompt support for every order.",
     },
   ];
 
@@ -40,41 +40,40 @@ export default function AboutPage() {
         <div className="text-center max-w-3xl mx-auto space-y-5">
           <span className="luxury-pill mx-auto">
             <Sparkles className="w-3 h-3 text-champagne" />
-            <span>The Skay Products Heritage</span>
+            <span>About sKay Products</span>
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-foreground tracking-tight leading-tight">
-            The Ancient Art of Living Well
+            Everyday Comfort & Modern Living
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Founded on the conviction that sacred self-care is a profound ritual,
-            Skay Products unites the purity of traditional botanical wisdom with the exacting
-            refinement of modern luxury.
+            Founded on the belief that home should be a welcoming sanctuary, sKay Products
+            curates timeless household essentials crafted to bring beauty, order, and everyday warmth into your living spaces.
           </p>
         </div>
 
         {/* EDITORIAL STORY BANNER */}
-        <div className="glass-panel p-8 sm:p-14 rounded-3xl border border-champagne/30 shadow-2xl relative overflow-hidden bg-gradient-to-br from-secondary/50 via-background to-secondary/30">
+        <div className="glass-panel p-8 sm:p-14 rounded-3xl border border-border/70 shadow-xl relative overflow-hidden bg-card">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div className="space-y-4">
               <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-                Atelier Philosophy
+                Our Story & Vision
               </span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground leading-snug">
-                Alchemy Born of Patience & Purity
+                Designed for Comfort, Built for Daily Life
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                In an era dominated by rapid synthetic production, we remain unapologetically deliberate. Our elixirs steep in copper vats for weeks; our cold-pressed extractions take days of gentle mechanical friction.
+                We believe that the little things in your home make the biggest difference. From kitchen essentials to cozy living accents, each product is selected for its thoughtful functionality and warm, understated elegance.
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                The result is a sensory experience of rare distinction: formulations that honor the skin's natural intelligence while uplifting spirit and mind.
+                Our mission is to help you create spaces that feel calm, organized, and effortlessly stylish—every single day.
               </p>
             </div>
 
             <div className="relative">
-              <div className="rounded-2xl overflow-hidden border border-champagne/30 shadow-xl aspect-square bg-secondary">
+              <div className="rounded-2xl overflow-hidden border border-border/70 shadow-xl aspect-square bg-secondary">
                 <img
                   src="/new/hero/img1.png"
-                  alt="Skay Products Formulation"
+                  alt="sKay Products Living"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -85,9 +84,9 @@ export default function AboutPage() {
         {/* FOUR PILLARS */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="luxury-pill mb-2">Our Commitments</span>
+            <span className="luxury-pill mb-2">Our Values</span>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
-              Core Tenets of Our Atelier
+              What We Stand For
             </h2>
           </div>
 
@@ -95,7 +94,7 @@ export default function AboutPage() {
             {values.map((v, i) => (
               <div
                 key={i}
-                className="glass-card p-6 sm:p-8 rounded-2xl border border-border/50 hover:border-champagne/40 transition-all flex items-start space-x-4"
+                className="glass-card p-6 sm:p-8 rounded-2xl border border-border/60 hover:border-champagne/40 transition-all flex items-start space-x-4 bg-card"
               >
                 <div className="w-12 h-12 rounded-xl bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne flex-shrink-0">
                   <v.icon className="w-6 h-6" />
@@ -114,19 +113,19 @@ export default function AboutPage() {
         </div>
 
         {/* CTA */}
-        <div className="text-center py-12 glass-panel rounded-3xl border border-champagne/30 space-y-4">
+        <div className="text-center py-12 glass-panel rounded-3xl border border-border/70 space-y-4 bg-card">
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
-            Experience the Formulation
+            Explore Our Collection
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
-            Discover our seasonal reserves crafted to enrich your daily well-being.
+            Discover quality household essentials crafted to enrich your daily home routine.
           </p>
           <div className="pt-2">
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl gradient-primary text-black font-bold text-xs uppercase tracking-wider hover:glow-on-hover transition-all shadow-xl"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl gradient-primary text-black font-bold text-xs uppercase tracking-wider hover:glow-on-hover transition-all shadow-md"
             >
-              <span>Explore Collections</span>
+              <span>Shop All Products</span>
             </Link>
           </div>
         </div>

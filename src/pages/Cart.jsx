@@ -1,12 +1,14 @@
-import { Plus, Minus, Trash2, ArrowRight, ShieldCheck, Sparkles, ShoppingBag } from "lucide-react";
+import { Plus, Minus, Trash2, ArrowRight, ShieldCheck, Sparkles, ShoppingBag, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, updateCartQuantity } from "../store/slices/cartSlice";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { authUser } = useSelector((state) => state.auth);
+  const { formatPrice } = useCurrency();
 
   const updateQuantity = (id, quantity) => {
     if (quantity <= 0) {
@@ -37,21 +39,21 @@ const Cart = () => {
   if (cart.length === 0) {
     return (
       <div className="min-h-screen pt-28 pb-16 flex items-center justify-center px-4">
-        <div className="glass-panel text-center p-10 max-w-lg w-full border border-champagne/30 shadow-2xl animate-fade-in-up">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne">
+        <div className="glass-panel text-center p-10 max-w-lg w-full border border-border/80 shadow-2xl animate-fade-in-up">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-secondary border border-border flex items-center justify-center text-champagne">
             <ShoppingBag className="w-9 h-9" />
           </div>
           <h1 className="text-3xl font-serif font-bold text-foreground mb-3">
             Your Shopping Bag is Empty
           </h1>
           <p className="text-muted-foreground text-sm leading-relaxed mb-8">
-            Explore our curated collections of artisanal formulations and lifestyle designs.
+            Explore our curated collection of household & living essentials.
           </p>
           <Link
             to="/products"
-            className="inline-flex items-center space-x-2 px-8 py-3.5 rounded-lg gradient-primary text-black font-semibold text-sm tracking-wide uppercase hover:glow-on-hover animate-smooth"
+            className="inline-flex items-center space-x-2 px-8 py-3.5 rounded-xl gradient-primary text-black font-semibold text-sm tracking-wide uppercase hover:glow-on-hover animate-smooth"
           >
-            <span>Explore Collection</span>
+            <span>Browse Products</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -180,10 +182,10 @@ const Cart = () => {
                     {/* Pricing */}
                     <div className="text-right">
                       <p className="text-xs text-muted-foreground">
-                        ${Number(item.product?.price).toFixed(2)} each
+                        {formatPrice(item.product?.price)} each
                       </p>
                       <p className="text-base font-bold text-champagne">
-                        ${(Number(item.product?.price) * item.quantity).toFixed(2)}
+                        {formatPrice(Number(item.product?.price) * item.quantity)}
                       </p>
                     </div>
                   </div>
@@ -196,34 +198,34 @@ const Cart = () => {
           <div className="lg:col-span-4">
             <div className="glass-panel sticky top-28 p-6 sm:p-8 border border-border/60 shadow-xl space-y-6">
               <h2 className="text-xl font-serif font-bold text-foreground pb-4 border-b border-border/40">
-                Bag Summary
+                Order Summary
               </h2>
 
               <div className="space-y-3.5 text-xs">
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal ({cartItemsCount} items)</span>
                   <span className="text-foreground font-semibold">
-                    ${total.toFixed(2)}
+                    {formatPrice(total)}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center text-muted-foreground">
-                  <span>Concierge Delivery</span>
+                  <span>Standard Shipping</span>
                   <span
                     className={
                       remainingForFreeShipping === 0
-                        ? "text-green-400 font-bold uppercase tracking-wider text-[11px]"
+                        ? "text-green-600 font-bold uppercase tracking-wider text-[11px]"
                         : "text-foreground font-semibold"
                     }
                   >
-                    {remainingForFreeShipping === 0 ? "Complimentary" : "$5.00"}
+                    {remainingForFreeShipping === 0 ? "Free Shipping" : formatPrice(5.00)}
                   </span>
                 </div>
 
                 <div className="flex justify-between text-muted-foreground">
                   <span>Estimated Tax (GST/HST)</span>
                   <span className="text-foreground font-semibold">
-                    ${(total * 0.05).toFixed(2)}
+                    {formatPrice(total * 0.05)}
                   </span>
                 </div>
 
@@ -237,27 +239,36 @@ const Cart = () => {
                     </span>
                   </div>
                   <span className="text-2xl font-serif font-bold text-champagne">
-                    ${(total + total * 0.05 + (remainingForFreeShipping === 0 ? 0 : 5)).toFixed(2)}
+                    {formatPrice(total + total * 0.05 + (remainingForFreeShipping === 0 ? 0 : 5))}
                   </span>
                 </div>
               </div>
 
               {/* Checkout Button */}
-              <Link
-                to="/payment"
-                className="w-full block py-4 text-center gradient-primary text-black font-bold text-xs tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth shadow-lg"
-              >
-                {authUser ? "Proceed to Checkout" : "Proceed to Luxury Checkout"}
-              </Link>
+              <div className="space-y-2.5">
+                <Link
+                  to="/payment"
+                  className="w-full block py-4 text-center gradient-primary text-black font-bold text-xs tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth shadow-lg"
+                >
+                  Proceed to Checkout
+                </Link>
 
-              {/* Security & Client Assurance */}
+                <Link
+                  to="/products"
+                  className="w-full block py-3.5 text-center bg-secondary/80 hover:bg-secondary border border-border hover:border-champagne text-foreground font-semibold text-xs tracking-wider uppercase rounded-xl transition-all"
+                >
+                  Continue Shopping
+                </Link>
+              </div>
+
+              {/* Security Assurance */}
               <div className="pt-4 border-t border-border/40 space-y-2 text-[11px] text-muted-foreground">
                 <div className="flex items-center gap-2 text-foreground font-medium">
                   <ShieldCheck className="w-4 h-4 text-champagne" />
                   <span>Guaranteed Safe Checkout</span>
                 </div>
                 <p className="leading-relaxed">
-                  Support for Cash on Delivery, Credit/Debit Cards, and Secure Canadian Checkout.
+                  Support for Cash on Delivery, Credit/Debit Cards, and Secure Checkout in CAD & USD.
                 </p>
               </div>
             </div>

@@ -33,7 +33,7 @@ import PrivacyPolicy from "./pages/Privacy-Policy";
 import TermsOfService from "./pages/TermsOfService";
 import NoReturnPolicy from "./pages/ReturnsPolicy";
 import SecurityPolicy from "./pages/SecurityPolicy";
-import './leaf.css';
+import { CurrencyProvider } from "./contexts/CurrencyContext";
 
 const App = () => {
   const { authUser, isCheckingAuth } = useSelector((state) => state.auth);
@@ -65,7 +65,7 @@ const App = () => {
           <Loader className="w-7 h-7 animate-spin" />
         </div>
         <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold">
-          SKAY PRODUCTS
+          sKay Products
         </span>
       </div>
     );
@@ -74,15 +74,14 @@ const App = () => {
   return (
     <>
       <ThemeProvider>
-        <BrowserRouter>
-          <div className="min-h-screen bg-background">
-            <div className="left-leaf"></div>
-      <div className="right-leaf"></div>
-            <Navbar />
-            <Sidebar />
-            <SearchOverlay />
-            <CartSidebar />
-            <ProfilePanel />
+        <CurrencyProvider>
+          <BrowserRouter>
+            <div className="min-h-screen bg-background">
+              <Navbar />
+              <Sidebar />
+              <SearchOverlay />
+              <CartSidebar />
+              <ProfilePanel />
             <LoginModal />
             <Routes>
               <Route path="/" element={<Index />} />
@@ -107,6 +106,7 @@ const App = () => {
           </div>
           <ToastContainer />
         </BrowserRouter>
+        </CurrencyProvider>
       </ThemeProvider>
     </>
   );

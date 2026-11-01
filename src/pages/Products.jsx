@@ -49,13 +49,16 @@ const Products = () => {
   }, []);
   const searchTerm = query.get("search");
   const searchedCategory = query.get("category");
+  const filterParam = query.get("filter");
 
   const [searchQuery, setSearchQuery] = useState(searchTerm || "");
   const [selectedCategory, setSelectedCategory] = useState(
     searchedCategory || ""
   );
   const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedRating, setSelectedRating] = useState(
+    filterParam === "best-sellers" ? 4 : 0
+  );
   const [availability, setAvailability] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -69,12 +72,15 @@ const Products = () => {
     if (searchedCategory !== null && searchedCategory !== undefined) {
       setSelectedCategory(searchedCategory);
     }
-  }, [searchTerm, searchedCategory]);
+    if (filterParam === "best-sellers") {
+      setSelectedRating(4);
+    }
+  }, [searchTerm, searchedCategory, filterParam]);
 
   useEffect(() => {
     dispatch(
       fetchAllProducts({
-        category: selectedCategory,
+        category: selectedCategory === "Best Sellers" ? "" : selectedCategory,
         price: `${priceRange[0]}-${priceRange[1]}`,
         search: searchQuery,
         ratings: selectedRating,
@@ -91,6 +97,8 @@ const Products = () => {
     availability,
     currentPage,
   ]);
+
+  const isBestSellers = filterParam === "best-sellers" || selectedCategory === "Best Sellers";
 
   const resetFilters = () => {
     setSelectedCategory("");
@@ -111,13 +119,15 @@ const Products = () => {
           <div>
             <span className="luxury-pill mb-2">
               <Sparkles className="w-3 h-3 text-champagne" />
-              <span>The Atelier Catalog</span>
+              <span>{isBestSellers ? "Customer Favorites" : "Household Essentials"}</span>
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground tracking-tight">
-              Curated Collections
+              {isBestSellers ? "Best Selling Products" : selectedCategory || "All Products"}
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1.5">
-              Displaying {totalProducts || products.length} formulations crafted with artisanal precision.
+              {isBestSellers
+                ? "Top-rated everyday household and living essentials loved by our customers."
+                : `Displaying ${totalProducts || products.length} quality essentials for your home.`}
             </p>
           </div>
 
@@ -148,13 +158,13 @@ const Products = () => {
               isMobileFilterOpen ? "block" : "hidden"
             } w-full lg:w-72 flex-shrink-0 space-y-6`}
           >
-            <div className="glass-panel p-6 border border-border/60 shadow-xl space-y-8 sticky top-28">
+            <div className="glass-panel p-6 border border-border/60 shadow-xl space-y-8 sticky top-28 bg-card/90">
               <div className="flex items-center justify-between pb-4 border-b border-border/40">
                 <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-foreground">
-                  Refine Selection
+                  Filter Products
                 </h2>
                 <span className="text-[10px] text-champagne uppercase font-bold tracking-wider">
-                  Skay Filters
+                  Filters
                 </span>
               </div>
 
@@ -192,21 +202,43 @@ const Products = () => {
                 </span>
                 <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
                   <button
-                    onClick={() => setSelectedCategory("")}
+                    onClick={() => {
+                      setSelectedCategory("");
+                      if (filterParam === "best-sellers") setSelectedRating(0);
+                    }}
                     className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all ${
-                      !selectedCategory
+                      !selectedCategory && !isBestSellers
                         ? "gradient-primary text-black font-bold shadow-sm"
                         : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
                     }`}
                   >
                     All Categories
                   </button>
+                  <button
+                    onClick={() => {
+                      setSelectedCategory("Best Sellers");
+                      setSelectedRating(4);
+                    }}
+                    className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all flex items-center justify-between ${
+                      isBestSellers
+                        ? "gradient-primary text-black font-bold shadow-sm"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                    }`}
+                  >
+                    <span>⭐ Best Sellers</span>
+                    <span className="text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-champagne">
+                      Top
+                    </span>
+                  </button>
                   {dbCategories.map((category) => (
                     <button
                       key={category.id}
-                      onClick={() => setSelectedCategory(category.name)}
+                      onClick={() => {
+                        setSelectedCategory(category.name);
+                        if (filterParam === "best-sellers") setSelectedRating(0);
+                      }}
                       className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all ${
-                        selectedCategory === category.name
+                        selectedCategory === category.name && !isBestSellers
                           ? "gradient-primary text-black font-bold shadow-sm"
                           : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
                       }`}
@@ -226,7 +258,7 @@ const Products = () => {
                   {[
                     { id: "", label: "All Items" },
                     { id: "in-stock", label: "In Stock" },
-                    { id: "limited", label: "Limited Reserve" },
+                    { id: "limited", label: "Low Stock" },
                   ].map((status) => (
                     <button
                       key={status.id}

@@ -19,13 +19,16 @@ import { useDispatch, useSelector } from "react-redux";
 import ReviewsContainer from "../components/Products/ReviewsContainer";
 import HowToUseSection from "../components/Products/HowToUseSection";
 import { addToCart } from "../store/slices/cartSlice";
+import { toggleCart } from "../store/slices/popupSlice";
 import { fetchProductDetails } from "../store/slices/productSlice";
+import { useCurrency } from "../contexts/CurrencyContext";
 import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
+  const { formatPrice } = useCurrency();
 
   const product = useSelector((state) => state.product?.productDetails);
   const { loading, productReviews } = useSelector((state) => state.product);
@@ -49,6 +52,7 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     if (!product) return;
     dispatch(addToCart({ product, quantity }));
+    dispatch(toggleCart());
     toast.success(`Added ${quantity} × "${product.name}" to your bag.`);
   };
 
@@ -153,13 +157,13 @@ const ProductDetail = () => {
               {/* Badges on image */}
               <div className="absolute top-6 left-6 flex flex-col gap-2">
                 {isNew && (
-                  <span className="px-3 py-1 rounded-full bg-champagne text-black text-[10px] font-black uppercase tracking-wider shadow-lg">
-                    New Harvest Reserve
+                  <span className="px-3 py-1 rounded-full bg-champagne text-black text-[10px] font-black uppercase tracking-wider shadow-sm">
+                    New Arrival
                   </span>
                 )}
                 {Number(product.ratings) >= 4.5 && (
-                  <span className="px-3 py-1 rounded-full bg-black/85 text-champagne border border-champagne/40 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md shadow-lg">
-                    Haute Rated
+                  <span className="px-3 py-1 rounded-full bg-secondary/95 text-champagne border border-border text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                    Top Rated
                   </span>
                 )}
               </div>
@@ -230,31 +234,31 @@ const ProductDetail = () => {
             <div className="flex items-baseline justify-between p-5 rounded-2xl bg-secondary/40 border border-border/50">
               <div>
                 <span className="text-xs text-muted-foreground uppercase tracking-wider block">
-                  Bespoke Acquisition Price
+                  Price
                 </span>
                 <span className="text-3xl font-serif font-bold text-champagne">
-                  ${Number(product.price).toFixed(2)}
+                  {formatPrice(product.price)}
                 </span>
               </div>
 
               <span
                 className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
                   product.stock > 5
-                    ? "text-green-400 bg-green-500/10 border border-green-500/20"
+                    ? "text-green-600 bg-green-500/10 border border-green-500/20"
                     : product.stock > 0
-                    ? "text-amber-400 bg-amber-500/10 border border-amber-500/20"
-                    : "text-rose-400 bg-rose-500/10 border border-rose-500/20"
+                    ? "text-amber-600 bg-amber-500/10 border border-amber-500/20"
+                    : "text-rose-600 bg-rose-500/10 border border-rose-500/20"
                 }`}
               >
                 {product.stock > 5
                   ? "In Stock"
                   : product.stock > 0
-                  ? "Limited Reserve"
+                  ? "Low Stock"
                   : "Out of Stock"}
               </span>
             </div>
 
-            {/* Quantity Stepper & Acquisition Buttons */}
+            {/* Quantity Stepper & Buttons */}
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -284,10 +288,10 @@ const ProductDetail = () => {
                 <button
                   disabled={product.stock === 0}
                   onClick={handleAddToCart}
-                  className="py-4 rounded-xl border border-champagne/40 bg-secondary/80 hover:bg-secondary text-foreground font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center space-x-2 disabled:opacity-40"
+                  className="py-4 rounded-xl border border-border hover:border-champagne/60 bg-secondary/80 hover:bg-secondary text-foreground font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center space-x-2 disabled:opacity-40"
                 >
                   <ShoppingBag className="w-4 h-4 text-champagne" />
-                  <span>Add to Bag</span>
+                  <span>Add to Cart</span>
                 </button>
 
                 <button
@@ -295,7 +299,7 @@ const ProductDetail = () => {
                   onClick={handleBuyNow}
                   className="py-4 rounded-xl gradient-primary text-black font-bold text-xs uppercase tracking-wider hover:glow-on-hover transition-all flex items-center justify-center space-x-2 disabled:opacity-40 shadow-xl"
                 >
-                  <span>Acquire Now</span>
+                  <span>Buy Now</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -321,24 +325,24 @@ const ProductDetail = () => {
                   className="flex items-center space-x-1.5 hover:text-champagne transition-colors"
                 >
                   <Share2 className="w-4 h-4" />
-                  <span>Share Formulation</span>
+                  <span>Share Product</span>
                 </button>
               </div>
             </div>
 
-            {/* Atelier Concierge Guarantees */}
+            {/* Guarantees */}
             <div className="pt-6 border-t border-border/40 space-y-3 text-xs text-muted-foreground">
               <div className="flex items-center space-x-3">
                 <Truck className="w-4 h-4 text-champagne flex-shrink-0" />
-                <span>Complimentary Concierge Shipping on Orders Above $75 CAD</span>
+                <span>Free Express Shipping on Orders Above $75</span>
               </div>
               <div className="flex items-center space-x-3">
                 <ShieldCheck className="w-4 h-4 text-champagne flex-shrink-0" />
-                <span>100% Certified Authentic Botanical Alchemy</span>
+                <span>100% Quality Guaranteed Household Essentials</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="w-4 h-4 text-champagne flex-shrink-0" />
-                <span>Hand-Packaged & Sealed in Dark Violet Glass</span>
+                <span>Fast 2-4 Business Days Nationwide Delivery</span>
               </div>
             </div>
           </div>
@@ -348,11 +352,11 @@ const ProductDetail = () => {
         <div className="glass-panel rounded-3xl border border-champagne/20 shadow-xl overflow-hidden">
           <div className="flex border-b border-border/50 bg-secondary/20 overflow-x-auto scrollbar-hide">
             {[
-              { id: "description", label: "Artisanal Formulation" },
-              { id: "how-to-use", label: "Application Ritual" },
+              { id: "description", label: "Product Details" },
+              { id: "how-to-use", label: "Care & Instructions" },
               {
                 id: "reviews",
-                label: `Client Testimonials (${productReviews?.length || 0})`,
+                label: `Customer Reviews (${productReviews?.length || 0})`,
               },
             ].map((tab) => (
               <button
@@ -373,7 +377,7 @@ const ProductDetail = () => {
             {activeTab === "description" && (
               <div className="max-w-3xl space-y-4">
                 <h3 className="text-xl font-serif font-bold text-foreground">
-                  The Botanical Formula & Lineage
+                  Product Overview
                 </h3>
                 <div
                   className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line"

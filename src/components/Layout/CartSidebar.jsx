@@ -1,4 +1,4 @@
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Sparkles } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Sparkles, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,11 +6,13 @@ import {
   updateCartQuantity,
 } from "../../store/slices/cartSlice";
 import { toggleCart } from "../../store/slices/popupSlice";
+import { useCurrency } from "../../contexts/CurrencyContext";
 
 const CartSidebar = () => {
   const dispatch = useDispatch();
   const { isCartOpen } = useSelector((state) => state.popup);
   const { cart } = useSelector((state) => state.cart);
+  const { formatPrice } = useCurrency();
 
   const updateQuantity = (id, quantity) => {
     if (quantity <= 0) {
@@ -37,12 +39,12 @@ const CartSidebar = () => {
     <>
       {/* BACKDROP OVERLAY */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-opacity"
         onClick={() => dispatch(toggleCart())}
       />
 
-      {/* LUXURY CART DRAWER */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-md z-50 bg-background/95 backdrop-blur-2xl border-l border-champagne/30 shadow-2xl animate-slide-in-right flex flex-col">
+      {/* CART DRAWER */}
+      <div className="fixed right-0 top-0 h-full w-full max-w-md z-50 bg-background/95 backdrop-blur-2xl border-l border-border/60 shadow-2xl animate-slide-in-right flex flex-col">
         {/* HEADER */}
         <div className="flex items-center justify-between p-6 border-b border-border/50">
           <div className="flex items-center space-x-3">
@@ -51,10 +53,10 @@ const CartSidebar = () => {
             </div>
             <div>
               <h2 className="text-lg font-serif font-bold text-foreground">
-                Your Luxury Bag
+                Your Shopping Bag
               </h2>
               <p className="text-xs text-muted-foreground">
-                {cartItemsCount} bespoke acquisition{cartItemsCount !== 1 ? "s" : ""}
+                {cartItemsCount} item{cartItemsCount !== 1 ? "s" : ""}
               </p>
             </div>
           </div>
@@ -70,12 +72,12 @@ const CartSidebar = () => {
 
         {/* FREE SHIPPING PROGRESS NOTICE */}
         {cart.length > 0 && (
-          <div className="px-6 py-3 bg-champagne/5 border-b border-champagne/10 flex items-center justify-between text-xs">
+          <div className="px-6 py-3 bg-secondary/60 border-b border-border/40 flex items-center justify-between text-xs">
             <span className="text-muted-foreground flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-champagne" />
               {total >= 75
-                ? "Complimentary Concierge Shipping unlocked!"
-                : `Add $${(75 - total).toFixed(0)} more for Complimentary Shipping`}
+                ? "Free Express Shipping unlocked!"
+                : `Add $${(75 - total).toFixed(0)} more for Free Shipping`}
             </span>
           </div>
         )}
@@ -91,14 +93,14 @@ const CartSidebar = () => {
                 Your Bag is Currently Empty
               </p>
               <p className="text-xs text-muted-foreground mb-6">
-                Discover exceptional luxury formulations from our collections.
+                Explore our household & living essentials.
               </p>
               <Link
                 to="/products"
                 onClick={() => dispatch(toggleCart())}
                 className="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-black font-semibold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover transition-all"
               >
-                <span>Explore Products</span>
+                <span>Browse Products</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -124,13 +126,14 @@ const CartSidebar = () => {
                     <button
                       onClick={() => dispatch(removeFromCart(item.product?.id))}
                       className="text-muted-foreground hover:text-destructive p-1 transition-colors"
+                      title="Remove item"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
 
                   <p className="text-xs font-bold text-champagne mt-1">
-                    ${Number(item.product?.price).toFixed(2)}
+                    {formatPrice(item.product?.price)}
                   </p>
 
                   <div className="flex items-center space-x-2 mt-3">
@@ -166,20 +169,29 @@ const CartSidebar = () => {
           <div className="p-6 border-t border-border/50 bg-secondary/30 space-y-4">
             <div className="flex justify-between items-baseline">
               <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                Subtotal Amount
+                Subtotal
               </span>
               <span className="text-xl font-serif font-bold text-champagne">
-                ${total.toFixed(2)}
+                {formatPrice(total)}
               </span>
             </div>
+
+            {/* CONTINUE SHOPPING / KEEP BROWSING BUTTON */}
+            <button
+              onClick={() => dispatch(toggleCart())}
+              className="w-full py-3 text-center bg-secondary/90 hover:bg-secondary border border-border hover:border-champagne/50 text-foreground font-semibold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Continue Shopping</span>
+            </button>
 
             <div className="grid grid-cols-2 gap-3">
               <Link
                 to="/cart"
                 onClick={() => dispatch(toggleCart())}
-                className="py-3 text-center border border-border/70 hover:border-champagne text-foreground font-semibold text-xs uppercase tracking-wider rounded-xl transition-all"
+                className="py-3 text-center border border-border/80 hover:border-champagne text-foreground font-semibold text-xs uppercase tracking-wider rounded-xl transition-all"
               >
-                View Full Bag
+                View Bag
               </Link>
               <Link
                 to="/payment"
@@ -189,6 +201,14 @@ const CartSidebar = () => {
                 Checkout
               </Link>
             </div>
+
+            <Link
+              to="/products"
+              onClick={() => dispatch(toggleCart())}
+              className="block text-center text-[11px] text-muted-foreground hover:text-champagne transition-colors"
+            >
+              Browse more household items →
+            </Link>
           </div>
         )}
       </div>

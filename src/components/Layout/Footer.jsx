@@ -26,20 +26,20 @@ const Footer = () => {
 
   const footerLinks = {
     brand: [
-      { name: "Artisanal Heritage", path: "/about" },
-      { name: "Haute Formulations", path: "/products" },
-      { name: "Client Testimonials", path: "/about" },
+      { name: "About Us", path: "/about" },
+      { name: "All Products", path: "/products" },
+      { name: "Best Sellers", path: "/products?filter=best-sellers" },
     ],
     concierge: [
-      { name: "Atelier Contact", path: "/contact" },
+      { name: "Contact Us", path: "/contact" },
       { name: "Frequently Asked Questions", path: "/faq" },
-      { name: "Returns & Replacements", path: "/ReturnsPolicy" },
-      { name: "Delivery Standards", path: "/faq" },
+      { name: "Returns & Exchanges", path: "/ReturnsPolicy" },
+      { name: "Shipping Information", path: "/faq" },
     ],
     legal: [
-      { name: "Privacy Protocol", path: "/privacy-policy" },
-      { name: "Terms of Acquisition", path: "/TermsOfService" },
-      { name: "Security & Encryption", path: "/Security" },
+      { name: "Privacy Policy", path: "/privacy-policy" },
+      { name: "Terms of Service", path: "/TermsOfService" },
+      { name: "Security", path: "/Security" },
     ],
   };
 
@@ -51,7 +51,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-background border-t border-champagne/20 relative overflow-hidden text-foreground">
+    <footer className="bg-background border-t border-border/70 relative overflow-hidden text-foreground">
       {/* Ambient background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-champagne/5 blur-3xl pointer-events-none" />
 
@@ -59,28 +59,20 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-16">
           {/* Brand & Atelier Coordinates (Col 1 to 5) */}
           <div className="lg:col-span-5 space-y-6">
-            <Link to="/" className="flex items-center space-x-3 group inline-block">
-              <img
-                src="/img/logo/logo3.png"
-                alt="Skay Products"
-                className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
-              <div>
-                <span className="text-2xl font-serif font-bold tracking-tight text-foreground block">
-                  SKAY PRODUCTS
-                </span>
-                <span className="text-[10px] tracking-[0.25em] uppercase text-champagne font-medium block">
-                  skayproducts.com • Curated Living
-                </span>
+            <Link to="/" className="inline-flex flex-col group" aria-label="sKay Products">
+              <div className="flex items-baseline font-serif">
+                <span className="text-3xl font-normal lowercase italic text-champagne leading-none">s</span>
+                <span className="text-3xl font-bold uppercase text-foreground leading-none">K</span>
+                <span className="text-3xl text-foreground leading-none">ay</span>
+                <span className="text-sm font-sans uppercase tracking-[0.25em] text-muted-foreground ml-2 font-medium">Products</span>
               </div>
+              <span className="text-[10px] tracking-[0.25em] uppercase text-champagne font-semibold mt-1">
+                Household & Living Essentials
+              </span>
             </Link>
 
             <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
-              Purveyors of exquisite botanical alchemy and high-end lifestyle formulations.
-              Crafted in collaboration with master artisans to elevate modern self-care rituals.
+              Thoughtfully curated household products and daily living essentials designed to bring comfort, quality, and timeless warmth into your home.
             </p>
 
             <div className="space-y-3 text-xs text-muted-foreground pt-2">

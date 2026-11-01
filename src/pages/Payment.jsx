@@ -197,8 +197,8 @@ const Payment = () => {
         key: data.key || "rzp_test_placeholder",
         amount: data.order.amount,
         currency: "CAD",
-        name: "SKAY PRODUCTS",
-        description: "skayproducts.com Order",
+        name: "sKay Products",
+        description: "sKay Products Order",
         order_id: data.order.id,
         handler: async function (response) {
           try {
@@ -623,7 +623,7 @@ const Payment = () => {
                         className="w-full px-4 py-3 bg-secondary/80 border border-border rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
                       >
                         {canadianProvinces.map((st) => (
-                          <option key={st} value={st} className="bg-noir text-foreground">
+                          <option key={st} value={st} className="bg-card text-foreground">
                             {st}
                           </option>
                         ))}

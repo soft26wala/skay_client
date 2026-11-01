@@ -24,7 +24,7 @@ const ProductSlider = ({ title, products }) => {
         <div>
           <span className="luxury-pill mb-2">
             <Sparkles className="w-3 h-3 text-champagne" />
-            <span>Curated Showcase</span>
+            <span>Featured Collection</span>
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-foreground tracking-tight mt-1">
             {title}
