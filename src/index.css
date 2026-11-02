@@ -72,8 +72,15 @@
     @apply border-border;
   }
 
+  html,
   body {
-    @apply bg-background text-foreground font-sans overflow-x-hidden selection:bg-champagne/30 selection:text-champagne-100;
+    background-color: transparent !important;
+    @apply text-foreground font-sans overflow-x-hidden selection:bg-sky-500/30 selection:text-sky-950;
+    min-height: 100vh;
+  }
+
+  .bg-background {
+    background-color: transparent !important;
   }
 
   h1, h2, h3, .font-serif-luxury {
@@ -83,6 +90,7 @@
 }
 
 @layer components {
+
   /* Luxury Glassmorphism & Panel Utilities */
   .glass {
     backdrop-filter: blur(16px);

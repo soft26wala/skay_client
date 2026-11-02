@@ -34,6 +34,7 @@ import TermsOfService from "./pages/TermsOfService";
 import NoReturnPolicy from "./pages/ReturnsPolicy";
 import SecurityPolicy from "./pages/SecurityPolicy";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
+import SkyCloudsBackground from "./components/Layout/SkyCloudsBackground";
 
 const App = () => {
   const { authUser, isCheckingAuth } = useSelector((state) => state.auth);
@@ -76,13 +77,17 @@ const App = () => {
       <ThemeProvider>
         <CurrencyProvider>
           <BrowserRouter>
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen bg-transparent relative text-foreground">
+              {/* Animated Sky View & Moving Clouds (Badal) Background */}
+              <SkyCloudsBackground />
+
               <Navbar />
               <Sidebar />
               <SearchOverlay />
               <CartSidebar />
               <ProfilePanel />
-            <LoginModal />
+              <LoginModal />
+
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/password/reset/:token" element={<Index />} />
