@@ -33,7 +33,14 @@ const ProductCard = ({ product }) => {
     new Date() - new Date(product.created_at) < 30 * 24 * 60 * 60 * 1000;
 
   return (
-    <div className="group glass-card border border-border/60 hover:border-champagne/60 rounded-2xl p-4 sm:p-5 transition-all duration-500 flex flex-col justify-between hover:shadow-xl bg-card">
+    <div
+      className="group glass-card border rounded-2xl p-4 sm:p-5 transition-all duration-500 flex flex-col justify-between hover:shadow-xl"
+      style={{
+        backgroundColor: "var(--card-custom-bg, #ffffff)",
+        borderColor: "var(--card-custom-border, rgba(220, 210, 190, 0.7))",
+        color: "var(--card-custom-text, #1f2937)",
+      }}
+    >
       <div>
         <Link to={`/product/${product.id}`} className="block">
           {/* PRODUCT IMAGE CONTAINER */}
@@ -65,7 +72,11 @@ const ProductCard = ({ product }) => {
               disabled={product.stock === 0}
               title="Add to Cart"
               aria-label="Add to Cart"
-              className="absolute bottom-3 right-3 p-3 rounded-full bg-secondary/90 backdrop-blur-md border border-border text-foreground hover:bg-champagne hover:text-black transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 disabled:opacity-0 shadow-lg"
+              className="absolute bottom-3 right-3 p-3 rounded-full backdrop-blur-md border border-border transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 disabled:opacity-0 shadow-lg"
+              style={{
+                backgroundColor: "var(--card-custom-btn-bg, #b98822)",
+                color: "var(--card-custom-btn-text, #ffffff)",
+              }}
             >
               <ShoppingBag className="w-4 h-4" />
             </button>
@@ -74,12 +85,18 @@ const ProductCard = ({ product }) => {
           {/* PRODUCT INFO */}
           <div className="space-y-1.5">
             {product.category && (
-              <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-champagne block">
+              <span
+                className="text-[10px] font-semibold uppercase tracking-[0.15em] block transition-colors"
+                style={{ color: "var(--card-custom-category, #b98822)" }}
+              >
                 {product.category}
               </span>
             )}
 
-            <h3 className="text-base font-serif font-bold text-foreground line-clamp-1 group-hover:text-champagne transition-colors">
+            <h3
+              className="text-base font-serif font-bold line-clamp-1 transition-colors"
+              style={{ color: "var(--card-custom-text, inherit)" }}
+            >
               {product.name}
             </h3>
 
@@ -104,7 +121,10 @@ const ProductCard = ({ product }) => {
 
             {/* PRICE & STOCK */}
             <div className="flex items-baseline justify-between pt-2">
-              <span className="text-base sm:text-lg font-serif font-bold text-champagne">
+              <span
+                className="text-base sm:text-lg font-serif font-bold"
+                style={{ color: "var(--card-custom-price, #b98822)" }}
+              >
                 {formatPrice(product.price)}
               </span>
 
@@ -133,7 +153,11 @@ const ProductCard = ({ product }) => {
         <button
           disabled={product.stock === 0}
           onClick={handleAddToCart}
-          className="w-full py-2.5 rounded-xl gradient-primary text-black font-bold text-xs uppercase tracking-wider hover:glow-on-hover transition-all flex items-center justify-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+          className="w-full py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider hover:brightness-105 hover:shadow-md transition-all flex items-center justify-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+          style={{
+            backgroundColor: "var(--card-custom-btn-bg, #b98822)",
+            color: "var(--card-custom-btn-text, #ffffff)",
+          }}
         >
           <ShoppingBag className="w-3.5 h-3.5" />
           <span>{product.stock === 0 ? "Out of Stock" : "Add to Cart"}</span>

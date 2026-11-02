@@ -35,6 +35,16 @@ export const DEFAULT_BACKGROUND_SETTINGS = {
     angle: "180deg",
     cloudColor: "#ffffff",
   },
+  cardStyle: {
+    bg: "#ffffff",
+    bgOpacity: 95,
+    textColor: "#1f2937",
+    categoryColor: "#b98822",
+    priceColor: "#b98822",
+    btnBg: "#b98822",
+    btnTextColor: "#ffffff",
+    borderColor: "rgba(220, 210, 190, 0.7)",
+  },
 };
 
 // Realistic Cloud SVG Component with soft gradients and volumetric shading
@@ -187,6 +197,33 @@ const SkyCloudsBackground = ({ previewSettings = null, isPreview = false }) => {
       window.removeEventListener("site-background-change", handleCustomEvent);
     };
   }, [isPreview]);
+
+  // Inject Card CSS Custom Properties for live storefront styling
+  useEffect(() => {
+    if (isPreview) return;
+    const card = settings.cardStyle || DEFAULT_BACKGROUND_SETTINGS.cardStyle;
+    const root = document.documentElement;
+    if (card) {
+      let bgVal = card.bg || "#ffffff";
+      if (card.bgOpacity !== undefined && card.bgOpacity < 100) {
+        if (bgVal.startsWith("#")) {
+          const hex = bgVal.replace("#", "");
+          const r = parseInt(hex.substring(0, 2), 16) || 255;
+          const g = parseInt(hex.substring(2, 4), 16) || 255;
+          const b = parseInt(hex.substring(4, 6), 16) || 255;
+          const a = (card.bgOpacity / 100).toFixed(2);
+          bgVal = `rgba(${r}, ${g}, ${b}, ${a})`;
+        }
+      }
+      root.style.setProperty("--card-custom-bg", bgVal);
+      root.style.setProperty("--card-custom-text", card.textColor || "#1f2937");
+      root.style.setProperty("--card-custom-category", card.categoryColor || "#b98822");
+      root.style.setProperty("--card-custom-price", card.priceColor || "#b98822");
+      root.style.setProperty("--card-custom-btn-bg", card.btnBg || "#b98822");
+      root.style.setProperty("--card-custom-btn-text", card.btnTextColor || "#ffffff");
+      root.style.setProperty("--card-custom-border", card.borderColor || "rgba(220, 210, 190, 0.7)");
+    }
+  }, [settings, isPreview]);
 
   // Active theme calculation
   const activeTheme = settings.theme || "sky-day";
