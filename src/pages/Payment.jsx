@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft,
   Check,
@@ -55,6 +55,12 @@ const Payment = () => {
   // Checkout Steps: 1 = Shipping, 2 = Payment Selection
   const [currentStep, setCurrentStep] = useState(1);
   const [authMode, setAuthMode] = useState("signin"); // "signin" | "signup"
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }, [currentStep]);
 
   // Checkout Auth form state
   const [authForm, setAuthForm] = useState({

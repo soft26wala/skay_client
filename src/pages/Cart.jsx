@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Plus, Minus, Trash2, ArrowRight, ShieldCheck, Sparkles, ShoppingBag, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,6 +6,11 @@ import { removeFromCart, updateCartQuantity } from "../store/slices/cartSlice";
 import { useCurrency } from "../contexts/CurrencyContext";
 
 const Cart = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }, []);
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const { authUser } = useSelector((state) => state.auth);

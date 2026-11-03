@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { XCircle, ArrowLeft, RefreshCw, Headphones } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const PaymentFailed = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }, []);
   return (
     <div className="min-h-screen pt-28 pb-20 bg-background text-foreground flex items-center justify-center px-4">
       <div className="max-w-md w-full glass-panel p-8 sm:p-10 rounded-3xl border border-destructive/30 shadow-2xl text-center space-y-6 animate-fade-in-up">

@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { CheckCircle, Package, Clock, ShieldCheck, ArrowRight, Truck } from "lucide-react";
 
 const PaymentResultClient = () => {
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }, []);
 
   const status = searchParams.get("status") ?? "unknown";
   const tid = searchParams.get("tid") ?? "";

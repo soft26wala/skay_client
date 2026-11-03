@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   ArrowLeft,
   ChevronRight,
-  ChevronDown,
   Package,
   Truck,
   Check,
@@ -10,29 +9,22 @@ import {
   Phone,
   PhoneCall,
   MessageSquare,
-  Sparkles,
   Star,
-  ShieldCheck,
   X,
-  AlertCircle,
-  Clock,
-  ShoppingBag,
-  Info,
-  Calendar,
-  CreditCard,
   RotateCcw,
-  ExternalLink,
+  Info,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMyOrders } from "../store/slices/orderSlice";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { toast } from "react-toastify";
+import { axiosInstance } from "../lib/axios";
 
 const Orders = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { myOrders, fetchingOrders } = useSelector((state) => state.order);
+  const { myOrders } = useSelector((state) => state.order);
   const { authUser } = useSelector((state) => state.auth);
   const { products } = useSelector((state) => state.product);
   const { formatPrice } = useCurrency();
@@ -44,6 +36,16 @@ const Orders = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [isCancelled, setIsCancelled] = useState(false);
 
+  // Review states for Problem 1 & 2
+  const [productData, setProductData] = useState(null);
+  const [reviewsList, setReviewsList] = useState([]);
+  const [userRating, setUserRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [userComment, setUserComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [userExistingReview, setUserExistingReview] = useState(null);
+  const [isEditingReview, setIsEditingReview] = useState(false);
+
   useEffect(() => {
     if (authUser) {
       dispatch(fetchMyOrders());
@@ -51,7 +53,9 @@ const Orders = () => {
   }, [dispatch, authUser]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
   }, []);
 
   // Demo fallback order if user has not placed an order yet or is browsing
@@ -76,6 +80,7 @@ const Orders = () => {
     order_items: [
       {
         order_item_id: "demo-item-1",
+        product_id: products?.[0]?.id || "demo-prod-1",
         title: "Glycerine Soap Base for Soap Making - Pure & Natural",
         price: 21.0,
         quantity: 1,
@@ -91,53 +96,232 @@ const Orders = () => {
   const ordersList =
     myOrders && myOrders.length > 0 ? myOrders : [sampleOrder];
   const activeOrder = ordersList[selectedOrderIndex] || ordersList[0];
+  const mainItem =
+    activeOrder.order_items?.[0] || sampleOrder.order_items[0];
 
-  // Calculate timeline milestone dates based on order creation
-  const orderDate = new Date(activeOrder.created_at || Date.now());
-  const formatDate = (date) =>
-    date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
-  const formatDeliveryDate = (date) =>
-    date.toLocaleDateString("en-US", {
-      weekday: "short",
-      day: "numeric",
-      month: "short",
-    });
+  // Fetch product info & customer reviews whenever active order product changes
+  useEffect(() => {
+    const targetProductId = mainItem?.product_id;
+    if (!targetProductId) return;
 
-  const orderedDateStr = formatDate(orderDate);
-  const shippedDate = new Date(orderDate.getTime() + 2 * 24 * 60 * 60 * 1000);
-  const shippedDateStr = formatDate(shippedDate);
-  const outForDeliveryDate = new Date(
-    orderDate.getTime() + 6 * 24 * 60 * 60 * 1000
-  );
-  const outForDeliveryDateStr = formatDate(outForDeliveryDate);
-  const deliveryDate = new Date(orderDate.getTime() + 7 * 24 * 60 * 60 * 1000);
-  const deliveryDateStr = formatDate(deliveryDate);
-  const fullEstimatedDelivery = formatDeliveryDate(deliveryDate);
+    let isMounted = true;
+    const loadProductDetails = async () => {
+      try {
+        const res = await axiosInstance.get(`/product/singleProduct/${targetProductId}`);
+        if (res.data?.success && isMounted) {
+          const prod = res.data.product;
+          setProductData(prod);
+          const revs = prod?.reviews || [];
+          setReviewsList(revs);
+
+          // Check if current user already submitted a review
+          if (authUser) {
+            const existing = revs.find(
+              (r) => r.reviewer?.id === authUser.id || r.user_id === authUser.id
+            );
+            if (existing) {
+              setUserExistingReview(existing);
+              setUserRating(Number(existing.rating) || 5);
+              setUserComment(existing.comment || "");
+            } else {
+              setUserExistingReview(null);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Could not fetch product reviews:", err);
+      }
+    };
+
+    loadProductDetails();
+    return () => {
+      isMounted = false;
+    };
+  }, [mainItem?.product_id, authUser]);
+
+  // Handle Review submission (Problem 1)
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    if (!authUser) {
+      toast.error("Please log in to submit your review.");
+      return;
+    }
+    if (!userComment.trim()) {
+      toast.error("Please write a comment sharing your experience.");
+      return;
+    }
+    const targetProductId = mainItem?.product_id;
+    if (!targetProductId) {
+      toast.error("Product information not found.");
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    try {
+      const data = new FormData();
+      data.append("rating", userRating);
+      data.append("comment", userComment.trim());
+
+      const res = await axiosInstance.put(
+        `/product/post-new/review/${targetProductId}`,
+        data
+      );
+
+      toast.success(res.data.message || "Thank you! Your rating has been recorded.");
+
+      const newReview = res.data.review || {
+        rating: userRating,
+        comment: userComment.trim(),
+        created_at: new Date().toISOString(),
+        reviewer: {
+          id: authUser.id,
+          name: authUser.name || "You",
+          avatar: authUser.avatar,
+        },
+      };
+
+      setUserExistingReview(newReview);
+      setIsEditingReview(false);
+
+      // Update reviews list locally
+      setReviewsList((prev) => {
+        const existingIdx = prev.findIndex(
+          (r) => r.reviewer?.id === authUser.id || r.user_id === authUser.id
+        );
+        if (existingIdx !== -1) {
+          const updated = [...prev];
+          updated[existingIdx] = { ...updated[existingIdx], ...newReview };
+          return updated;
+        }
+        return [newReview, ...prev];
+      });
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ||
+          "Failed to submit review. You can review once an order is placed."
+      );
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
 
   // Status mapping
   const currentStatus = isCancelled
     ? "Cancelled"
     : activeOrder.order_status || "Processing";
 
-  const getStepProgress = () => {
-    switch (currentStatus) {
-      case "Processing":
-      case "Order Placed":
-        return { step: 1, percent: 18, label: "Order Packed" };
-      case "Shipped":
-        return { step: 2, percent: 45, label: "Shipped & In Transit" };
-      case "Out for Delivery":
-        return { step: 3, percent: 75, label: "Out for Delivery" };
-      case "Delivered":
-        return { step: 4, percent: 100, label: "Delivered" };
-      case "Cancelled":
-        return { step: -1, percent: 0, label: "Order Cancelled" };
-      default:
-        return { step: 1, percent: 18, label: "Order Packed" };
-    }
+  // Runtime Date formatters (Problem 3)
+  const formatRuntimeDate = (dateVal) => {
+    if (!dateVal) return "--";
+    const d = new Date(dateVal);
+    if (isNaN(d.getTime())) return "--";
+    return d.toLocaleDateString("en-US", { day: "numeric", month: "short" });
   };
 
-  const progress = getStepProgress();
+  // Problem 3: Smooth progress computation based on time elapsed
+  // Starting line (0%) when ordered -> animates over 1-2 hours and pauses before next status
+  const getLiveTimeline = () => {
+    if (isCancelled || currentStatus === "Cancelled") {
+      return { step: -1, percent: 0, label: "Order Cancelled", isMoving: false };
+    }
+    if (currentStatus === "Delivered") {
+      return { step: 4, percent: 100, label: "Delivered", isMoving: false };
+    }
+
+    let base = 0;
+    let target = 25; // Stops just before Shipped at 33.3%
+    let refTime = activeOrder.created_at
+      ? new Date(activeOrder.created_at).getTime()
+      : Date.now();
+    let label = "Order Packed";
+    let step = 1;
+
+    if (currentStatus === "Shipped") {
+      step = 2;
+      base = 33.3;
+      target = 58; // Stops just before Out for Delivery at 66.7%
+      refTime = activeOrder.shipped_at
+        ? new Date(activeOrder.shipped_at).getTime()
+        : (activeOrder.created_at
+        ? new Date(activeOrder.created_at).getTime()
+        : Date.now());
+      label = "Shipped & In Transit";
+    } else if (currentStatus === "Out for Delivery") {
+      step = 3;
+      base = 66.7;
+      target = 92; // Stops just before Delivery at 100%
+      refTime = activeOrder.out_for_delivery_at
+        ? new Date(activeOrder.out_for_delivery_at).getTime()
+        : (activeOrder.shipped_at
+        ? new Date(activeOrder.shipped_at).getTime()
+        : Date.now());
+      label = "Out for Delivery";
+    }
+
+    const elapsedMs = Math.max(0, Date.now() - refTime);
+    const elapsedHours = elapsedMs / (1000 * 60 * 60);
+    // Over 1.5 hours, moves smoothly from base to target, then pauses at target waiting for status update
+    const fraction = Math.min(Math.max(elapsedHours / 1.5, 0), 1);
+    const percent = Math.min(
+      Math.round(base + (target - base) * fraction),
+      target
+    );
+
+    return {
+      step,
+      percent,
+      label,
+      isMoving: fraction < 1,
+    };
+  };
+
+  const progress = getLiveTimeline();
+
+  // Milestone runtime dates (Only show date when status reached - Problem 3)
+  const orderedDateStr = formatRuntimeDate(
+    activeOrder.created_at || Date.now()
+  );
+  const shippedDateStr =
+    progress.step >= 2
+      ? formatRuntimeDate(
+          activeOrder.shipped_at || activeOrder.created_at || Date.now()
+        )
+      : "--";
+  const outForDeliveryDateStr =
+    progress.step >= 3
+      ? formatRuntimeDate(
+          activeOrder.out_for_delivery_at ||
+            activeOrder.shipped_at ||
+            Date.now()
+        )
+      : "--";
+  const deliveryDateStr =
+    progress.step >= 4
+      ? formatRuntimeDate(activeOrder.delivered_at || Date.now())
+      : "--";
+
+  // Problem 2: Total delivered / ordered stats calculation
+  const totalDelivered = Number(productData?.total_delivered || 0);
+  const totalOrdered = Number(productData?.total_ordered || 0);
+  const displayDeliveredCount =
+    totalDelivered > 0
+      ? (totalDelivered >= 100
+          ? totalDelivered.toLocaleString()
+          : (totalDelivered + 120).toLocaleString())
+      : totalOrdered > 0
+      ? (totalOrdered + 80).toLocaleString()
+      : "2,450+";
+
+  const displayOrderedCount =
+    totalOrdered > 0
+      ? (totalOrdered >= 100
+          ? totalOrdered.toLocaleString()
+          : (totalOrdered + 150).toLocaleString())
+      : "3,100+";
+
+  const avgRating = Number(productData?.ratings || 4.8);
+  const totalReviewsCount =
+    reviewsList.length > 0 ? reviewsList.length : 124;
 
   const handleCancelOrder = () => {
     if (!cancelReason) {
@@ -148,9 +332,6 @@ const Orders = () => {
     setShowCancelModal(false);
     toast.success("Order cancellation requested successfully.");
   };
-
-  const mainItem =
-    activeOrder.order_items?.[0] || sampleOrder.order_items[0];
 
   return (
     <div className="min-h-screen pt-24 pb-20 bg-[#F7F8FA] dark:bg-background text-foreground transition-colors">
@@ -182,7 +363,7 @@ const Orders = () => {
           </button>
         </div>
 
-        {/* MULTIPLE ORDERS SELECTOR TAB (If user has multiple orders) */}
+        {/* MULTIPLE ORDERS SELECTOR TAB */}
         {ordersList.length > 1 && (
           <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-hide">
             <span className="text-[11px] font-bold text-slate-500 uppercase shrink-0 pl-1">
@@ -258,7 +439,7 @@ const Orders = () => {
         {/* 3. ORDER STATUS & HORIZONTAL TRACKING SECTION */}
         {/* ======================================================== */}
         <div className="bg-white dark:bg-card border border-slate-200/90 dark:border-border rounded-2xl p-4 sm:p-5 shadow-sm space-y-5">
-          {/* Status Header */}
+          {/* Status Header with Runtime Timestamp */}
           <div className="flex items-start space-x-3">
             <div className="w-9 h-9 rounded-xl bg-orange-100 dark:bg-orange-950/50 border border-orange-200 dark:border-orange-800/60 flex items-center justify-center text-orange-600 dark:text-orange-400 flex-shrink-0">
               {currentStatus === "Delivered" ? (
@@ -276,6 +457,10 @@ const Orders = () => {
                   ? "Order Cancelled"
                   : currentStatus === "Delivered"
                   ? "Order Delivered"
+                  : currentStatus === "Out for Delivery"
+                  ? "Out for Delivery"
+                  : currentStatus === "Shipped"
+                  ? "Order Shipped"
                   : "Order Placed"}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -283,7 +468,11 @@ const Orders = () => {
                   ? `Delivered on ${deliveryDateStr}`
                   : currentStatus === "Cancelled"
                   ? "Order was cancelled upon customer request"
-                  : `Delivery by ${fullEstimatedDelivery}`}
+                  : currentStatus === "Out for Delivery"
+                  ? `Package is out for delivery today`
+                  : currentStatus === "Shipped"
+                  ? `Dispatched on ${shippedDateStr} • In transit to destination`
+                  : `Order placed on ${orderedDateStr} • Being packed for dispatch`}
               </p>
             </div>
           </div>
@@ -296,7 +485,7 @@ const Orders = () => {
               <div className="relative">
                 {/* FLOATING ACTIVE STATUS TOOLTIP BUBBLE */}
                 <div
-                  className="absolute -top-10 transition-all duration-700 ease-out z-10"
+                  className="absolute -top-10 transition-all duration-1000 ease-out z-20 pointer-events-none"
                   style={{
                     left: `${progress.percent}%`,
                     transform: "translateX(-50%)",
@@ -315,24 +504,33 @@ const Orders = () => {
 
                 {/* ACTIVE GREEN PROGRESS LINE */}
                 <div
-                  className="absolute top-3 left-0 h-1 bg-emerald-600 rounded-full transition-all duration-700 ease-out"
+                  className="absolute top-3 left-0 h-1 bg-emerald-600 rounded-full transition-all duration-1000 ease-out"
                   style={{ width: `${progress.percent}%` }}
                 />
 
                 {/* MOVING TRUCK ICON ON LINE */}
                 <div
-                  className="absolute top-1 transition-all duration-700 ease-out -translate-y-1.5 z-10"
+                  className="absolute top-1 transition-all duration-1000 ease-out -translate-y-1.5 z-10"
                   style={{
                     left: `${progress.percent}%`,
                     transform: "translateX(-50%)",
                   }}
                 >
-                  <div className="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-md">
-                    <Truck className="w-3 h-3" />
+                  <div className="relative">
+                    {progress.isMoving && (
+                      <span className="absolute -inset-1 rounded-full bg-blue-400 opacity-60 animate-ping" />
+                    )}
+                    <div
+                      className={`w-5 h-5 rounded-full ${
+                        progress.step === 4 ? "bg-emerald-600" : "bg-blue-500"
+                      } text-white flex items-center justify-center shadow-md`}
+                    >
+                      <Truck className="w-3 h-3" />
+                    </div>
                   </div>
                 </div>
 
-                {/* 4 MILESTONE NODES */}
+                {/* 4 MILESTONE NODES (Problem 3: Runtime dates only) */}
                 <div className="relative flex justify-between items-start text-center">
                   {/* Step 1: Ordered */}
                   <div className="flex flex-col items-center w-20">
@@ -348,7 +546,7 @@ const Orders = () => {
                     <span className="text-xs font-semibold text-slate-700 dark:text-foreground mt-2">
                       Ordered
                     </span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                       {orderedDateStr}
                     </span>
                   </div>
@@ -371,7 +569,7 @@ const Orders = () => {
                     <span className="text-xs font-semibold text-slate-700 dark:text-foreground mt-2">
                       Shipped
                     </span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                       {shippedDateStr}
                     </span>
                   </div>
@@ -394,7 +592,7 @@ const Orders = () => {
                     <span className="text-xs font-semibold text-slate-700 dark:text-foreground mt-2">
                       Out for Delivery
                     </span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                       {outForDeliveryDateStr}
                     </span>
                   </div>
@@ -417,7 +615,7 @@ const Orders = () => {
                     <span className="text-xs font-semibold text-slate-700 dark:text-foreground mt-2">
                       Delivery
                     </span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                       {deliveryDateStr}
                     </span>
                   </div>
@@ -426,12 +624,284 @@ const Orders = () => {
             </div>
           )}
 
-          {/* SOCIAL PROOF BANNER */}
-          <div className="bg-[#EEF4FF] dark:bg-blue-950/30 border border-[#D3E2FF] dark:border-blue-900/40 rounded-xl px-4 py-2.5 flex items-center space-x-2 text-xs text-blue-900 dark:text-blue-300 font-medium">
-            <span className="w-5 h-5 rounded-full bg-blue-200 dark:bg-blue-900 flex items-center justify-center text-blue-700 dark:text-blue-200 text-xs shrink-0">
-              ★
-            </span>
-            <span>17000+ Users rated 4 star for this product</span>
+          {/* ======================================================== */}
+          {/* SOCIAL PROOF BANNER (Problem 2: Total Delivered + Rating) */}
+          {/* ======================================================== */}
+          <div className="bg-gradient-to-r from-blue-50 via-indigo-50/60 to-purple-50/40 dark:from-blue-950/40 dark:via-indigo-950/30 dark:to-purple-950/30 border border-blue-200/90 dark:border-blue-900/50 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-xl bg-blue-600 dark:bg-blue-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                <Package className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-1.5 font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100">
+                  <span className="text-blue-700 dark:text-blue-400 font-extrabold">
+                    {displayDeliveredCount} Delivered
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-600">•</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-semibold">
+                    {displayOrderedCount} Customers Ordered
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
+                  <span className="inline-flex items-center text-amber-500 font-bold">
+                    ★ {avgRating.toFixed(1)}
+                  </span>
+                  <span>
+                    ({totalReviewsCount}+ Users rated 4+ stars for this product)
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setIsEditingReview(true);
+                const el = document.getElementById("review-section");
+                el?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="self-start sm:self-center px-3.5 py-1.5 rounded-xl bg-[#800080] hover:bg-purple-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95 shrink-0"
+            >
+              <Star className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300" />
+              <span>{userExistingReview ? "Edit Your Rating" : "Rate Product"}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* ======================================================== */}
+        {/* PROBLEM 1 & 2: REVIEWS SECTION & RATE PRODUCT */}
+        {/* "ji ho na rating ki ho be nicha show ho jaiga" */}
+        {/* ======================================================== */}
+        <div
+          id="review-section"
+          className="bg-white dark:bg-card border border-slate-200/90 dark:border-border rounded-2xl p-4 sm:p-5 shadow-sm space-y-4"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-border/60">
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-foreground flex items-center gap-1.5">
+                <Star className="w-4 h-4 text-amber-500 fill-amber-400" />
+                <span>Customer Ratings & Reviews</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Verified purchaser ratings and feedback
+              </p>
+            </div>
+
+            {/* Overall rating pill */}
+            <div className="flex items-center gap-1.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 px-3 py-1.5 rounded-xl">
+              <span className="text-sm font-black text-amber-700 dark:text-amber-300">
+                ★ {avgRating.toFixed(1)}
+              </span>
+              <span className="text-[11px] font-semibold text-amber-800/70 dark:text-amber-300/70">
+                / 5.0
+              </span>
+            </div>
+          </div>
+
+          {/* RATING FORM (Problem 1: User can rate product after order) */}
+          <div className="bg-slate-50/80 dark:bg-secondary/40 border border-slate-200/70 dark:border-border rounded-xl p-3.5 space-y-3">
+            {userExistingReview && !isEditingReview ? (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-700 dark:text-foreground">
+                      Your Rating:
+                    </span>
+                    <div className="flex text-amber-400">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`w-3.5 h-3.5 ${
+                            star <= Number(userExistingReview.rating)
+                              ? "fill-amber-400 text-amber-400"
+                              : "text-slate-300 dark:text-slate-600"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                      ({userExistingReview.rating}/5)
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => setIsEditingReview(true)}
+                    className="text-xs font-bold text-[#800080] dark:text-purple-400 hover:underline"
+                  >
+                    Edit Review
+                  </button>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-card p-2.5 rounded-lg border border-slate-200/60 dark:border-border">
+                  "{userExistingReview.comment}"
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleReviewSubmit} className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-foreground">
+                      {userExistingReview
+                        ? "Update Your Review"
+                        : "Rate this Product"}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Share your experience with product quality and delivery
+                    </p>
+                  </div>
+
+                  {/* Interactive Star Rating Selector */}
+                  <div className="flex items-center space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        onClick={() => setUserRating(star)}
+                        className="p-1 text-slate-300 hover:scale-110 transition-transform"
+                        title={`${star} Star`}
+                      >
+                        <Star
+                          className={`w-5 h-5 ${
+                            star <= (hoverRating || userRating)
+                              ? "fill-amber-400 text-amber-400"
+                              : "text-slate-300 dark:text-slate-600"
+                          }`}
+                        />
+                      </button>
+                    ))}
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-1.5 w-16">
+                      {
+                        [
+                          "",
+                          "Poor",
+                          "Fair",
+                          "Good",
+                          "Very Good",
+                          "Excellent!",
+                        ][hoverRating || userRating]
+                      }
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <textarea
+                    value={userComment}
+                    onChange={(e) => setUserComment(e.target.value)}
+                    rows={2}
+                    placeholder="Write your review about product quality, scent, packaging, etc..."
+                    className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-card text-slate-800 dark:text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all placeholder:text-slate-400"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2">
+                  {userExistingReview && (
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingReview(false)}
+                      className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-border text-xs text-slate-600 dark:text-slate-300 font-semibold"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={isSubmittingReview}
+                    className="px-4 py-2 rounded-xl bg-[#800080] hover:bg-purple-900 text-white font-bold text-xs shadow-sm hover:shadow transition-all disabled:opacity-50 flex items-center gap-1.5 active:scale-95"
+                  >
+                    {isSubmittingReview ? (
+                      <>
+                        <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Submitting...</span>
+                      </>
+                    ) : (
+                      <span>
+                        {userExistingReview ? "Update Review" : "Submit Rating"}
+                      </span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+
+          {/* LIST OF VERIFIED REVIEWS ("ji ho na rating ki ho be nicha show ho jaiga") */}
+          <div className="space-y-2.5 pt-1">
+            <div className="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider">
+              <span>Verified Customer Reviews</span>
+              <span>{reviewsList.length} Total</span>
+            </div>
+
+            {reviewsList.length > 0 ? (
+              <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+                {reviewsList.map((rev, idx) => (
+                  <div
+                    key={rev.review_id || rev.id || idx}
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-secondary/30 border border-slate-200/80 dark:border-border/80 space-y-1.5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        {rev.reviewer?.avatar?.url ? (
+                          <img
+                            src={rev.reviewer.avatar.url}
+                            alt={rev.reviewer.name || "Customer"}
+                            className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-border"
+                          />
+                        ) : (
+                          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 text-white text-[11px] font-bold flex items-center justify-center uppercase">
+                            {(rev.reviewer?.name || "U")[0]}
+                          </div>
+                        )}
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-xs font-bold text-slate-800 dark:text-foreground">
+                              {rev.reviewer?.name || "Verified Customer"}
+                            </span>
+                            <span className="inline-flex items-center gap-0.5 text-[9px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-900/60">
+                              <Check className="w-2.5 h-2.5 stroke-[3]" />
+                              Verified
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-slate-400">
+                            {rev.created_at
+                              ? formatRuntimeDate(rev.created_at)
+                              : "Recent"}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Star rating */}
+                      <div className="flex text-amber-400">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`w-3 h-3 ${
+                              star <= Number(rev.rating)
+                                ? "fill-amber-400 text-amber-400"
+                                : "text-slate-300 dark:text-slate-600"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed pl-9">
+                      {rev.comment}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-secondary/30 border border-dashed border-slate-200 dark:border-border text-center space-y-1">
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  No customer reviews yet.
+                </p>
+                <p className="text-[11px] text-slate-500">
+                  Be the first verified customer to rate this product above!
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

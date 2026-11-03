@@ -35,6 +35,7 @@ import NoReturnPolicy from "./pages/ReturnsPolicy";
 import SecurityPolicy from "./pages/SecurityPolicy";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
 import SkyCloudsBackground from "./components/Layout/SkyCloudsBackground";
+import ScrollToTop from "./components/Common/ScrollToTop";
 
 const App = () => {
   const { authUser, isCheckingAuth } = useSelector((state) => state.auth);
@@ -77,6 +78,7 @@ const App = () => {
       <ThemeProvider>
         <CurrencyProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <div className="min-h-screen bg-transparent relative text-foreground">
               {/* Animated Sky View & Moving Clouds (Badal) Background */}
               <SkyCloudsBackground />

@@ -242,7 +242,7 @@ const SkyCloudsBackground = ({ previewSettings = null, isPreview = false }) => {
     isSunset = true;
   } else {
     // Custom dual colors
-    const c = settings.custom || DEFAULT_BACKGROUND_SETTINGS.custom;
+    const c = { ...DEFAULT_BACKGROUND_SETTINGS.custom, ...(settings.custom || {}) };
     activeGradient = `linear-gradient(${c.angle || "180deg"}, ${c.color1 || "#0284c7"} 0%, ${c.color2 || "#7dd3fc"} 100%)`;
     activeCloudColor = c.cloudColor || "#ffffff";
   }
