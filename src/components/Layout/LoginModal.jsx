@@ -106,6 +106,11 @@ const LoginModal = () => {
         {/* HEADER */}
         <div className="flex items-start justify-between mb-6">
           <div>
+            <img
+              src="/img/logo/skay-logo.png"
+              alt="sKay Products"
+              className="h-10 w-auto object-contain mb-2"
+            />
             <span className="luxury-pill mb-2">
               <Sparkles className="w-3 h-3 text-champagne" />
               <span>Skay Products Client Portal</span>

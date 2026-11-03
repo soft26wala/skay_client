@@ -104,15 +104,12 @@ const Navbar = () => {
 
           {/* CENTER: BRAND LOGO (2 Columns, Centered) */}
           <div className="col-span-2 flex items-center justify-center">
-            <Link to="/" className="flex flex-col items-center justify-center group py-1 text-center select-none" aria-label="sKay Products">
-              <div className="flex items-baseline tracking-tight font-serif">
-                <span className="text-2xl sm:text-3xl font-normal lowercase italic text-champagne leading-none">s</span>
-                <span className="text-2xl sm:text-3xl font-bold uppercase text-foreground leading-none">K</span>
-                <span className="text-2xl sm:text-3xl font-serif text-foreground leading-none">ay</span>
-              </div>
-              <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.25em] text-muted-foreground font-sans font-semibold -mt-0.5 whitespace-nowrap">
-                Household & Living
-              </span>
+            <Link to="/" className="flex items-center justify-center group py-1 select-none" aria-label="sKay Products">
+              <img
+                src="/img/logo/skay-logo.png"
+                alt="sKay Products"
+                className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105 duration-300 drop-shadow-xs"
+              />
             </Link>
           </div>
 

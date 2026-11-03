@@ -59,14 +59,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-16">
           {/* Brand & Atelier Coordinates (Col 1 to 5) */}
           <div className="lg:col-span-5 space-y-6">
-            <Link to="/" className="inline-flex flex-col group" aria-label="sKay Products">
-              <div className="flex items-baseline font-serif">
-                <span className="text-3xl font-normal lowercase italic text-champagne leading-none">s</span>
-                <span className="text-3xl font-bold uppercase text-foreground leading-none">K</span>
-                <span className="text-3xl text-foreground leading-none">ay</span>
-                <span className="text-sm font-sans uppercase tracking-[0.25em] text-muted-foreground ml-2 font-medium">Products</span>
-              </div>
-              <span className="text-[10px] tracking-[0.25em] uppercase text-champagne font-semibold mt-1">
+            <Link to="/" className="inline-flex flex-col group self-start" aria-label="sKay Products">
+              <img
+                src="/img/logo/skay-logo.png"
+                alt="sKay Products"
+                className="h-14 sm:h-16 w-auto object-contain transition-transform group-hover:scale-105 duration-300"
+              />
+              <span className="text-[10px] tracking-[0.25em] uppercase text-champagne font-semibold mt-2">
                 Household & Living Essentials
               </span>
             </Link>

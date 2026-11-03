@@ -46,17 +46,14 @@ const Sidebar = () => {
       {/* MOBILE SIDEBAR */}
       <div className="fixed left-0 top-0 h-full w-full max-w-xs z-50 bg-background/95 backdrop-blur-2xl border-r border-border/60 shadow-2xl animate-slide-in-left flex flex-col">
         {/* BRAND HEADER */}
-        <div className="flex items-center justify-between p-6 border-b border-border/50">
-          <div className="flex flex-col">
-            <div className="flex items-baseline font-serif">
-              <span className="text-2xl font-normal lowercase italic text-champagne leading-none">s</span>
-              <span className="text-2xl font-bold uppercase text-foreground leading-none">K</span>
-              <span className="text-2xl text-foreground leading-none">ay</span>
-            </div>
-            <span className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground font-sans font-medium">
-              Household & Living
-            </span>
-          </div>
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-border/50">
+          <Link to="/" onClick={() => dispatch(toggleSidebar())} className="flex items-center">
+            <img
+              src="/img/logo/skay-logo.png"
+              alt="sKay Products"
+              className="h-11 w-auto object-contain"
+            />
+          </Link>
 
           <div className="flex items-center space-x-2">
             <button
