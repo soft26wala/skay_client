@@ -61,15 +61,15 @@ const TrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
           <div className="flex-1 space-y-6 text-center md:text-left">
             <div className="space-y-2">
               <span className="luxury-pill">
-                <Sparkles className="w-3 h-3 text-champagne" />
+                <Sparkles className="w-3.5 h-3.5 text-amber-700" />
                 <span>Master Atelier Stewardship</span>
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-foreground leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white leading-tight">
                 {title || defaultTitle}
               </h2>
             </div>
 
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
               {dexperience || defaultExperience}
             </p>
 
@@ -77,16 +77,16 @@ const TrustSection = ({ dimg, dname, title, dexperience, reverse }) => {
               {pillars.map((pillar, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start space-x-3.5 p-3.5 rounded-xl bg-secondary/40 border border-border/50 text-left"
+                  className="flex items-start space-x-3.5 p-4 rounded-xl bg-white/80 dark:bg-secondary/40 border border-slate-200/80 dark:border-border/50 text-left shadow-xs"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-champagne/15 border border-champagne/30 flex items-center justify-center text-champagne flex-shrink-0 mt-0.5">
-                    <pillar.icon className="w-4 h-4" />
+                  <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 dark:text-amber-300 flex-shrink-0 mt-0.5 shadow-xs">
+                    <pillar.icon className="w-5 h-5 stroke-[2]" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    <h4 className="text-sm font-black text-slate-900 dark:text-foreground uppercase tracking-wider">
                       {pillar.title}
                     </h4>
-                    <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                    <p className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mt-0.5 leading-relaxed">
                       {pillar.desc}
                     </p>
                   </div>

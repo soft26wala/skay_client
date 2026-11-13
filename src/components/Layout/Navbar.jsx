@@ -55,11 +55,11 @@ const Navbar = () => {
   return (
     <nav className="fixed left-0 w-full top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border/60 transition-all duration-300">
       {/* Top Friendly Announcement Bar */}
-      <div className="bg-secondary/70 py-1.5 px-4 text-center border-b border-border/50">
-        <p className="text-[11px] tracking-[0.18em] uppercase text-foreground/80 font-medium flex items-center justify-center gap-2">
-          <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
+      <div className="bg-amber-50/90 dark:bg-amber-950/40 py-2 px-4 text-center border-b border-amber-200/60 dark:border-amber-900/40">
+        <p className="text-xs sm:text-sm tracking-wider uppercase text-slate-900 dark:text-slate-100 font-bold flex items-center justify-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 animate-pulse" />
           <span>{announcement}</span>
-          <Sparkles className="w-3 h-3 text-champagne animate-pulse" />
+          <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 animate-pulse" />
         </p>
       </div>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="hidden lg:flex items-center space-x-4 xl:space-x-5">
+            <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
               {navLinks.map((link) => {
                 const isActive =
                   location.pathname === link.path ||
@@ -86,15 +86,15 @@ const Navbar = () => {
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`text-[11px] xl:text-xs font-semibold tracking-[0.08em] uppercase transition-all relative py-1 whitespace-nowrap flex items-center gap-1 ${
+                    className={`text-xs xl:text-sm font-bold tracking-wider uppercase transition-all relative py-1 whitespace-nowrap flex items-center gap-1 ${
                       isActive
-                        ? "text-champagne font-bold"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "text-amber-800 dark:text-amber-300 font-extrabold"
+                        : "text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white"
                     }`}
                   >
                     <span>{link.name}</span>
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-champagne rounded-full" />
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-600 rounded-full" />
                     )}
                   </Link>
                 );

@@ -140,57 +140,57 @@ const Cart = () => {
                     <div>
                       <Link
                         to={`/product/${item.product?.id}`}
-                        className="hover:text-champagne transition-colors"
+                        className="hover:text-amber-700 transition-colors"
                       >
-                        <h3 className="text-base sm:text-lg font-serif font-bold text-foreground">
+                        <h3 className="text-base sm:text-lg font-serif font-black text-slate-900 dark:text-white">
                           {item.product?.name}
                         </h3>
                       </Link>
-                      <p className="text-xs text-muted-foreground capitalize mt-0.5">
+                      <p className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 capitalize mt-0.5">
                         Category: {item.product?.category}
                       </p>
                     </div>
 
                     <button
                       onClick={() => dispatch(removeFromCart(item.product?.id))}
-                      className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
                       title="Remove from bag"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
                     {/* Quantity Stepper */}
-                    <div className="flex items-center space-x-2 border border-border/60 rounded-lg p-1 bg-secondary/50">
+                    <div className="flex items-center space-x-2 border-2 border-slate-300 dark:border-border/60 rounded-xl p-1 bg-white dark:bg-secondary/50 shadow-xs">
                       <button
                         disabled={item.quantity <= 1}
                         onClick={() =>
                           updateQuantity(item.product?.id, item.quantity - 1)
                         }
-                        className="w-7 h-7 flex items-center justify-center rounded hover:bg-champagne/20 text-muted-foreground disabled:opacity-30 transition-colors"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-900 font-bold disabled:opacity-30 transition-colors"
                       >
-                        <Minus className="w-3.5 h-3.5" />
+                        <Minus className="w-4 h-4 stroke-[2.5]" />
                       </button>
-                      <span className="w-8 text-center text-xs font-bold text-foreground">
+                      <span className="w-8 text-center text-sm font-black text-slate-900 dark:text-foreground">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() =>
                           updateQuantity(item.product?.id, item.quantity + 1)
                         }
-                        className="w-7 h-7 flex items-center justify-center rounded hover:bg-champagne/20 text-muted-foreground transition-colors"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-900 font-bold transition-colors"
                       >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-4 h-4 stroke-[2.5]" />
                       </button>
                     </div>
 
                     {/* Pricing */}
                     <div className="text-right">
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
                         {formatPrice(item.product?.price)} each
                       </p>
-                      <p className="text-base font-bold text-champagne">
+                      <p className="text-lg sm:text-xl font-serif font-black text-slate-950 dark:text-amber-300">
                         {formatPrice(Number(item.product?.price) * item.quantity)}
                       </p>
                     </div>
@@ -202,66 +202,66 @@ const Cart = () => {
 
           {/* ORDER SUMMARY (Col 9 to 12) */}
           <div className="lg:col-span-4">
-            <div className="glass-panel sticky top-28 p-6 sm:p-8 border border-border/60 shadow-xl space-y-6">
-              <h2 className="text-xl font-serif font-bold text-foreground pb-4 border-b border-border/40">
+            <div className="glass-panel sticky top-28 p-6 sm:p-8 border-2 border-slate-200/80 dark:border-border/60 shadow-xl space-y-6 bg-white/95 dark:bg-card">
+              <h2 className="text-2xl font-serif font-black text-slate-900 dark:text-white pb-4 border-b border-border/40">
                 Order Summary
               </h2>
 
-              <div className="space-y-3.5 text-xs">
-                <div className="flex justify-between text-muted-foreground">
+              <div className="space-y-4 text-xs sm:text-sm">
+                <div className="flex justify-between text-slate-700 dark:text-slate-300 font-bold">
                   <span>Subtotal ({cartItemsCount} items)</span>
-                  <span className="text-foreground font-semibold">
+                  <span className="text-slate-900 dark:text-white font-black">
                     {formatPrice(total)}
                   </span>
                 </div>
 
-                <div className="flex justify-between items-center text-muted-foreground">
+                <div className="flex justify-between items-center text-slate-700 dark:text-slate-300 font-bold">
                   <span>Standard Shipping</span>
                   <span
                     className={
                       remainingForFreeShipping === 0
-                        ? "text-green-600 font-bold uppercase tracking-wider text-[11px]"
-                        : "text-foreground font-semibold"
+                        ? "text-emerald-700 font-black uppercase tracking-wider text-xs bg-emerald-100 px-2 py-0.5 rounded-md"
+                        : "text-slate-900 dark:text-white font-black"
                     }
                   >
                     {remainingForFreeShipping === 0 ? "Free Shipping" : formatPrice(5.00)}
                   </span>
                 </div>
 
-                <div className="flex justify-between text-muted-foreground">
+                <div className="flex justify-between text-slate-700 dark:text-slate-300 font-bold">
                   <span>Estimated Tax (GST/HST)</span>
-                  <span className="text-foreground font-semibold">
+                  <span className="text-slate-900 dark:text-white font-black">
                     {formatPrice(total * 0.05)}
                   </span>
                 </div>
 
-                <div className="pt-4 border-t border-champagne/30 flex justify-between items-baseline">
+                <div className="pt-4 border-t-2 border-slate-200 dark:border-border flex justify-between items-baseline">
                   <div>
-                    <span className="text-sm font-serif font-bold text-foreground block">
+                    <span className="text-base font-serif font-black text-slate-900 dark:text-white block">
                       Estimated Total
                     </span>
-                    <span className="text-[10px] text-muted-foreground">
+                    <span className="text-xs text-slate-500 font-medium">
                       Final taxes calculated at checkout
                     </span>
                   </div>
-                  <span className="text-2xl font-serif font-bold text-champagne">
+                  <span className="text-2xl sm:text-3xl font-serif font-black text-slate-950 dark:text-amber-300">
                     {formatPrice(total + total * 0.05 + (remainingForFreeShipping === 0 ? 0 : 5))}
                   </span>
                 </div>
               </div>
 
               {/* Checkout Button */}
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <Link
                   to="/payment"
-                  className="w-full block py-4 text-center gradient-primary text-black font-bold text-xs tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth shadow-lg"
+                  className="w-full block py-4 text-center gradient-primary text-slate-950 font-black text-sm tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth shadow-lg"
                 >
                   Proceed to Checkout
                 </Link>
 
                 <Link
                   to="/products"
-                  className="w-full block py-3.5 text-center bg-secondary/80 hover:bg-secondary border border-border hover:border-champagne text-foreground font-semibold text-xs tracking-wider uppercase rounded-xl transition-all"
+                  className="w-full block py-3.5 text-center bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 dark:border-border text-slate-900 dark:text-white font-bold text-xs tracking-wider uppercase rounded-xl transition-all"
                 >
                   Continue Shopping
                 </Link>

@@ -35,13 +35,13 @@ const CategoryGrid = () => {
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
         <span className="luxury-pill">
-          <Sparkles className="w-3 h-3 text-champagne" />
+          <Sparkles className="w-3.5 h-3.5 text-amber-700" />
           <span>Curated Disciplines</span>
         </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground tracking-tight">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-slate-900 dark:text-white tracking-tight">
           Explore by Category
         </h2>
-        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+        <p className="text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
           Traverse our refined classifications of artisanal products, meticulously curated for discernment and longevity.
         </p>
       </div>
@@ -69,10 +69,10 @@ const CategoryGrid = () => {
             </div>
 
             <div className="pt-1">
-              <h3 className="text-sm sm:text-base font-serif font-bold text-foreground group-hover:text-champagne transition-colors">
+              <h3 className="text-base sm:text-lg font-serif font-black text-slate-900 dark:text-white group-hover:text-amber-700 transition-colors">
                 {category.name}
               </h3>
-              <span className="text-[11px] uppercase tracking-wider text-muted-foreground block mt-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 block mt-1">
                 View Collection
               </span>
             </div>

@@ -18,6 +18,9 @@ import {
   ExternalLink,
   Clock,
   CheckCircle2,
+  Copy,
+  RefreshCw,
+  Navigation,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -59,6 +62,36 @@ const Orders = () => {
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [userExistingReview, setUserExistingReview] = useState(null);
   const [isEditingReview, setIsEditingReview] = useState(false);
+
+  // Stallion Express state & handlers
+  const [copiedStallion, setCopiedStallion] = useState(false);
+  const [isRefreshingStallion, setIsRefreshingStallion] = useState(false);
+  const [liveStallionTracking, setLiveStallionTracking] = useState(null);
+
+  const handleCopyStallionTracking = (code) => {
+    navigator.clipboard.writeText(code);
+    setCopiedStallion(true);
+    setTimeout(() => setCopiedStallion(false), 2000);
+  };
+
+  const handleRefreshStallionTracking = async (orderId) => {
+    if (!orderId) return;
+    setIsRefreshingStallion(true);
+    try {
+      const { data } = await axiosInstance.get(`/order/stallion/track/${orderId}`);
+      if (data.success && data.tracking) {
+        setLiveStallionTracking(data.tracking);
+        toast.success("Live tracking updated from Stallion Express!");
+        dispatch(fetchMyOrders());
+      } else {
+        toast.info(data.message || "Tracking is up to date.");
+      }
+    } catch (err) {
+      console.warn("Notice syncing tracking:", err.message);
+    } finally {
+      setIsRefreshingStallion(false);
+    }
+  };
 
   useEffect(() => {
     if (authUser) {
@@ -482,9 +515,9 @@ const Orders = () => {
 
               <button
                 onClick={() => setShowHelpModal(true)}
-                className="flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-bold text-[#800080] dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 transition-all shadow-sm"
+                className="flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-secondary border border-slate-300 dark:border-border transition-all shadow-sm"
               >
-                <PhoneCall className="w-3.5 h-3.5" />
+                <PhoneCall className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                 <span>HELP</span>
               </button>
             </div>
@@ -647,7 +680,7 @@ const Orders = () => {
                           className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors z-10 ${
                             progress.step >= 2
                               ? "bg-emerald-600 text-white shadow"
-                              : "bg-purple-100 dark:bg-purple-950/60 text-[#800080] dark:text-purple-400 border border-purple-300 dark:border-purple-800"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700"
                           }`}
                         >
                           {progress.step >= 2 ? (
@@ -670,7 +703,7 @@ const Orders = () => {
                           className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors z-10 ${
                             progress.step >= 3
                               ? "bg-emerald-600 text-white shadow"
-                              : "bg-purple-100 dark:bg-purple-950/60 text-[#800080] dark:text-purple-400 border border-purple-300 dark:border-purple-800"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700"
                           }`}
                         >
                           {progress.step >= 3 ? (
@@ -693,7 +726,7 @@ const Orders = () => {
                           className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors z-10 ${
                             progress.step >= 4
                               ? "bg-emerald-600 text-white shadow"
-                              : "bg-purple-100 dark:bg-purple-950/60 text-[#800080] dark:text-purple-400 border border-purple-300 dark:border-purple-800"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700"
                           }`}
                         >
                           {progress.step >= 4 ? (
@@ -710,6 +743,117 @@ const Orders = () => {
                         </span>
                       </div>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 3B. STALLION EXPRESS SHIPMENT & REAL-TIME LOGISTICS (From https://stallion.ca/ API) */}
+              {activeOrder?.stallion_tracking_number && (
+                <div className="bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-slate-50 dark:from-amber-950/30 dark:via-secondary/50 dark:to-card border-2 border-amber-400/40 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-amber-400/25">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 flex items-center justify-center text-amber-800 dark:text-amber-300 shrink-0">
+                        <Truck className="w-5 h-5 stroke-[2.2]" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] sm:text-xs uppercase font-black tracking-widest text-amber-800 dark:text-amber-300">
+                            Stallion Express Canadian Logistics
+                          </span>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-white dark:bg-slate-900 border border-amber-300 text-amber-900 dark:text-amber-300 font-bold uppercase">
+                            {activeOrder.stallion_carrier || "Canada Post"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="font-mono text-sm sm:text-base font-black text-slate-900 dark:text-white">
+                            {activeOrder.stallion_tracking_number}
+                          </span>
+                          <button
+                            onClick={() =>
+                              handleCopyStallionTracking(
+                                activeOrder.stallion_tracking_number
+                              )
+                            }
+                            className="text-amber-700 dark:text-amber-400 hover:text-amber-900 p-1 transition"
+                            title="Copy tracking code"
+                          >
+                            {copiedStallion ? (
+                              <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+                            ) : (
+                              <Copy className="w-4 h-4" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() =>
+                          handleRefreshStallionTracking(activeOrder.id)
+                        }
+                        disabled={isRefreshingStallion}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-secondary border border-amber-300 text-slate-800 dark:text-slate-200 hover:border-amber-500 transition shadow-xs disabled:opacity-50"
+                        title="Refresh live status from Stallion Express API"
+                      >
+                        <RefreshCw
+                          className={`w-3.5 h-3.5 text-amber-600 ${
+                            isRefreshingStallion ? "animate-spin" : ""
+                          }`}
+                        />
+                        <span>
+                          {isRefreshingStallion ? "Syncing..." : "Sync Live Status"}
+                        </span>
+                      </button>
+
+                      <a
+                        href={`https://ship.stallion.ca/track/${activeOrder.stallion_tracking_number}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-xs transition"
+                      >
+                        <span>Track on Stallion.ca</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Live Event Stream from Stallion Express API */}
+                  <div className="bg-white/80 dark:bg-secondary/40 rounded-xl p-3 border border-amber-400/20 text-xs space-y-1.5">
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
+                      <span className="flex items-center gap-1 text-amber-800 dark:text-amber-400 font-bold uppercase tracking-wider">
+                        <Navigation className="w-3 h-3" />
+                        <span>Live Tracking Telemetry</span>
+                      </span>
+                      <span className="font-mono">
+                        Last Synced:{" "}
+                        {activeOrder.stallion_synced_at
+                          ? new Date(
+                              activeOrder.stallion_synced_at
+                            ).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : "Live"}
+                      </span>
+                    </div>
+
+                    <p className="text-slate-800 dark:text-slate-200 font-semibold leading-relaxed">
+                      {liveStallionTracking?.last_event?.description ||
+                        activeOrder.stallion_tracking_data?.last_event
+                          ?.description ||
+                        "Package processed at Stallion Express logistics facility and en route to destination."}
+                      {(liveStallionTracking?.last_event?.location ||
+                        activeOrder.stallion_tracking_data?.last_event
+                          ?.location) && (
+                        <span className="text-amber-700 dark:text-amber-400 font-bold ml-1.5">
+                          •{" "}
+                          {liveStallionTracking?.last_event?.location ||
+                            activeOrder.stallion_tracking_data?.last_event
+                              ?.location}
+                        </span>
+                      )}
+                    </p>
                   </div>
                 </div>
               )}
@@ -747,9 +891,9 @@ const Orders = () => {
                     const el = document.getElementById("review-section");
                     el?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="self-start sm:self-center px-3.5 py-1.5 rounded-xl bg-[#800080] hover:bg-purple-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95 shrink-0"
+                  className="self-start sm:self-center px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95 shrink-0"
                 >
-                  <Star className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300" />
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>{userExistingReview ? "Edit Your Rating" : "Rate Product"}</span>
                 </button>
               </div>
@@ -809,7 +953,7 @@ const Orders = () => {
 
                       <button
                         onClick={() => setIsEditingReview(true)}
-                        className="text-xs font-bold text-[#800080] dark:text-purple-400 hover:underline"
+                        className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:underline"
                       >
                         Edit Review
                       </button>
@@ -873,7 +1017,7 @@ const Orders = () => {
                         onChange={(e) => setUserComment(e.target.value)}
                         rows={2}
                         placeholder="Write your review about product quality, scent, packaging, etc..."
-                        className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-card text-slate-800 dark:text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all placeholder:text-slate-400"
+                        className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-card text-slate-800 dark:text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/30 transition-all placeholder:text-slate-400"
                       />
                     </div>
 
@@ -890,7 +1034,7 @@ const Orders = () => {
                       <button
                         type="submit"
                         disabled={isSubmittingReview}
-                        className="px-4 py-2 rounded-xl bg-[#800080] hover:bg-purple-900 text-white font-bold text-xs shadow-sm hover:shadow transition-all disabled:opacity-50 flex items-center gap-1.5 active:scale-95"
+                        className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white font-bold text-xs shadow-sm hover:shadow transition-all disabled:opacity-50 flex items-center gap-1.5 active:scale-95"
                       >
                         {isSubmittingReview ? (
                           <>
@@ -997,7 +1141,7 @@ const Orders = () => {
               {!isCancelled && currentStatus !== "Delivered" && (
                 <button
                   onClick={() => setShowCancelModal(true)}
-                  className="px-4 py-2 rounded-xl border-2 border-[#800080] text-[#800080] dark:text-purple-300 dark:border-purple-400 font-bold text-xs uppercase tracking-wider hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-all shrink-0 active:scale-95"
+                  className="px-4 py-2 rounded-xl border-2 border-slate-700 text-slate-800 dark:text-slate-200 dark:border-slate-400 font-bold text-xs uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-secondary transition-all shrink-0 active:scale-95"
                 >
                   Cancel Order
                 </button>
@@ -1043,7 +1187,7 @@ const Orders = () => {
                 </span>
                 <button
                   onClick={() => setShowAddressInfoModal(true)}
-                  className="font-bold text-[#800080] dark:text-purple-400 hover:underline tracking-wider uppercase text-[11px]"
+                  className="font-bold text-amber-700 dark:text-amber-400 hover:underline tracking-wider uppercase text-[11px]"
                 >
                   KNOW MORE
                 </button>
@@ -1110,9 +1254,9 @@ const Orders = () => {
 
               <button
                 onClick={() => setShowHelpModal(true)}
-                className="flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-bold text-[#800080] dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 transition-all shadow-sm"
+                className="flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-secondary border border-slate-300 dark:border-border transition-all shadow-sm"
               >
-                <PhoneCall className="w-3.5 h-3.5" />
+                <PhoneCall className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                 <span>HELP</span>
               </button>
             </div>
@@ -1127,7 +1271,7 @@ const Orders = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search all orders by product name or order ID..."
-                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl bg-slate-50 dark:bg-secondary/40 border border-slate-200 dark:border-border text-slate-800 dark:text-foreground focus:outline-none focus:ring-2 focus:ring-[#800080]/30 transition-all"
+                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl bg-slate-50 dark:bg-secondary/40 border border-slate-200 dark:border-border text-slate-800 dark:text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/30 transition-all"
                 />
                 {searchQuery && (
                   <button
@@ -1152,7 +1296,7 @@ const Orders = () => {
                     onClick={() => setOrderFilter(tab.id)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                       orderFilter === tab.id
-                        ? "bg-[#800080] text-white shadow-xs"
+                        ? "bg-slate-900 dark:bg-amber-600 text-white shadow-xs font-bold"
                         : "bg-slate-50 dark:bg-secondary/40 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-secondary border border-slate-200/60 dark:border-border"
                     }`}
                   >
@@ -1178,43 +1322,43 @@ const Orders = () => {
                       <div className="bg-slate-50/90 dark:bg-secondary/40 border-b border-slate-200/70 dark:border-border/70 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
                         <div className="flex flex-wrap items-center gap-4 sm:gap-6">
                           <div>
-                            <span className="block text-[9px] uppercase font-bold text-slate-400 dark:text-slate-500">
+                            <span className="block text-[10px] uppercase font-black text-slate-500 dark:text-slate-400">
                               ORDER PLACED
                             </span>
-                            <span className="font-semibold text-slate-700 dark:text-slate-300 text-xs">
+                            <span className="font-bold text-slate-900 dark:text-slate-100 text-xs sm:text-sm">
                               {formatRuntimeDate(ord.created_at)}
                             </span>
                           </div>
 
                           <div>
-                            <span className="block text-[9px] uppercase font-bold text-slate-400 dark:text-slate-500">
+                            <span className="block text-[10px] uppercase font-black text-slate-500 dark:text-slate-400">
                               TOTAL
                             </span>
-                            <span className="font-bold text-slate-800 dark:text-foreground text-xs">
+                            <span className="font-serif font-black text-slate-950 dark:text-amber-400 text-xs sm:text-sm">
                               {formatPrice(ord.total_price)}
                             </span>
                           </div>
 
                           <div>
-                            <span className="block text-[9px] uppercase font-bold text-slate-400 dark:text-slate-500">
+                            <span className="block text-[10px] uppercase font-black text-slate-500 dark:text-slate-400">
                               PAYMENT
                             </span>
-                            <span className="font-semibold text-slate-700 dark:text-slate-300 text-xs">
+                            <span className="font-bold text-slate-900 dark:text-slate-100 text-xs sm:text-sm">
                               {ord.payment_type || "Prepaid"}
                             </span>
                           </div>
                         </div>
 
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] text-slate-400 font-mono">
+                          <span className="text-xs text-slate-500 font-mono font-bold">
                             #{ord.id.slice(0, 8)}
                           </span>
                           <button
                             onClick={() => handleSelectOrder(ord)}
-                            className="font-bold text-[#800080] dark:text-purple-400 hover:underline text-xs flex items-center"
+                            className="font-black text-amber-800 dark:text-amber-400 hover:underline text-xs sm:text-sm flex items-center"
                           >
                             <span>Details</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
+                            <ChevronRight className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
@@ -1225,7 +1369,7 @@ const Orders = () => {
                           {/* Thumbnail */}
                           <div
                             onClick={() => handleSelectOrder(ord)}
-                            className="w-20 h-20 sm:w-22 sm:h-22 rounded-xl bg-slate-50 dark:bg-secondary/60 border border-slate-200 dark:border-border overflow-hidden p-1 shrink-0 flex items-center justify-center cursor-pointer"
+                            className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-slate-50 dark:bg-secondary/60 border-2 border-slate-200 dark:border-border overflow-hidden p-1 shrink-0 flex items-center justify-center cursor-pointer shadow-xs"
                           >
                             <img
                               src={itm.image || "/avatar-holder.avif"}
@@ -1240,30 +1384,37 @@ const Orders = () => {
 
                           {/* Info */}
                           <div className="flex-1 min-w-0 space-y-1.5">
-                            {/* Status Pill */}
-                            <div className="flex items-center gap-1.5">
+                            {/* Status Pill & Stallion Badge */}
+                            <div className="flex flex-wrap items-center gap-1.5">
                               <span
-                                className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${statusInfo.bg} ${statusInfo.border} ${statusInfo.text}`}
+                                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black border ${statusInfo.bg} ${statusInfo.border} ${statusInfo.text}`}
                               >
-                                <span className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                                <span className={`w-2 h-2 rounded-full ${statusInfo.dot}`} />
                                 <span>{statusInfo.label}</span>
                               </span>
+
+                              {ord.stallion_tracking_number && (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-mono">
+                                  <Truck className="w-3 h-3 text-amber-700 dark:text-amber-400" />
+                                  <span>Stallion: {ord.stallion_tracking_number}</span>
+                                </span>
+                              )}
                             </div>
 
                             {/* Product Title */}
                             <h3
                               onClick={() => handleSelectOrder(ord)}
-                              className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-foreground line-clamp-2 hover:text-[#800080] dark:hover:text-purple-400 cursor-pointer transition-colors leading-snug"
+                              className="text-sm sm:text-base font-bold text-slate-900 dark:text-foreground line-clamp-2 hover:text-amber-700 dark:hover:text-amber-400 cursor-pointer transition-colors leading-snug"
                             >
                               {itm.title || "Ordered Item"}
                             </h3>
 
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                               Qty: {itm.quantity || 1} • {itm.variant || (ord.payment_type || "Prepaid")}
                             </p>
 
                             {ord.order_items && ord.order_items.length > 1 && (
-                              <p className="text-[10px] font-bold text-purple-700 dark:text-purple-400">
+                              <p className="text-xs font-black text-amber-800 dark:text-amber-400">
                                 +{ord.order_items.length - 1} more item(s) in this order
                               </p>
                             )}
@@ -1274,17 +1425,17 @@ const Orders = () => {
                         <div className="flex sm:flex-col items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-border/60">
                           <button
                             onClick={() => handleSelectOrder(ord)}
-                            className="flex-1 sm:w-40 px-4 py-2 rounded-xl bg-[#800080] hover:bg-purple-900 text-white font-bold text-xs shadow-xs hover:shadow transition-all flex items-center justify-center gap-1.5 active:scale-95"
+                            className="flex-1 sm:w-44 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white font-extrabold text-xs sm:text-sm shadow-sm hover:shadow transition-all flex items-center justify-center gap-1.5 active:scale-95"
                           >
-                            <Truck className="w-3.5 h-3.5" />
+                            <Truck className="w-4 h-4 stroke-[2.2]" />
                             <span>Track Package</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
+                            <ChevronRight className="w-4 h-4" />
                           </button>
 
                           {itm.product_id && (
                             <Link
                               to={`/product/${itm.product_id}`}
-                              className="flex-1 sm:w-40 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-border text-slate-700 dark:text-slate-300 font-semibold text-xs hover:bg-slate-50 dark:hover:bg-secondary text-center transition-colors"
+                              className="flex-1 sm:w-44 px-4 py-2 rounded-xl border-2 border-slate-300 dark:border-border text-slate-900 dark:text-slate-200 font-bold text-xs sm:text-sm hover:bg-slate-100 dark:hover:bg-secondary text-center transition-colors"
                             >
                               View Product
                             </Link>
@@ -1298,7 +1449,7 @@ const Orders = () => {
             ) : (
               /* Empty State */
               <div className="bg-white dark:bg-card border border-slate-200/90 dark:border-border rounded-2xl p-8 text-center space-y-3 shadow-xs">
-                <div className="w-14 h-14 rounded-2xl bg-purple-50 dark:bg-purple-950/40 text-[#800080] dark:text-purple-400 flex items-center justify-center mx-auto shadow-inner">
+                <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto shadow-inner">
                   <ShoppingBag className="w-7 h-7" />
                 </div>
                 <h3 className="font-bold text-base text-slate-800 dark:text-foreground">
@@ -1311,7 +1462,7 @@ const Orders = () => {
                 </p>
                 <Link
                   to="/products"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#800080] text-white text-xs font-bold hover:bg-purple-900 shadow-sm transition-all"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white text-xs font-bold shadow-sm transition-all"
                 >
                   <span>Start Shopping</span>
                   <ChevronRight className="w-4 h-4" />
@@ -1322,16 +1473,16 @@ const Orders = () => {
         )}
 
         {/* ======================================================== */}
-        {/* MAHA SAVER / RECOMMENDED PRODUCTS SECTION (Both Views)  */}
+        {/* sKay RECOMMENDED PRODUCTS SECTION (Both Views)          */}
         {/* ======================================================== */}
         <div className="pt-4 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-lg sm:text-xl font-bold font-serif text-slate-900 dark:text-foreground">
-              Meesho Maha Saver
+              sKay Exclusive Offers
             </h2>
             <Link
               to="/products"
-              className="text-xs font-bold text-[#800080] dark:text-purple-400 hover:underline uppercase tracking-wider"
+              className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:underline uppercase tracking-wider"
             >
               View All
             </Link>
@@ -1364,7 +1515,7 @@ const Orders = () => {
               <Link
                 key={prod.id}
                 to={`/product/${prod.id}`}
-                className="group bg-white dark:bg-card border border-slate-200 dark:border-border hover:border-purple-400 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                className="group bg-white dark:bg-card border border-slate-200 dark:border-border hover:border-amber-400 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div className="relative aspect-square rounded-xl bg-slate-50 dark:bg-secondary/40 overflow-hidden mb-2 p-2 flex items-center justify-center">
                   <img
@@ -1377,7 +1528,7 @@ const Orders = () => {
                   </span>
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-800 dark:text-foreground line-clamp-1 group-hover:text-purple-700">
+                  <h4 className="text-xs font-semibold text-slate-800 dark:text-foreground line-clamp-1 group-hover:text-amber-700">
                     {prod.name}
                   </h4>
                   <p className="text-xs font-bold text-emerald-600 mt-1">
@@ -1398,8 +1549,8 @@ const Orders = () => {
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-3xl p-6 max-w-sm w-full space-y-4 shadow-2xl animate-scale-up">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-border">
-              <div className="flex items-center space-x-2 text-[#800080] dark:text-purple-400">
-                <PhoneCall className="w-5 h-5" />
+              <div className="flex items-center space-x-2 text-slate-900 dark:text-foreground">
+                <PhoneCall className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                 <h3 className="font-bold text-base text-slate-800 dark:text-foreground">
                   Need Help With Order?
                 </h3>
@@ -1419,9 +1570,9 @@ const Orders = () => {
             <div className="space-y-2.5">
               <a
                 href="tel:+916376930459"
-                className="flex items-center space-x-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 text-[#800080] dark:text-purple-300 text-xs font-bold hover:bg-purple-100 transition-colors"
+                className="flex items-center space-x-3 p-3 rounded-xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-300 text-xs font-bold hover:bg-amber-100 transition-colors"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 text-amber-600" />
                 <span>Call Support (+91 6376930459)</span>
               </a>
 
@@ -1482,7 +1633,7 @@ const Orders = () => {
                   key={reason}
                   className={`flex items-center space-x-3 p-3 rounded-xl border text-xs cursor-pointer transition-all ${
                     cancelReason === reason
-                      ? "border-[#800080] bg-purple-50/70 dark:bg-purple-950/40 text-[#800080] dark:text-purple-300 font-semibold"
+                      ? "border-slate-900 bg-slate-100/80 dark:bg-secondary text-slate-900 dark:text-foreground font-semibold"
                       : "border-slate-200 dark:border-border hover:bg-slate-50 dark:hover:bg-secondary text-slate-700 dark:text-slate-300"
                   }`}
                 >
@@ -1492,7 +1643,7 @@ const Orders = () => {
                     value={reason}
                     checked={cancelReason === reason}
                     onChange={(e) => setCancelReason(e.target.value)}
-                    className="accent-[#800080]"
+                    className="accent-slate-900 dark:accent-amber-500"
                   />
                   <span>{reason}</span>
                 </label>
@@ -1546,7 +1697,7 @@ const Orders = () => {
 
             <button
               onClick={() => setShowAddressInfoModal(false)}
-              className="w-full py-2.5 rounded-xl bg-[#800080] text-white text-xs font-bold hover:bg-purple-900 transition-colors"
+              className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white text-xs font-bold transition-colors"
             >
               Got it
             </button>

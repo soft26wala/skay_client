@@ -23,13 +23,16 @@ const NewsletterSection = () => {
           </div>
 
           <div className="space-y-2">
-            <span className="luxury-pill">Private Gazette</span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground tracking-tight">
+            <span className="luxury-pill">
+              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+              <span>Private Gazette</span>
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-slate-900 dark:text-white tracking-tight">
               Invitation to the Private Circle
             </h2>
           </div>
 
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-lg mx-auto">
+          <p className="text-base sm:text-lg text-slate-800 dark:text-slate-200 font-medium leading-relaxed max-w-lg mx-auto">
             Receive confidential dispatches regarding seasonal harvest reserves, atelier exhibitions, and personalized botanical consultations.
           </p>
 
@@ -38,26 +41,26 @@ const NewsletterSection = () => {
             className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2"
           >
             <div className="relative flex-1">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700" />
               <input
                 type="email"
                 placeholder="Enter your confidential email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-11 pr-4 py-4 bg-secondary/80 border border-border rounded-xl text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-champagne transition-colors"
+                className="w-full pl-11 pr-4 py-4 bg-white border-2 border-slate-300 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-600 transition-colors"
                 required
               />
             </div>
             <button
               type="submit"
-              className="px-8 py-4 gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover animate-smooth flex items-center justify-center space-x-2 shadow-lg"
+              className="px-8 py-4 gradient-primary text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover animate-smooth flex items-center justify-center space-x-2 shadow-lg"
             >
               <span>Join Circle</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           </form>
 
-          <p className="text-[11px] text-muted-foreground tracking-wide">
+          <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 tracking-wide">
             We honor your privacy. Unsubscribe whenever you wish.
           </p>
         </div>

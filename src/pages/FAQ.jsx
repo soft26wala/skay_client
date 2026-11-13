@@ -17,34 +17,34 @@ const FAQ = () => {
 
   const faqs = [
     {
-      category: "Acquisitions & Payment",
-      question: "Which payment methods are accepted at Skay Products?",
+      category: "Orders & Payment",
+      question: "Which payment methods are accepted at sKay Products?",
       answer:
-        "We accept Cash on Delivery (COD) across Canada, alongside end-to-end encrypted online payments (supporting all major Canadian Credit and Debit cards including Visa, Mastercard, and American Express).",
+        "We accept Cash on Delivery (COD) alongside secure online payments (supporting UPI, Credit/Debit cards, Net Banking, and major cards via Razorpay).",
     },
     {
-      category: "Concierge Delivery",
+      category: "Shipping & Delivery",
       question: "What are your delivery timeframes and shipping fees?",
       answer:
-        "All acquisitions exceeding $75 CAD qualify for Complimentary Concierge Delivery. Orders below $75 CAD incur a standard flat dispatch fee of $5.00 CAD. Standard transit requires 2 to 4 business days in major Canadian cities, and 3 to 5 days nationwide across all provinces.",
+        "All orders exceeding $75 CAD qualify for Complimentary Express Delivery. Orders below $75 CAD incur a standard flat shipping fee of $5.00 CAD. Delivery typically takes 2 to 4 business days nationwide.",
     },
     {
-      category: "Formulation Purity",
-      question: "Are your botanicals certified authentic and single-origin?",
+      category: "Product Quality",
+      question: "Are your household products genuine and guaranteed?",
       answer:
-        "Every batch is formulated exclusively from organically wild-harvested herbs harvested at peak lunar potency. Each batch undergoes multi-spectral chromatography to certify absolute purity, potency, and zero synthetic adulterants.",
+        "Yes, every item at sKay Products is carefully manufactured, quality-tested for durable daily use, and 100% verified authentic with high manufacturing standards.",
     },
     {
-      category: "Care & Packaging",
-      question: "How should I store these formulations?",
+      category: "Care & Instructions",
+      question: "How do I ensure the best lifespan for my products?",
       answer:
-        "Our formulations are housed in biophotonic violet glass bottles engineered to block destructive visible light frequencies while allowing energizing ultraviolet rays. Store in a cool, shaded sanctuary away from direct sunlight.",
+        "Detailed care and usage instructions are provided with every product package and can also be found directly on each product details page under the 'Care & Instructions' tab.",
     },
     {
-      category: "Returns & Exchanges",
+      category: "Returns & Replacements",
       question: "What is your policy regarding returns and damages?",
       answer:
-        "Due to the sacred and personal care nature of our botanical formulations, delivered items are non-returnable. However, if your package arrives compromised or incorrect, our concierge team will dispatch a replacement within 24 hours of receiving photo confirmation.",
+        "We offer an easy 7-day return and replacement policy for items that arrive damaged or incorrect. Contact our customer support with your order ID and photos for swift resolution.",
     },
   ];
 
@@ -79,32 +79,32 @@ const FAQ = () => {
             return (
               <div
                 key={index}
-                className="glass-card border border-border/60 hover:border-champagne/40 rounded-2xl overflow-hidden transition-all shadow-sm"
+                className="glass-card border-2 border-slate-200 dark:border-border/60 hover:border-amber-400 rounded-2xl overflow-hidden transition-all shadow-sm bg-white dark:bg-card"
               >
                 <button
                   onClick={() => toggleItem(index)}
                   className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 transition-colors"
                 >
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-champagne block mb-1">
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-800 dark:text-amber-400 block mb-1">
                       {faq.category}
                     </span>
-                    <h3 className="font-serif font-bold text-base sm:text-lg text-foreground">
+                    <h3 className="font-serif font-black text-base sm:text-lg text-slate-900 dark:text-foreground">
                       {faq.question}
                     </h3>
                   </div>
 
-                  <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-champagne flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-secondary flex items-center justify-center text-amber-800 dark:text-champagne flex-shrink-0">
                     {isOpen ? (
-                      <ChevronUp className="w-4 h-4" />
+                      <ChevronUp className="w-5 h-5 stroke-[2.5]" />
                     ) : (
-                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className="w-5 h-5 stroke-[2.5]" />
                     )}
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-1 border-t border-border/30 text-xs sm:text-sm text-muted-foreground leading-relaxed animate-fade-in-up">
+                  <div className="px-6 pb-6 pt-2 border-t border-slate-200 dark:border-border/30 text-sm sm:text-base text-slate-800 dark:text-slate-200 font-medium leading-relaxed animate-fade-in-up">
                     {faq.answer}
                   </div>
                 )}
@@ -114,23 +114,23 @@ const FAQ = () => {
         </div>
 
         {/* Contact Concierge Banner */}
-        <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-champagne/30 text-center space-y-4">
-          <div className="w-12 h-12 rounded-full bg-champagne/10 border border-champagne/30 mx-auto flex items-center justify-center text-champagne">
-            <Headphones className="w-6 h-6" />
+        <div className="glass-panel p-8 sm:p-10 rounded-3xl border-2 border-amber-300 dark:border-champagne/30 text-center space-y-4 bg-white/90 dark:bg-card shadow-lg">
+          <div className="w-12 h-12 rounded-full bg-amber-100 border border-amber-300 mx-auto flex items-center justify-center text-amber-800">
+            <Headphones className="w-6 h-6 stroke-[2.2]" />
           </div>
-          <h3 className="text-xl font-serif font-bold text-foreground">
-            Still Have Inquiries?
+          <h3 className="text-2xl font-serif font-black text-slate-900 dark:text-foreground">
+            Still Have Questions?
           </h3>
-          <p className="text-xs text-muted-foreground max-w-md mx-auto">
-            Our private client concierge is on standby to assist with custom formulations, order queries, or dosage advice.
+          <p className="text-sm font-semibold text-slate-700 dark:text-muted-foreground max-w-md mx-auto">
+            Our customer care team is available to help with order tracking, product recommendations, or questions.
           </p>
           <div className="pt-2">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl gradient-primary text-black font-bold text-xs uppercase tracking-wider hover:glow-on-hover transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl gradient-primary text-black font-extrabold text-sm uppercase tracking-wider hover:glow-on-hover transition-all shadow-md"
             >
-              <span>Speak to Concierge</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>Contact Customer Support</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </Link>
           </div>
         </div>

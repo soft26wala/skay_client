@@ -136,14 +136,14 @@ const LoginModal = () => {
 
         {/* TABS (For signin and signup) */}
         {["signin", "signup"].includes(mode) && (
-          <div className="flex rounded-xl bg-secondary/80 p-1 mb-6 border border-border/50">
+          <div className="flex rounded-xl bg-slate-200/80 dark:bg-secondary/80 p-1 mb-6 border border-slate-300 dark:border-border/50">
             <button
               type="button"
               onClick={() => setMode("signin")}
-              className={`flex-1 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all ${
+              className={`flex-1 py-2.5 rounded-lg text-xs sm:text-sm font-bold tracking-wider uppercase transition-all ${
                 mode === "signin"
                   ? "gradient-primary text-black shadow-md"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-slate-700 dark:text-slate-300 hover:text-slate-950"
               }`}
             >
               Sign In
@@ -151,10 +151,10 @@ const LoginModal = () => {
             <button
               type="button"
               onClick={() => setMode("signup")}
-              className={`flex-1 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all ${
+              className={`flex-1 py-2.5 rounded-lg text-xs sm:text-sm font-bold tracking-wider uppercase transition-all ${
                 mode === "signup"
                   ? "gradient-primary text-black shadow-md"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-slate-700 dark:text-slate-300 hover:text-slate-950"
               }`}
             >
               New Client
@@ -168,11 +168,11 @@ const LoginModal = () => {
           {mode === "signup" && (
             <>
               <div>
-                <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                <label className="block text-xs font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 mb-1.5">
                   Full Name *
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700 dark:text-champagne/70" />
                   <input
                     type="text"
                     placeholder="Lady / Lord Harrington"
@@ -180,18 +180,18 @@ const LoginModal = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-secondary/70 border-2 border-slate-300 dark:border-border/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-foreground placeholder:text-slate-400 focus:outline-none focus:border-amber-600 transition-colors"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+                <label className="block text-xs font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 mb-1.5">
                   Email Address *
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700 dark:text-champagne/70" />
                   <input
                     type="email"
                     placeholder="client@luxury-domain.com"
@@ -199,7 +199,7 @@ const LoginModal = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-secondary/70 border-2 border-slate-300 dark:border-border/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-foreground placeholder:text-slate-400 focus:outline-none focus:border-amber-600 transition-colors"
                     required
                   />
                 </div>
@@ -210,11 +210,11 @@ const LoginModal = () => {
           {/* NUMBER - ALWAYS VISIBLE EXCEPT RESET */}
           {mode !== "reset" && (
             <div>
-              <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+              <label className="block text-xs font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 mb-1.5">
                 Phone Number * (Primary ID)
               </label>
               <div className="relative">
-                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
+                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700 dark:text-champagne/70" />
                 <input
                   type="tel"
                   placeholder="e.g. 9876543210"
@@ -222,7 +222,7 @@ const LoginModal = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, number: e.target.value })
                   }
-                  className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-white dark:bg-secondary/70 border-2 border-slate-300 dark:border-border/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-foreground placeholder:text-slate-400 focus:outline-none focus:border-amber-600 transition-colors"
                   required
                 />
               </div>
@@ -232,11 +232,11 @@ const LoginModal = () => {
           {/* PASSWORD - VISIBLE EXCEPT FORGOT */}
           {mode !== "forgot" && (
             <div>
-              <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+              <label className="block text-xs font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 mb-1.5">
                 Password *
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700 dark:text-champagne/70" />
                 <input
                   type="password"
                   placeholder="••••••••••••"
@@ -244,7 +244,7 @@ const LoginModal = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-white dark:bg-secondary/70 border-2 border-slate-300 dark:border-border/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-foreground placeholder:text-slate-400 focus:outline-none focus:border-amber-600 transition-colors"
                   required
                 />
               </div>
@@ -254,11 +254,11 @@ const LoginModal = () => {
           {/* CONFIRM PASSWORD - RESET ONLY */}
           {mode === "reset" && (
             <div>
-              <label className="block text-xs font-medium tracking-wide uppercase text-muted-foreground mb-1">
+              <label className="block text-xs font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 mb-1.5">
                 Confirm Password *
               </label>
               <div className="relative">
-                <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-champagne/70" />
+                <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-700 dark:text-champagne/70" />
                 <input
                   type="password"
                   placeholder="••••••••••••"
@@ -269,7 +269,7 @@ const LoginModal = () => {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="w-full pl-10 pr-4 py-3 bg-secondary/70 border border-border/60 rounded-lg text-sm text-foreground focus:outline-none focus:border-champagne transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-white dark:bg-secondary/70 border-2 border-slate-300 dark:border-border/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-foreground placeholder:text-slate-400 focus:outline-none focus:border-amber-600 transition-colors"
                   required
                 />
               </div>
@@ -282,7 +282,7 @@ const LoginModal = () => {
               <button
                 type="button"
                 onClick={() => setMode("forgot")}
-                className="text-xs text-champagne hover:underline transition-all"
+                className="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-400 hover:underline transition-all"
               >
                 Forgot your password?
               </button>
@@ -294,7 +294,7 @@ const LoginModal = () => {
               <button
                 type="button"
                 onClick={() => setMode("signin")}
-                className="text-xs text-champagne hover:underline transition-all"
+                className="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-400 hover:underline transition-all"
               >
                 Return to Sign In
               </button>
@@ -305,7 +305,7 @@ const LoginModal = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 mt-2 gradient-primary text-black font-bold text-xs tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth flex items-center justify-center space-x-2 disabled:opacity-60 shadow-lg"
+            className="w-full py-4 mt-2 gradient-primary text-black font-extrabold text-sm tracking-wider uppercase rounded-xl hover:glow-on-hover animate-smooth flex items-center justify-center space-x-2 disabled:opacity-60 shadow-lg"
           >
             {isLoading ? (
               <>
@@ -317,14 +317,14 @@ const LoginModal = () => {
             ) : mode === "signup" ? (
               <>
                 <span>Complete Registration</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </>
             ) : mode === "forgot" ? (
               <span>Send Recovery Request</span>
             ) : (
               <>
                 <span>Sign In to Account</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>

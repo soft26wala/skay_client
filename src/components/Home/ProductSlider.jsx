@@ -20,13 +20,13 @@ const ProductSlider = ({ title, products }) => {
   return (
     <section className="py-20 max-w-7xl mx-auto px-4">
       {/* Header and Controls */}
-      <div className="flex items-end justify-between mb-10 pb-4 border-b border-border/40">
+      <div className="flex items-end justify-between mb-10 pb-4 border-b border-border/60">
         <div>
           <span className="luxury-pill mb-2">
-            <Sparkles className="w-3 h-3 text-champagne" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-700" />
             <span>Featured Collection</span>
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-foreground tracking-tight mt-1">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white tracking-tight mt-1">
             {title}
           </h2>
         </div>
@@ -35,16 +35,16 @@ const ProductSlider = ({ title, products }) => {
           <button
             onClick={() => scroll("left")}
             aria-label="Scroll left"
-            className="p-3 rounded-full glass-card border border-border/60 hover:border-champagne/60 text-foreground hover:text-champagne transition-all"
+            className="p-3 rounded-full glass-card border border-slate-300 dark:border-border hover:border-amber-500 text-slate-900 dark:text-foreground hover:text-amber-700 transition-all shadow-xs"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5 stroke-[2.2]" />
           </button>
           <button
             onClick={() => scroll("right")}
             aria-label="Scroll right"
-            className="p-3 rounded-full glass-card border border-border/60 hover:border-champagne/60 text-foreground hover:text-champagne transition-all"
+            className="p-3 rounded-full glass-card border border-slate-300 dark:border-border hover:border-amber-500 text-slate-900 dark:text-foreground hover:text-amber-700 transition-all shadow-xs"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-5 h-5 stroke-[2.2]" />
           </button>
         </div>
       </div>

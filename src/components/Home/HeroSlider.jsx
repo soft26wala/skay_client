@@ -100,36 +100,36 @@ const HeroSlider = () => {
       {/* Slide Content */}
       <div className="relative h-full flex items-center px-6 sm:px-12 md:px-16 z-10">
         <div className="max-w-2xl animate-fade-in-up space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-champagne/15 border border-champagne/30 text-champagne text-xs font-semibold uppercase tracking-[0.2em]">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-950 border border-amber-300 text-xs font-black uppercase tracking-wider shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-700" />
             <span>{slide.tag}</span>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm sm:text-base font-semibold tracking-[0.25em] uppercase text-champagne/90">
+            <h3 className="text-sm sm:text-base font-extrabold tracking-[0.2em] uppercase text-amber-900 dark:text-amber-300">
               {slide.subtitle}
             </h3>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-foreground leading-[1.1] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight">
               {slide.title}
             </h1>
           </div>
 
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+          <p className="text-base sm:text-lg text-slate-800 dark:text-slate-200 font-medium leading-relaxed max-w-xl">
             {slide.description}
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-4">
             <Link
               to={slide.url}
-              className="inline-flex items-center space-x-3 px-8 py-4 gradient-primary text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:glow-on-hover animate-smooth shadow-xl group"
+              className="inline-flex items-center space-x-3 px-8 py-4 gradient-primary text-slate-950 font-black text-sm uppercase tracking-wider rounded-xl hover:glow-on-hover animate-smooth shadow-xl group"
             >
               <span>{slide.cta}</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform stroke-[2.5]" />
             </Link>
 
             <Link
               to="/about"
-              className="px-6 py-3.5 rounded-xl border border-border/80 hover:border-champagne text-xs font-semibold uppercase tracking-wider text-foreground hover:text-champagne transition-colors"
+              className="px-6 py-4 rounded-xl border-2 border-slate-900/40 dark:border-border/80 hover:border-slate-900 bg-white/70 dark:bg-secondary/70 text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white hover:bg-white transition-all shadow-sm"
             >
               Our Story
             </Link>

@@ -121,10 +121,10 @@ const Products = () => {
               <Sparkles className="w-3 h-3 text-champagne" />
               <span>{isBestSellers ? "Customer Favorites" : "Household Essentials"}</span>
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-slate-900 dark:text-white tracking-tight">
               {isBestSellers ? "Best Selling Products" : selectedCategory || "All Products"}
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1.5">
+            <p className="text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-300 mt-1.5">
               {isBestSellers
                 ? "Top-rated everyday household and living essentials loved by our customers."
                 : `Displaying ${totalProducts || products.length} quality essentials for your home.`}
@@ -135,9 +135,9 @@ const Products = () => {
           <div className="flex items-center space-x-3">
             <button
               onClick={resetFilters}
-              className="px-3.5 py-2 rounded-xl border border-border/60 hover:border-champagne/60 text-xs font-semibold text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
+              className="px-4 py-2.5 rounded-xl border-2 border-slate-300 dark:border-border/80 hover:border-slate-800 text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 transition-all flex items-center gap-2 shadow-xs"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4 stroke-[2.2]" />
               <span>Reset Filters</span>
             </button>
 
@@ -158,23 +158,23 @@ const Products = () => {
               isMobileFilterOpen ? "block" : "hidden"
             } w-full lg:w-72 flex-shrink-0 space-y-6`}
           >
-            <div className="glass-panel p-6 border border-border/60 shadow-xl space-y-8 sticky top-28 bg-card/90">
-              <div className="flex items-center justify-between pb-4 border-b border-border/40">
-                <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-foreground">
+            <div className="glass-panel p-6 border-2 border-slate-200/80 dark:border-border/60 shadow-xl space-y-8 sticky top-28 bg-white/95 dark:bg-card/90">
+              <div className="flex items-center justify-between pb-4 border-b border-border/60">
+                <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-900 dark:text-foreground">
                   Filter Products
                 </h2>
-                <span className="text-[10px] text-champagne uppercase font-bold tracking-wider">
+                <span className="text-xs text-amber-800 dark:text-amber-400 uppercase font-black tracking-wider">
                   Filters
                 </span>
               </div>
 
               {/* 1. PRICE RANGE */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-foreground uppercase tracking-wider">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
+                  <span className="font-extrabold text-slate-900 dark:text-foreground uppercase tracking-wider">
                     Price Range
                   </span>
-                  <span className="text-champagne font-bold">
+                  <span className="text-amber-800 dark:text-amber-300 font-black">
                     Up to ${priceRange[1]}
                   </span>
                 </div>
@@ -187,9 +187,9 @@ const Products = () => {
                   onChange={(e) =>
                     setPriceRange([priceRange[0], parseInt(e.target.value)])
                   }
-                  className="w-full accent-champagne cursor-pointer"
+                  className="w-full accent-amber-600 cursor-pointer"
                 />
-                <div className="flex justify-between text-[11px] text-muted-foreground">
+                <div className="flex justify-between text-xs font-bold text-slate-600 dark:text-slate-400">
                   <span>$0</span>
                   <span>$10,000+</span>
                 </div>
@@ -197,19 +197,19 @@ const Products = () => {
 
               {/* 2. CATEGORY PILLS */}
               <div className="space-y-3">
-                <span className="block text-xs font-semibold text-foreground uppercase tracking-wider">
+                <span className="block text-xs sm:text-sm font-extrabold text-slate-900 dark:text-foreground uppercase tracking-wider">
                   Categories
                 </span>
-                <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
                   <button
                     onClick={() => {
                       setSelectedCategory("");
                       if (filterParam === "best-sellers") setSelectedRating(0);
                     }}
-                    className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all ${
+                    className={`w-full px-3 py-2 text-left rounded-lg text-xs sm:text-sm font-bold transition-all ${
                       !selectedCategory && !isBestSellers
-                        ? "gradient-primary text-black font-bold shadow-sm"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                        ? "gradient-primary text-black font-black shadow-sm"
+                        : "text-slate-800 dark:text-slate-200 hover:text-slate-950 hover:bg-secondary/80"
                     }`}
                   >
                     All Categories
@@ -219,14 +219,14 @@ const Products = () => {
                       setSelectedCategory("Best Sellers");
                       setSelectedRating(4);
                     }}
-                    className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all flex items-center justify-between ${
+                    className={`w-full px-3 py-2 text-left rounded-lg text-xs sm:text-sm font-bold transition-all flex items-center justify-between ${
                       isBestSellers
-                        ? "gradient-primary text-black font-bold shadow-sm"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                        ? "gradient-primary text-black font-black shadow-sm"
+                        : "text-slate-800 dark:text-slate-200 hover:text-slate-950 hover:bg-secondary/80"
                     }`}
                   >
                     <span>⭐ Best Sellers</span>
-                    <span className="text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-champagne">
+                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-amber-200 text-amber-950 border border-amber-400">
                       Top
                     </span>
                   </button>
@@ -237,10 +237,10 @@ const Products = () => {
                         setSelectedCategory(category.name);
                         if (filterParam === "best-sellers") setSelectedRating(0);
                       }}
-                      className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all ${
+                      className={`w-full px-3 py-2 text-left rounded-lg text-xs sm:text-sm font-bold transition-all ${
                         selectedCategory === category.name && !isBestSellers
-                          ? "gradient-primary text-black font-bold shadow-sm"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                          ? "gradient-primary text-black font-black shadow-sm"
+                          : "text-slate-800 dark:text-slate-200 hover:text-slate-950 hover:bg-secondary/80"
                       }`}
                     >
                       {category.name}
@@ -251,7 +251,7 @@ const Products = () => {
 
               {/* 3. AVAILABILITY */}
               <div className="space-y-3">
-                <span className="block text-xs font-semibold text-foreground uppercase tracking-wider">
+                <span className="block text-xs sm:text-sm font-extrabold text-slate-900 dark:text-foreground uppercase tracking-wider">
                   Availability
                 </span>
                 <div className="grid grid-cols-1 gap-1.5">
@@ -263,10 +263,10 @@ const Products = () => {
                     <button
                       key={status.id}
                       onClick={() => setAvailability(status.id)}
-                      className={`w-full px-3 py-2 text-left rounded-lg text-xs font-medium transition-all ${
+                      className={`w-full px-3 py-2 text-left rounded-lg text-xs sm:text-sm font-bold transition-all ${
                         availability === status.id
-                          ? "gradient-primary text-black font-bold shadow-sm"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                          ? "gradient-primary text-black font-black shadow-sm"
+                          : "text-slate-800 dark:text-slate-200 hover:text-slate-950 hover:bg-secondary/80"
                       }`}
                     >
                       {status.label}
@@ -277,7 +277,7 @@ const Products = () => {
 
               {/* 4. RATING */}
               <div className="space-y-3">
-                <span className="block text-xs font-semibold text-foreground uppercase tracking-wider">
+                <span className="block text-xs sm:text-sm font-extrabold text-slate-900 dark:text-foreground uppercase tracking-wider">
                   Minimum Rating
                 </span>
                 <div className="space-y-1">
@@ -287,25 +287,25 @@ const Products = () => {
                       onClick={() =>
                         setSelectedRating(selectedRating === rating ? 0 : rating)
                       }
-                      className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs transition-all ${
+                      className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs sm:text-sm transition-all ${
                         selectedRating === rating
-                          ? "bg-secondary border border-champagne/40"
-                          : "hover:bg-secondary/50 text-muted-foreground"
+                          ? "bg-amber-100/80 border-2 border-amber-400 text-amber-950 font-black shadow-xs"
+                          : "hover:bg-secondary/60 text-slate-800 dark:text-slate-200 font-bold"
                       }`}
                     >
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-3.5 h-3.5 ${
+                            className={`w-4 h-4 ${
                               i < rating
-                                ? "text-champagne fill-current"
-                                : "text-border"
+                                ? "text-amber-500 fill-amber-400 drop-shadow-xs"
+                                : "text-amber-300 fill-amber-50/50 stroke-[1.5]"
                             }`}
                           />
                         ))}
                       </div>
-                      <span className="text-[11px] font-semibold">
+                      <span className="text-xs font-black text-slate-800 dark:text-slate-200">
                         {rating}★ & above
                       </span>
                     </button>

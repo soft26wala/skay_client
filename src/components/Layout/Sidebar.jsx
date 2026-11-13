@@ -86,10 +86,10 @@ const Sidebar = () => {
                 key={item.path + item.name}
                 to={item.path}
                 onClick={() => dispatch(toggleSidebar())}
-                className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all ${
+                className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase transition-all ${
                   isActive
-                    ? "gradient-primary text-black font-bold shadow-md"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                    ? "gradient-primary text-black font-extrabold shadow-md"
+                    : "text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white hover:bg-secondary/70"
                 }`}
               >
                 <div className="flex items-center space-x-3.5">
@@ -98,8 +98,8 @@ const Sidebar = () => {
                 </div>
                 {item.badge && (
                   <span
-                    className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
-                      isActive ? "bg-black/20 text-black" : "bg-champagne/20 text-champagne"
+                    className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                      isActive ? "bg-black/20 text-black" : "bg-amber-100 text-amber-900 border border-amber-300"
                     }`}
                   >
                     {item.badge}
@@ -112,11 +112,11 @@ const Sidebar = () => {
 
         {/* FOOTER BADGE */}
         <div className="p-6 border-t border-border/50 bg-secondary/30">
-          <div className="flex items-center gap-2 text-xs text-champagne font-medium">
+          <div className="flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300 font-bold">
             <ShieldCheck className="w-4 h-4" />
             <span>Verified Atelier Excellence</span>
           </div>
-          <p className="text-[11px] text-muted-foreground mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
             Curated Formulations & Worldwide Concierge
           </p>
         </div>

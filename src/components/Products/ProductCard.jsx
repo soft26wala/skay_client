@@ -83,19 +83,17 @@ const ProductCard = ({ product }) => {
           </div>
 
           {/* PRODUCT INFO */}
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {product.category && (
               <span
-                className="text-[10px] font-semibold uppercase tracking-[0.15em] block transition-colors"
-                style={{ color: "var(--card-custom-category, #b98822)" }}
+                className="text-xs font-extrabold uppercase tracking-wider block transition-colors text-amber-800 dark:text-amber-300"
               >
                 {product.category}
               </span>
             )}
 
             <h3
-              className="text-base font-serif font-bold line-clamp-1 transition-colors"
-              style={{ color: "var(--card-custom-text, inherit)" }}
+              className="text-base sm:text-lg font-serif font-black line-clamp-1 transition-colors text-slate-900 dark:text-white"
             >
               {product.name}
             </h3>
@@ -103,18 +101,24 @@ const ProductCard = ({ product }) => {
             {/* RATINGS & REVIEWS */}
             <div className="flex items-center space-x-2 pt-0.5">
               <div className="flex items-center space-x-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-3.5 h-3.5 ${
-                      i < Math.floor(Number(product.ratings) || 0)
-                        ? "text-champagne fill-current"
-                        : "text-border"
-                    }`}
-                  />
-                ))}
+                {[...Array(5)].map((_, i) => {
+                  const isFilled = i < Math.floor(Number(product.ratings) || 0);
+                  return (
+                    <Star
+                      key={i}
+                      className={`w-4 h-4 ${
+                        isFilled
+                          ? "text-amber-500 fill-amber-400 drop-shadow-xs"
+                          : "text-amber-400 fill-amber-100/70 stroke-[1.8] dark:fill-amber-950/40"
+                      }`}
+                    />
+                  );
+                })}
               </div>
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-xs font-black text-slate-900 dark:text-white">
+                {Number(product.ratings || 0).toFixed(1)}
+              </span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                 ({product.review_count || product.reviews?.length || 0})
               </span>
             </div>
@@ -122,19 +126,18 @@ const ProductCard = ({ product }) => {
             {/* PRICE & STOCK */}
             <div className="flex items-baseline justify-between pt-2">
               <span
-                className="text-base sm:text-lg font-serif font-bold"
-                style={{ color: "var(--card-custom-price, #b98822)" }}
+                className="text-lg sm:text-xl font-serif font-black text-slate-950 dark:text-amber-300 tracking-tight"
               >
                 {formatPrice(product.price)}
               </span>
 
               <span
-                className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
+                className={`text-xs font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${
                   product.stock > 5
-                    ? "text-green-600 bg-green-500/10 border border-green-500/20"
+                    ? "text-emerald-950 bg-emerald-100 border-emerald-300 dark:bg-emerald-950/80 dark:text-emerald-200 dark:border-emerald-700"
                     : product.stock > 0
-                    ? "text-amber-600 bg-amber-500/10 border border-amber-500/20"
-                    : "text-rose-600 bg-rose-500/10 border border-rose-500/20"
+                    ? "text-amber-950 bg-amber-100 border-amber-300 dark:bg-amber-950/80 dark:text-amber-200 dark:border-amber-700"
+                    : "text-rose-950 bg-rose-100 border-rose-300 dark:bg-rose-950/80 dark:text-rose-200 dark:border-rose-700"
                 }`}
               >
                 {product.stock > 5
@@ -149,17 +152,13 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* ACTION BUTTON */}
-      <div className="pt-4 mt-2 border-t border-border/40">
+      <div className="pt-4 mt-2 border-t border-border/60">
         <button
           disabled={product.stock === 0}
           onClick={handleAddToCart}
-          className="w-full py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider hover:brightness-105 hover:shadow-md transition-all flex items-center justify-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
-          style={{
-            backgroundColor: "var(--card-custom-btn-bg, #b98822)",
-            color: "var(--card-custom-btn-text, #ffffff)",
-          }}
+          className="w-full py-3 rounded-xl font-black text-xs uppercase tracking-wider bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white transition-all flex items-center justify-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-95"
         >
-          <ShoppingBag className="w-3.5 h-3.5" />
+          <ShoppingBag className="w-4 h-4 stroke-[2.2]" />
           <span>{product.stock === 0 ? "Out of Stock" : "Add to Cart"}</span>
         </button>
       </div>
