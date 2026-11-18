@@ -8,12 +8,16 @@ export const register = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await axiosInstance.post("/auth/register", data);
+      if (res.data.token) {
+        localStorage.setItem("client_token", res.data.token);
+        localStorage.setItem("token", res.data.token);
+      }
       toast.success(res.data.message);
       thunkAPI.dispatch(toggleAuthPopup());
       return res.data.user;
     } catch (error) {
-      toast.error(error.response.data.message);
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      toast.error(error.response?.data?.message || "Registration failed.");
+      return thunkAPI.rejectWithValue(error.response?.data?.message);
     }
   }
 );
@@ -21,12 +25,16 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     const res = await axiosInstance.post("/auth/login", data);
+    if (res.data.token) {
+      localStorage.setItem("client_token", res.data.token);
+      localStorage.setItem("token", res.data.token);
+    }
     toast.success(res.data.message);
     thunkAPI.dispatch(toggleAuthPopup());
     return res.data.user;
   } catch (error) {
-    toast.error(error.response.data.message);
-    return thunkAPI.rejectWithValue(error.response.data.message);
+    toast.error(error.response?.data?.message || "Login failed.");
+    return thunkAPI.rejectWithValue(error.response?.data?.message);
   }
 });
 
@@ -35,8 +43,12 @@ export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
     const res = await axiosInstance.get("/auth/me");
     return res.data.user;
   } catch (error) {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("client_token");
+      localStorage.removeItem("token");
+    }
     return thunkAPI.rejectWithValue(
-      error.response.data.message || "Failed to get user."
+      error.response?.data?.message || "Failed to get user."
     );
   }
 });
@@ -44,13 +56,13 @@ export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await axiosInstance.get("/auth/logout");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    localStorage.removeItem("client_token");
+    localStorage.removeItem("token");
     thunkAPI.dispatch(toggleAuthPopup());
     return null;
-  } catch (error) {
-    toast.error(error.response.data.message);
-    return thunkAPI.rejectWithValue(
-      error.response.data.message || "Failed to get user."
-    );
   }
 });
 
@@ -65,8 +77,8 @@ export const forgotPassword = createAsyncThunk(
       toast.success(res.data.message);
       return null;
     } catch (error) {
-      toast.error(error.response.data.message);
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to send reset link.");
+      return thunkAPI.rejectWithValue(error.response?.data?.message);
     }
   }
 );
@@ -79,11 +91,15 @@ export const resetPassword = createAsyncThunk(
         password,
         confirmPassword,
       });
+      if (res.data.token) {
+        localStorage.setItem("client_token", res.data.token);
+        localStorage.setItem("token", res.data.token);
+      }
       toast.success(res.data.message);
       return res.data.user;
     } catch (error) {
       const message =
-        error.response.data.message ||
+        error.response?.data?.message ||
         "Something went wrong. Please try again.";
       toast.error(message);
       return thunkAPI.rejectWithValue(message);
