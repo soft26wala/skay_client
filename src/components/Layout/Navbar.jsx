@@ -86,11 +86,10 @@ const Navbar = () => {
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`text-xs xl:text-sm font-bold tracking-wider uppercase transition-all relative py-1 whitespace-nowrap flex items-center gap-1 ${
-                      isActive
+                    className={`text-xs xl:text-sm font-bold tracking-wider uppercase transition-all relative py-1 whitespace-nowrap flex items-center gap-1 ${isActive
                         ? "text-amber-800 dark:text-amber-300 font-extrabold"
                         : "text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white"
-                    }`}
+                      }`}
                   >
                     <span>{link.name}</span>
                     {isActive && (
